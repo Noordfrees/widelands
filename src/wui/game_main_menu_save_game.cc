@@ -244,13 +244,18 @@ bool GameMainMenuSaveGame::save_game(std::string filename, bool binary) {
 
 	// Try saving the game.
 	Widelands::Game& game = igbase().game();
+
+	game.create_loader_ui({"general_game"}, true);
+
 	GenericSaveHandler gsh(
 	   [&game](FileSystem& fs) {
 		   Widelands::GameSaver gs(fs, game);
 		   gs.save();
-	   },
+		},
 	   complete_filename, binary ? FileSystem::ZIP : FileSystem::DIR);
 	GenericSaveHandler::Error error = gsh.save();
+
+	game.remove_loader_ui();
 
 	// If only the temporary backup couldn't be deleted, we still treat it as
 	// success. Automatic cleanup will deal with later. No need to bother the
