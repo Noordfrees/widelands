@@ -21,8 +21,6 @@
 
 #include <memory>
 
-#include <boost/format.hpp>
-
 #include "ai/scenario_ai.h"
 #include "economy/economy.h"
 #include "economy/flag.h"
