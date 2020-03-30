@@ -108,6 +108,18 @@ return {
          tribe = "frisians",
          -- TRANSLATORS: A short description of a campaign
          difficulty = { level=4, description=_"Introduces the Frisians." },
+         -- The difficulty stages of this campaign. The user gets to choose them in the
+         -- campaign select screen and the choice is available to the scenario scripts.
+         difficulties = {
+            -- TRANSLATORS: A campaign difficulty (easiest of three options)
+            _("Sailor (Tricky)"),
+            -- TRANSLATORS: A campaign difficulty (medium of three options)
+            _("Steersman (Very Hard)"),
+            -- TRANSLATORS: A campaign difficulty (hardest of three options)
+            _("Captain (Unreasonable)")
+         },
+         -- Index of the entry in `difficulties` that is selected by default
+         default_difficulty = 2,
          -- TRANSLATORS: A long description of a campaign
          description = _"Living off the ocean is a constant struggle, and even more so for the inhabitants of the Frisian North Sea shore. Was the last storm flood, the most devastating one in human memory, really nothing more than yet another example for the hardships all Frisians have to face – or a sign from the gods that a tribe that only just settled here must seek out an entirely new home?",
          scenarios = {
