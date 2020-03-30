@@ -15,6 +15,7 @@ map = game.map
 p1 = game.players[1] -- Claus Lembeck           – Player's tribe
 p2 = game.players[2] -- Angadthur               – Atlantean King
 p3 = game.players[3] -- Marcus Caius Iniucundus – Imperial Legate
+difficulty = wl.Game().scenario_difficulty
 
 port_south = map:get_field(6, 461)
 port_volcano = map:get_field(16, 402)

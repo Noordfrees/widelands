@@ -13,7 +13,7 @@ function soldiers_fri_to_emp()
          hp = descr[1]
          at = descr[2]
       end
-      result[{hp, at, 0, descr[3]}] = n
+      result[{hp, at, 0, descr[3]}] = n * difficulty
    end
    return result
 end
@@ -44,7 +44,7 @@ function soldiers_fri_to_atl()
          at = 4
          ev = 2
       end
-      result[{hp, at, descr[3], ev}] = n
+      result[{hp, at, descr[3], ev}] = n * difficulty
    end
    return result
 end
