@@ -1,0 +1,49 @@
+name: Testsuite
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [ opened, edited, reopened, synchronize ]
+jobs:
+  doc:
+    name: Documentation Test
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Generating documentation
+      run: |
+        cd doc/sphinx
+        mkdir source/_static
+        ./extract_rst.py
+        sphinx-build -W -b json -d build/doctrees source build/json
+  codecheck:
+    name: Codecheck Suite
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Finding unused includes and forward declarations
+      run: |
+        mkdir build
+        cd build
+        cmake .. -DCMAKE_BUILD_TYPE:STRING="Debug"
+        pushd ../cmake/codecheck
+        ./run_tests.py
+        popd
+        TERM=dumb make -j1 codecheck 2>&1 | tee codecheck.out
+        if grep '^[/_.a-zA-Z]\+:[0-9]\+:' codecheck.out; then
+          echo "You have codecheck warnings (see above), please fix"
+          exit 1
+        fi
+  includes:
+    name: Include Sweeping
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Finding superfluous includes and forward declarations
+      run: |
+        cd src
+        ../utils/find_unused_includes.py
