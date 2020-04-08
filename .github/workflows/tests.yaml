@@ -12,6 +12,8 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+    - name: Installing sphinx
+      run: sudo apt-get update && sudo apt-get install sphinx
     - name: Generating documentation
       run: |
         cd doc/sphinx
@@ -24,6 +26,8 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+    - name: Installing boost
+      run: sudo apt-get update && sudo apt-get install libboost-dev
     - name: Finding unused includes and forward declarations
       run: |
         mkdir build
