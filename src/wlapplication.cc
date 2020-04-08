@@ -321,7 +321,7 @@ WLApplication::WLApplication(int const argc, char const* const* const argv)
      mouse_position_(Vector2i::zero()),
      mouse_locked_(0),
      mouse_compensate_warp_(Vector2i::zero()),
-     should_die_(false),
+     should_die_ ( false ) ,
 #ifdef _WIN32
      homedir_(FileSystem::get_homedir() + "\\.widelands"),
 #elif defined USE_XDG
