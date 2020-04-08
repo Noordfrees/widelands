@@ -12,8 +12,12 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+    - name: Installing python
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.x
     - name: Installing sphinx
-      run: sudo apt-get update && sudo apt-get install sphinx
+      run: pip install sphinx
     - name: Generating documentation
       run: |
         cd doc/sphinx
@@ -22,12 +26,13 @@ jobs:
         sphinx-build -W -b json -d build/doctrees source build/json
   codecheck:
     name: Codecheck Suite
-    runs-on: ubuntu-latest
+    # CMake is having trouble detecting too-recent boost versions ATM
+    runs-on: ubuntu-16.04
     steps:
     - name: Checkout
       uses: actions/checkout@v2
     - name: Installing boost
-      run: sudo apt-get update && sudo apt-get install libboost-dev
+      run: sudo apt-get update && sudo apt-get install libboost-dev libboost-regex-dev libboost-system-dev libboost-test-dev
     - name: Finding unused includes and forward declarations
       run: |
         mkdir build
