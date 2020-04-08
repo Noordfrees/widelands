@@ -1,4 +1,4 @@
-name: Testsuite
+name: Test Suite
 on:
   push:
     branches:
@@ -31,8 +31,8 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Installing boost
-      run: sudo apt-get update && sudo apt-get install libboost-dev libboost-regex-dev libboost-system-dev libboost-test-dev
+    - name: Installing CMake dependencies
+      run: sudo apt-get update && sudo apt-get install libboost-dev libboost-regex-dev libboost-system-dev libboost-test-dev libglew-dev libicu-dev libpng-dev libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev zlib1g-dev
     - name: Finding unused includes and forward declarations
       run: |
         mkdir build
