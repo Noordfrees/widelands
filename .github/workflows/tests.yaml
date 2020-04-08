@@ -31,13 +31,15 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Installing CMake dependencies
-      run: sudo apt-get update && sudo apt-get install libboost-dev libboost-regex-dev libboost-system-dev libboost-test-dev libglew-dev libicu-dev libpng-dev libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev zlib1g-dev
-    - name: Finding unused includes and forward declarations
+    - name: Setting up CMake
       run: |
+        sudo apt-get update
+        sudo apt-get install libboost-dev libboost-regex-dev libboost-system-dev libboost-test-dev libglew-dev libicu-dev libpng-dev libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev zlib1g-dev gettext
         mkdir build
         cd build
         cmake .. -DCMAKE_BUILD_TYPE:STRING="Debug"
+    - name: Finding unused includes and forward declarations
+      run: |
         pushd ../cmake/codecheck
         ./run_tests.py
         popd
