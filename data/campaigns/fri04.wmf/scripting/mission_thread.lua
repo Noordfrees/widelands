@@ -169,7 +169,8 @@ function mission_thread()
    set_objective_done(o_north)
    scroll_to_field(see_other)
    sleep(1000)
-   local cost = p1:get_wares("gold") + 200
+   local cost = {100, 200, 300}
+   cost = p1:get_wares("gold") + cost[difficulty]
    campaign_message_box(emp_1)
    campaign_message_box(emp_2)
    campaign_message_box(emp_3)
@@ -185,13 +186,9 @@ function mission_thread()
       local fight = nil
       if map.player_slots[3].starting_field.immovable and
             map.player_slots[3].starting_field.immovable.descr.name == "frisians_port" then
-         fight = {
-            payment = nil,
-         }
+         fight = { payment = nil }
       elseif port_north.immovable:get_wares("gold") >= cost then
-         fight = {
-            payment = cost,
-         }
+         fight = { payment = cost }
          p1:reveal_fields(map.player_slots[3].starting_field:region(7))
       end
       if fight then
