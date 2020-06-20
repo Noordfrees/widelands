@@ -138,6 +138,12 @@ void PortDock::set_economy(Economy* e, WareWorker type) {
 		}
 	}
 
+	if (type == wwWARE) {
+		for (auto& pair : cannonball_requests_) {
+			pair.second->set_economy(e);
+		}
+	}
+
 	if (expedition_bootstrap_) {
 		expedition_bootstrap_->set_economy(e, type);
 	}
@@ -445,6 +451,50 @@ void PortDock::cancel_expedition(Game& game) {
 	expedition_bootstrap_.reset(nullptr);
 
 	expedition_cancelling_ = false;
+}
+
+void PortDock::open_cannonball_request(Game&, Ship& s, Quantity desired_count) {
+	if (cannonball_requests_.find(&s) == cannonball_requests_.end()) {
+		cannonball_requests_[&s].reset(new Request(*warehouse_, owner().tribe().cannonball(),
+				&PortDock::cannonball_request_callback, wwWARE));
+	}
+
+	log("NOCOM Opening cannonball request for %u items\n", desired_count);
+
+	assert(desired_count);
+	cannonball_requests_[&s]->set_count(desired_count);
+}
+
+void PortDock::close_cannonball_request(Ship& s) {
+	auto it = cannonball_requests_.find(&s);
+	if (it != cannonball_requests_.end()) {
+		cannonball_requests_.erase(it);
+	}
+	log("NOCOM Closing cannonball request.\n");
+}
+
+Request* PortDock::get_cannonball_request(Ship& s) const {
+	auto it = cannonball_requests_.find(&s);
+	return it == cannonball_requests_.end() ? nullptr : it->second.get();
+}
+
+// static
+void PortDock::cannonball_request_callback(Game& game, Request& req, DescriptionIndex di, Worker*, PlayerImmovable& port) {
+	log("NOCOM cannonball_request_callback at %s\n", port.descr().name().c_str());
+	dynamic_cast<Warehouse&>(port).get_portdock()->do_load_cannonball(game, req, di);
+}
+
+void PortDock::do_load_cannonball(Game& game, Request& req, DescriptionIndex di) {
+	for (auto& pair : cannonball_requests_) {
+		if (pair.second.get() == &req) {
+			WareInstance& wi = *new WareInstance(di, game.tribes().get_ware_descr(di));
+			wi.init(game);
+			pair.first.get(game)->add_item(game, *new ShippingItem(wi));
+			// No need to wake up the ship, it checks every few seconds whether it has enough cannonballs
+			return;
+		}
+	}
+	throw wexception("PortDock::do_load_cannonball: Cannonball request without ship");
 }
 
 void PortDock::log_general_info(const EditorGameBase& egbase) const {

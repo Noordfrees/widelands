@@ -98,7 +98,11 @@ enum class QueueCommandTypes : uint8_t {
 	kLuaScript,
 	kLuaCoroutine,
 	kCalculateStatistics,
-	kExpeditionConfig,  // 134
+
+	kExpeditionConfig,
+	kRefitShip,
+	kControlWarShip, // 136
+
 	kCallEconomyBalance = 200,
 
 	kDeleteMessage,  // 201

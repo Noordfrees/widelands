@@ -117,7 +117,8 @@ tribes:new_tribe {
          "armor_helmet",
          "armor",
          "armor_chain",
-         "armor_gilded"
+         "armor_gilded",
+         "cannonball"
       }
    },
    -- Workers positions in workers windows.
@@ -357,4 +358,5 @@ tribes:new_tribe {
    ship = "empire_ship",
    ferry = "empire_ferry",
    port = "empire_port",
+   cannonball = "cannonball",
 }

@@ -131,6 +131,8 @@ Ship::Ship(const ShipDescr& gdescr)
      ware_economy_(nullptr),
      worker_economy_(nullptr),
      ship_state_(ShipStates::kTransport),
+     pending_refit_(nullptr),
+     warfare_flags_(static_cast<WarfareFlags>(0)),
      destination_(nullptr),
      capacity_(gdescr.get_default_capacity()) {
 }
@@ -266,9 +268,27 @@ void Ship::ship_update(Game& game, Bob::State& state) {
 
 	switch (ship_state_) {
 	case ShipStates::kTransport:
-		if (ship_update_transport(game, state))
+		if (pending_refit_) {
+			return ship_update_refit(game, state);
+		}
+		if (ship_update_transport(game, state)) {
 			return;
+		}
 		break;
+	case ShipStates::kBattleship:
+		if (pending_refit_) {
+			ship_update_refit(game, state);
+		} else {
+			ship_update_battleship(game, state);
+		}
+		return;
+	case ShipStates::kKaper:
+		if (pending_refit_) {
+			ship_update_refit(game, state);
+		} else {
+			ship_update_kaper(game, state);
+		}
+		return;
 	case ShipStates::kExpeditionPortspaceFound:
 	case ShipStates::kExpeditionScouting:
 	case ShipStates::kExpeditionWaiting:
@@ -378,6 +398,246 @@ bool Ship::ship_update_transport(Game& game, Bob::State& state) {
 
 	start_task_movetodock(game, *destination_);
 	return true;
+}
+
+struct StepEvalFindDock {
+	int32_t estimate(Map&, FCoords) const {
+		return 0;
+	}
+	int32_t stepcost(
+	   Map&, FCoords from, int32_t fromcost, WalkingDir, FCoords to) const {
+		if (!(to.field->nodecaps() & (MOVECAPS_SWIM | MOVECAPS_WALK))) {
+			return -1;
+		}
+		if (!(from.field->nodecaps() & MOVECAPS_SWIM)) {
+			if (fromcost > 0) {
+				return -1;
+			}
+			return 1;
+		}
+		return 1;
+	}
+};
+
+PortDock* Ship::find_closest_port(Game& game, Path& path) {
+	Map* map = game.mutable_map();
+	MapAStar<StepEvalFindDock> astar(*map, StepEvalFindDock(), wwWORKER);
+	astar.push(get_position());
+	int32_t cost;
+	FCoords cur;
+	while (astar.step(cur, cost)) {
+		if (upcast(PortDock, pd, cur.field->get_immovable())) {
+			if (pd->get_owner() == get_owner()) {
+				astar.pathto(cur, path);
+				return pd;
+			}
+		}
+	}
+	return nullptr;
+}
+
+void Ship::ship_update_refit(Game& game, State&) {
+	assert(pending_refit_);
+	// We have been asked to refit to some other ship type.
+	// So, we first row to the next-best port dock and unload all cargo.
+	// · If we want to refit to a transport ship, we just enter transport mode then and are done with it.
+	// · If we want to refit to a Kaper or battleship, we then wait until the port dock has loaded a
+	//   reasonable number of cannonballs onto us.
+	//   Then we sail around looking for enemy ships to attack. There are several modes which the
+	//   player can toggle with a button:
+	//   – aggressive vs defensive: Only aggressive ships will start battles.
+	//   – stationary vs roaming: Stationary ships always stay where they are and only sail from
+	//     their current spot to attack another ship. Roaming ships sail around the world at random.
+	// Kapers will attack enemy transport ships when they encounter them and steal their wares.
+	// Battleships will attack enemy Kapers and battleships and try to sink them by shooting
+	// cannonballs at each other. Battleships in Roaming mode can be controlled by the player and
+	// may attack enemy ports to try and conquer them.
+
+	if (upcast(PortDock, pd, get_position().field->get_immovable())) {
+		if (pd->get_owner() == get_owner()) {
+			if (ship_state_ == *pending_refit_) {
+				// Already refitted and now waiting for cannonballs
+				assert(ship_state_ == ShipStates::kBattleship || ship_state_ == ShipStates::kKaper);
+				assert(pd->get_cannonball_request(*this));
+
+				if (pd->get_cannonball_request(*this)->get_count()) {
+					molog("ship_update_refit: waiting for cannonballs\n");
+					return start_task_idle(game, descr().main_animation(), 2000);
+				}
+
+				molog("ship_update_refit: enough cannonballs loaded, ready to sail\n");
+				pending_refit_.reset(nullptr);
+				pd->close_cannonball_request(*this);
+
+				// next act will call ship_update_kaper or ship_update_battleship
+				return start_task_idle(game, descr().main_animation(), 100);
+			} else {
+				// Refit
+				molog("ship_update_refit: refitting\n");
+				for (ShippingItem& si : items_) {
+					pd->shipping_item_arrived(game, si);
+				}
+				items_.clear();
+				ship_state_ = *pending_refit_;
+
+				if (ship_state_ == ShipStates::kTransport) {
+					// Transport ships are ready at once
+					pending_refit_.reset(nullptr);
+					init_fleet(game);
+					assert(fleet_);
+					return start_task_idle(game, descr().main_animation(), 100);
+				}
+
+				// War ships are independent from fleets
+				if (fleet_) {
+					fleet_->remove_ship(game, this);
+				}
+				assert(!fleet_);
+
+				pd->open_cannonball_request(game, *this, get_capacity() * (ship_state_ == ShipStates::kBattleship ? 2 : 1) / 3);
+
+				// Refitting to a Kaper or battle ship takes a while…
+				return start_task_idle(game, descr().main_animation(), 10000);
+			}
+		}
+	}
+
+	// Move to the closest dock.
+	// Note that we may not have a fleet at this point!
+	Path path;
+	if (PortDock* pd = find_closest_port(game, path)) {
+		// Found a dock!
+		molog("ship_update_refit: routing to portdock %u\n", pd->serial());
+		return start_task_movepath(game, path, descr().get_sail_anims());
+	}
+
+	molog("ship_update_refit: no port found, try again later\n");
+	return start_task_idle(game, descr().main_animation(), 3000);
+}
+
+void Ship::set_warfare_flags(Game& game, WarfareFlags flags) {
+	warfare_flags_ = flags;
+	send_signal(game, "wakeup");
+}
+
+struct FindHostileTransportShip : public FindBob {
+	bool accept(Bob* b) const override {
+		if (upcast(Ship, s, b)) {
+			return s->state_is_transport() && player_.is_hostile(s->owner());
+		}
+		return false;
+	}
+	explicit FindHostileTransportShip(const Player& p) : player_(p) {
+	}
+	~FindHostileTransportShip() override {
+	}
+private:
+	const Player& player_;
+};
+
+static bool is_cannonball(const Ship& ship, const ShippingItem& si) {
+	WareInstance* ware = nullptr;
+	si.get(ship.owner().egbase(), &ware, nullptr);
+	return ware && ship.owner().tribe().safe_ware_index(ware->descr().name()) == ship.owner().tribe().cannonball();
+}
+
+size_t Ship::count_cannonballs(const Game& game) const {
+	size_t nr_cannonballs = 0;
+	for (const ShippingItem& si : items_) {
+		WareInstance* ware = nullptr;
+		si.get(game, &ware, nullptr);
+		if (is_cannonball(*this, si)) {
+			++nr_cannonballs;
+		}
+	}
+	return nr_cannonballs;
+}
+
+void Ship::ship_update_kaper(Game& game, State&) {
+	if (upcast(PortDock, pd, get_position().field->get_immovable())) {
+		if (pd->get_owner() == get_owner()) {
+			// unload the booty and wait until we have enough cannonballs again
+			size_t nr_cannonballs = 0;
+			for (ShippingItem& si : items_) {
+				if (!is_cannonball(*this, si)) {
+					pd->shipping_item_arrived(game, si);
+					continue;
+				}
+				items_[nr_cannonballs++] = si;
+			}
+			items_.resize(nr_cannonballs);
+
+			// Open the request if it isn't open already
+			const size_t desired_count = get_capacity() / 3;
+			if (desired_count > nr_cannonballs) {
+				pd->open_cannonball_request(game, *this, desired_count - nr_cannonballs);
+
+				if (pd->get_cannonball_request(*this)->get_count()) {
+					molog("ship_update_kaper: unloaded booty, now waiting for cannonballs\n");
+					return start_task_idle(game, descr().main_animation(), 2000);
+				}
+			}
+
+			molog("ship_update_kaper: unloaded booty; ready to continue sailing\n");
+			pd->close_cannonball_request(*this);
+		}
+	}
+
+	const size_t nr_cannonballs = count_cannonballs(game);
+	const size_t nr_total_items = get_nritems();
+	assert(nr_cannonballs <= nr_total_items);
+	assert(nr_total_items <= get_capacity());
+	if (nr_cannonballs == 0 || nr_total_items == get_capacity()) {
+		// return to a port and drop the booty
+		Path path;
+		if (PortDock* pd = find_closest_port(game, path)) {
+			molog("ship_update_kaper: routing to portdock %u\n", pd->serial());
+			return start_task_movepath(game, path, descr().get_sail_anims());
+		}
+		molog("ship_update_kaper: no port found! Try again later\n");
+		return start_task_idle(game, descr().main_animation(), 3000);
+	}
+
+	if (warfare_flags_ & kAggressive) {
+		// Look for nearby enemy transport ships to attack
+		std::vector<Bob*> list;
+		game.map().find_bobs(game,
+	                   Area<FCoords>(get_position(), descr().vision_range()),
+	                   &list, FindHostileTransportShip(owner()));
+		if (!list.empty()) {
+			// Attack!
+			Ship& ship_to_attack = dynamic_cast<Ship&>(*list[game.logic_rand() % list.size()]);
+			molog("ship_update_kaper: Launching attack against '%s' of %s\n",
+					ship_to_attack.get_shipname().c_str(), ship_to_attack.owner().get_name().c_str());
+
+
+
+			// NOCOM attack that ship!
+			return start_task_idle(game, descr().main_animation(), 1000);
+
+
+
+		}
+	}
+
+	if (!(warfare_flags_ & kStationary)) {
+		// sail around randomly
+		molog("ship_update_kaper: sailing randomly\n");
+		if (start_task_movepath(game,
+				game.random_location(get_position(), descr().vision_range() * descr().vision_range()),
+				2, descr().get_sail_anims())) {
+			return;
+		}
+	}
+
+	molog("ship_update_kaper: stationary\n");
+	// Even stationary ships need frequent updates – to notice incoming enemy ships…
+	return start_task_idle(game, descr().main_animation(), 1000);
+}
+
+void Ship::ship_update_battleship(Game& game, State&) {
+	// NOCOM
+	return start_task_idle(game, descr().main_animation(), 1000);
 }
 
 /// updates a ships tasks in expedition mode
@@ -701,6 +961,8 @@ void Ship::ship_update_idle(Game& game, Bob::State& state) {
 		start_task_idle(game, descr().main_animation(), kShipInterval);
 		return;
 	}
+	case ShipStates::kBattleship:
+	case ShipStates::kKaper:
 	case ShipStates::kSinkRequest:
 	case ShipStates::kSinkAnimation:
 		break;
@@ -1007,8 +1269,14 @@ void Ship::draw(const EditorGameBase& egbase,
 		switch (ship_state_) {
 		case (ShipStates::kTransport):
 			if (destination_) {
-				/** TRANSLATORS: This is a ship state. The ship is currently transporting wares. */
-				statistics_string = pgettext("ship_state", "Shipping");
+				if (fleet_->get_schedule().is_busy(*this)) {
+					/** TRANSLATORS: This is a ship state. The ship is currently transporting wares. */
+					statistics_string = pgettext("ship_state", "Shipping");
+				} else {
+					/** TRANSLATORS: This is a ship state. The ship is ready to transport wares, but
+					 * is sailing around without a task. */
+					statistics_string = pgettext("ship_state", "Roaming");
+				}
 			} else {
 				/** TRANSLATORS: This is a ship state. The ship is ready to transport wares, but has
 				 * nothing to do. */
@@ -1031,6 +1299,14 @@ void Ship::draw(const EditorGameBase& egbase,
 			/** TRANSLATORS: This is a ship state. An expedition is unloading wares/workers to build a
 			 * port. */
 			statistics_string = pgettext("ship_state", "Founding a Colony");
+			break;
+		case (ShipStates::kKaper):
+			/** TRANSLATORS: This is a ship state. NOCOM needs translation */
+			statistics_string = pgettext("ship_state", "Auf Kaperfahrt");
+			break;
+		case (ShipStates::kBattleship):
+			/** TRANSLATORS: This is a ship state */
+			statistics_string = pgettext("ship_state", "Battleship");
 			break;
 		case (ShipStates::kSinkRequest):
 		case (ShipStates::kSinkAnimation):
@@ -1118,6 +1394,14 @@ Ship::Expedition::~Expedition() {
 	}
 }
 
+void Ship::refit(Game& game, ShipStates new_state) {
+	if (ship_state_ == new_state || (pending_refit_ && *pending_refit_ == new_state)) {
+		return;
+	}
+	pending_refit_.reset(new ShipStates(new_state));
+	set_destination(game, nullptr);  // also sends a wakeup signal
+}
+
 /*
 ==============================
 
@@ -1126,7 +1410,7 @@ Load / Save implementation
 ==============================
 */
 
-constexpr uint8_t kCurrentPacketVersion = 12;
+constexpr uint8_t kCurrentPacketVersion = 13;
 
 const Bob::Task* Ship::Loader::get_task(const std::string& name) {
 	if (name == "shipidle" || name == "ship")
@@ -1150,29 +1434,36 @@ void Ship::Loader::load(FileRead& fr, uint8_t pw) {
 	ship_state_ = static_cast<ShipStates>(fr.unsigned_8());
 
 	// Expedition specific data
-	if (ship_state_ == ShipStates::kExpeditionScouting ||
-	    ship_state_ == ShipStates::kExpeditionWaiting ||
-	    ship_state_ == ShipStates::kExpeditionPortspaceFound ||
-	    ship_state_ == ShipStates::kExpeditionColonizing) {
-		expedition_.reset(new Expedition());
-		// Currently seen port build spaces
-		expedition_->seen_port_buildspaces.clear();
-		uint8_t numofports = fr.unsigned_8();
-		for (uint8_t i = 0; i < numofports; ++i)
-			expedition_->seen_port_buildspaces.push_back(read_coords_32(&fr));
-		// Swimability of the directions
-		for (uint8_t i = 0; i < LAST_DIRECTION; ++i)
-			expedition_->swimmable[i] = (fr.unsigned_8() == 1);
-		// whether scouting or exploring
-		expedition_->island_exploration = fr.unsigned_8() == 1;
-		// current direction
-		expedition_->scouting_direction = static_cast<WalkingDir>(fr.unsigned_8());
-		// Start coordinates of an island exploration
-		expedition_->exploration_start = read_coords_32(&fr);
-		// Whether the exploration is done clockwise or counter clockwise
-		expedition_->island_explore_direction = static_cast<IslandExploreDirection>(fr.unsigned_8());
-	} else {
-		ship_state_ = ShipStates::kTransport;
+	switch (ship_state_) {
+		case ShipStates::kExpeditionScouting:
+	    case ShipStates::kExpeditionWaiting:
+	    case ShipStates::kExpeditionPortspaceFound:
+	    case ShipStates::kExpeditionColonizing: {
+	    	expedition_.reset(new Expedition());
+			// Currently seen port build spaces
+			expedition_->seen_port_buildspaces.clear();
+			uint8_t numofports = fr.unsigned_8();
+			for (uint8_t i = 0; i < numofports; ++i)
+				expedition_->seen_port_buildspaces.push_back(read_coords_32(&fr));
+			// Swimability of the directions
+			for (uint8_t i = 0; i < LAST_DIRECTION; ++i)
+				expedition_->swimmable[i] = (fr.unsigned_8() == 1);
+			// whether scouting or exploring
+			expedition_->island_exploration = fr.unsigned_8() == 1;
+			// current direction
+			expedition_->scouting_direction = static_cast<WalkingDir>(fr.unsigned_8());
+			// Start coordinates of an island exploration
+			expedition_->exploration_start = read_coords_32(&fr);
+			// Whether the exploration is done clockwise or counter clockwise
+			expedition_->island_explore_direction = static_cast<IslandExploreDirection>(fr.unsigned_8());
+    	} break;
+    	case ShipStates::kKaper:
+    	case ShipStates::kBattleship:
+    		break;
+		default:
+			// I wonder what happens to ships in sinking states…?
+			ship_state_ = ShipStates::kTransport;
+			break;
 	}
 
 	shipname_ = fr.c_string();
@@ -1199,6 +1490,14 @@ void Ship::Loader::load(FileRead& fr, uint8_t pw) {
 		}
 	}
 
+	if (packet_version_ >= 13) {
+		pending_refit_ = fr.unsigned_8();
+		warfare_flags_ = fr.unsigned_8();
+	} else {
+		pending_refit_ = std::numeric_limits<uint8_t>::max();
+		warfare_flags_ = 0;
+	}
+
 	items_.resize(fr.unsigned_32());
 	for (ShippingItem::Loader& item_loader : items_) {
 		item_loader.load(fr);
@@ -1214,6 +1513,9 @@ void Ship::Loader::load_pointers() {
 		ship.lastdock_ = &mol().get<PortDock>(lastdock_);
 	}
 	ship.destination_ = destination_ ? &mol().get<PortDock>(destination_) : nullptr;
+
+	ship.pending_refit_.reset(pending_refit_ == std::numeric_limits<uint8_t>::max() ? nullptr : new ShipStates(static_cast<ShipStates>(pending_refit_)));
+	ship.warfare_flags_ = static_cast<WarfareFlags>(warfare_flags_);
 
 	ship.items_.resize(items_.size());
 	for (uint32_t i = 0; i < items_.size(); ++i) {
@@ -1256,8 +1558,9 @@ void Ship::Loader::load_finish() {
 		ship.expedition_.swap(expedition_);
 		ship.expedition_->ware_economy = ship.ware_economy_;
 		ship.expedition_->worker_economy = ship.worker_economy_;
-	} else
-		assert(ship_state_ == ShipStates::kTransport);
+	} else {
+		assert(ship_state_ == ShipStates::kTransport || ship_state_ == ShipStates::kKaper || ship_state_ == ShipStates::kBattleship);
+	}
 
 	// Workers load code set their economy to the economy of their location
 	// (which is a PlayerImmovable), that means that workers on ships do not get
@@ -1336,6 +1639,9 @@ void Ship::save(EditorGameBase& egbase, MapObjectSaver& mos, FileWrite& fw) {
 	fw.unsigned_32(capacity_);
 	fw.unsigned_32(mos.get_object_file_index_or_zero(lastdock_.get(egbase)));
 	fw.unsigned_32(mos.get_object_file_index_or_zero(destination_));
+
+	fw.unsigned_8(pending_refit_ ? static_cast<uint8_t>(*pending_refit_) : std::numeric_limits<uint8_t>::max());
+	fw.unsigned_8(warfare_flags_);
 
 	fw.unsigned_32(items_.size());
 	for (ShippingItem& shipping_item : items_) {

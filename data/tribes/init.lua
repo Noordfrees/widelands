@@ -150,6 +150,7 @@ print_loading_message("┗━ took", function()
       include "tribes/wares/wheat/init.lua"
       include "tribes/wares/wine/init.lua"
       include "tribes/wares/wool/init.lua"
+      include "tribes/wares/cannonball/init.lua"
 
    end)
 

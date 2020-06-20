@@ -2549,11 +2549,11 @@ bool DefaultAI::construct_building(uint32_t gametime) {
 
 			bo.new_building = check_building_necessity(bo, PerfEvaluation::kForConstruction, gametime);
 
-			if (bo.is(BuildingAttribute::kShipyard)) {
+			/* if (bo.is(BuildingAttribute::kShipyard)) {
 				assert(bo.new_building == BuildingNecessity::kAllowed ||
 				       bo.new_building == BuildingNecessity::kNeeded ||
 				       bo.new_building == BuildingNecessity::kForbidden);
-			}
+			} */
 
 			if (bo.new_building == BuildingNecessity::kAllowed) {
 				bo.new_building_overdue = 0;
@@ -5276,9 +5276,9 @@ BuildingNecessity DefaultAI::check_building_necessity(BuildingObserver& bo,
 		assert(bo.max_preciousness > 0);
 	}
 
-	if (bo.is(BuildingAttribute::kShipyard)) {
+	/* if (bo.is(BuildingAttribute::kShipyard)) {
 		assert(bo.max_preciousness == 0);
-	}
+	} */
 
 	// This flag is to be used when buildig is forced. AI will not build another building when
 	// a substitution exists. F.e. mines or pairs like tavern-inn

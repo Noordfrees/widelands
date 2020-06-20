@@ -327,6 +327,60 @@ private:
 	bool add;
 };
 
+struct CmdRefitShip : public PlayerCommand {
+	CmdRefitShip() : PlayerCommand() {
+	}  // For savegame loading
+	CmdRefitShip(uint32_t const t,
+	                    PlayerNumber const p,
+	                    Ship& ship,
+	                    uint8_t s)
+	   : PlayerCommand(t, p), serial_(ship.serial()), state_(s) {
+	}
+
+	void write(FileWrite&, EditorGameBase&, MapObjectSaver&) override;
+	void read(FileRead&, EditorGameBase&, MapObjectLoader&) override;
+
+	QueueCommandTypes id() const override {
+		return QueueCommandTypes::kRefitShip;
+	}
+
+	explicit CmdRefitShip(StreamRead&);
+
+	void execute(Game&) override;
+	void serialize(StreamWrite&) override;
+
+private:
+	Serial serial_;
+	uint8_t state_;
+};
+
+struct CmdControlWarShip : public PlayerCommand {
+	CmdControlWarShip() : PlayerCommand() {
+	}  // For savegame loading
+	CmdControlWarShip(uint32_t const t,
+	                    PlayerNumber const p,
+	                    Ship& ship,
+	                    uint8_t wf)
+	   : PlayerCommand(t, p), serial_(ship.serial()), flags_(wf) {
+	}
+
+	void write(FileWrite&, EditorGameBase&, MapObjectSaver&) override;
+	void read(FileRead&, EditorGameBase&, MapObjectLoader&) override;
+
+	QueueCommandTypes id() const override {
+		return QueueCommandTypes::kControlWarShip;
+	}
+
+	explicit CmdControlWarShip(StreamRead&);
+
+	void execute(Game&) override;
+	void serialize(StreamWrite&) override;
+
+private:
+	Serial serial_;
+	uint8_t flags_;
+};
+
 struct CmdEnhanceBuilding : public PlayerCommand {
 	CmdEnhanceBuilding() : PlayerCommand(), serial_(0), keep_wares_(false) {
 	}  // For savegame loading

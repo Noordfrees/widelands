@@ -109,6 +109,7 @@ public:
 	DescriptionIndex ship() const;
 	DescriptionIndex ferry() const;
 	DescriptionIndex port() const;
+	DescriptionIndex cannonball() const;
 
 	const std::vector<DescriptionIndex>& trainingsites() const;
 	const std::vector<DescriptionIndex>& worker_types_without_cost() const;
@@ -211,6 +212,7 @@ private:
 	DescriptionIndex ship_;       // The ship that this tribe uses
 	DescriptionIndex ferry_;      // The ferry that this tribe uses
 	DescriptionIndex port_;       // The port that this tribe uses
+	DescriptionIndex cannonball_; // The cannonball for this tribe
 	std::vector<DescriptionIndex> worker_types_without_cost_;
 	std::vector<DescriptionIndex> trainingsites_;
 	// Order and positioning of wares in the warehouse display

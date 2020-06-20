@@ -272,6 +272,8 @@ public:
 	void send_player_ship_construct_port(Ship&, Coords);
 	void send_player_ship_explore_island(Ship&, IslandExploreDirection);
 	void send_player_sink_ship(Ship&);
+	void send_player_refit_ship(Ship&, uint8_t);
+	void send_player_control_warship(Ship&, uint8_t);
 	void send_player_cancel_expedition_ship(Ship&);
 	void send_player_propose_trade(const Trade& trade);
 

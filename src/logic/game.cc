@@ -847,6 +847,16 @@ void Game::send_player_sink_ship(Ship& ship) {
 	   new CmdShipSink(get_gametime(), ship.get_owner()->player_number(), ship.serial()));
 }
 
+void Game::send_player_refit_ship(Ship& ship, uint8_t s) {
+	send_player_command(
+	   new CmdRefitShip(get_gametime(), ship.get_owner()->player_number(), ship, s));
+}
+
+void Game::send_player_control_warship(Ship& ship, uint8_t w) {
+	send_player_command(
+	   new CmdControlWarShip(get_gametime(), ship.get_owner()->player_number(), ship, w));
+}
+
 void Game::send_player_cancel_expedition_ship(Ship& ship) {
 	send_player_command(new CmdShipCancelExpedition(
 	   get_gametime(), ship.get_owner()->player_number(), ship.serial()));

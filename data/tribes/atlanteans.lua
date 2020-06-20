@@ -184,7 +184,8 @@ tribes:new_tribe {
          "shield_advanced",
          "tabard",
          "gold_thread",
-         "tabard_golden"
+         "tabard_golden",
+         "cannonball"
       }
    },
 
@@ -403,6 +404,7 @@ tribes:new_tribe {
    ship = "atlanteans_ship",
    ferry = "atlanteans_ferry",
    port = "atlanteans_port",
+   cannonball = "cannonball",
 
    toolbar = {
       left_corner = image_dirname .. "toolbar_left_corner.png",

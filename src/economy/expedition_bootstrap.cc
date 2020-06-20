@@ -312,7 +312,7 @@ void ExpeditionBootstrap::load(Warehouse& warehouse,
                                uint16_t packet_version) {
 
 	// Keep this synchronized with kCurrentPacketVersionWarehouse in MapBuildingDataPacket!!
-	static const uint16_t kCurrentPacketVersion = 8;
+	static const uint16_t kCurrentPacketVersion = 9;
 	assert(queues_.empty());
 	// Load worker queues
 	std::vector<WorkersQueue*> wqs;

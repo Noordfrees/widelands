@@ -5851,6 +5851,7 @@ int LuaShip::get_last_portdock(lua_State* L) {
 
    - transport,
    - exp_waiting, exp_scouting, exp_found_port_space, exp_colonizing,
+   - kaper, battleship
    - sink_request, sink_animation
 
       (RW) returns the :class:`string` ship's state, or :const:`nil` if there is no valid state.
@@ -5882,6 +5883,13 @@ int LuaShip::get_state(lua_State* L) {
 			break;
 		case Ship::ShipStates::kSinkAnimation:
 			lua_pushstring(L, "sink_animation");
+			break;
+		case Ship::ShipStates::kKaper:
+			lua_pushstring(L, "kaper");
+			break;
+		case Ship::ShipStates::kBattleship:
+			lua_pushstring(L, "battleship");
+			break;
 		}
 		return 1;
 	}

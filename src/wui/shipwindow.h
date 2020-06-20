@@ -57,6 +57,8 @@ private:
 	void act_scout_towards(Widelands::WalkingDir);
 	void act_construct_port();
 	void act_explore_island(Widelands::IslandExploreDirection);
+	void act_refit(Widelands::Ship::ShipStates);
+	void act_set_warfare_flag(Widelands::Ship::WarfareFlags which, bool on);
 
 	InteractiveGameBase& igbase_;
 	Widelands::OPtr<Widelands::Ship> ship_;
@@ -70,6 +72,10 @@ private:
 	UI::Button* btn_cancel_expedition_;
 	UI::Button* btn_explore_island_cw_;
 	UI::Button* btn_explore_island_ccw_;
+	UI::Button* btn_refit_transport_;
+	UI::Button* btn_refit_kaper_;
+	UI::Button* btn_refit_battle_;
+	UI::Radiogroup radio_aggressive_, radio_stationary_;
 	// format: DIRECTION - 1, as 0 is normally the current location.
 	UI::Button* btn_scout_[Widelands::LAST_DIRECTION];
 	UI::Button* btn_construct_port_;

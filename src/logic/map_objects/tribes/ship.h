@@ -153,12 +153,19 @@ struct Ship : Bob {
 	//
 	enum class ShipStates : uint8_t {
 		kTransport = 0,
+
 		kExpeditionWaiting = 1,
 		kExpeditionScouting = 2,
 		kExpeditionPortspaceFound = 3,
 		kExpeditionColonizing = 4,
+
 		kSinkRequest = 8,
-		kSinkAnimation = 9
+		kSinkAnimation = 9,
+
+		kBattleship = 16,
+		// TODO(Nordfriese): I tried out several DE-EN dictionaries but NONE
+		// of them give me a translation for »Kaper« and »Kaperfahrt«…
+		kKaper = 17,
 	};
 
 	/// \returns the current state the ship is in
@@ -232,12 +239,25 @@ struct Ship : Bob {
 	void exp_cancel(Game&);
 	void sink_ship(Game&);
 
+	void refit(Game&, ShipStates);
+
 	Quantity get_capacity() const {
 		return capacity_;
 	}
 	void set_capacity(Quantity c) {
 		capacity_ = c;
 	}
+
+	PortDock* find_closest_port(Game&, Path&);
+
+	enum WarfareFlags : uint8_t {
+		kAggressive = 1,  // aggressive or defensive
+		kStationary = 2,  // stationary or roaming
+	};
+	const WarfareFlags& get_warfare_flags() const { return warfare_flags_; }
+	void set_warfare_flags(Game&, WarfareFlags);
+
+	size_t count_cannonballs(const Game&) const;
 
 protected:
 	void draw(const EditorGameBase&,
@@ -261,6 +281,9 @@ private:
 	bool ship_update_transport(Game&, State&);
 	void ship_update_expedition(Game&, State&);
 	void ship_update_idle(Game&, State&);
+	void ship_update_battleship(Game&, State&);
+	void ship_update_kaper(Game&, State&);
+	void ship_update_refit(Game&, State&);
 	/// Set the ship's state to 'state' and if the ship state has changed, publish a notification.
 	void set_ship_state_and_notify(ShipStates state, NoteShip::Action action);
 
@@ -279,6 +302,8 @@ private:
 	OPtr<PortDock> lastdock_;
 	std::vector<ShippingItem> items_;
 	ShipStates ship_state_;
+	std::unique_ptr<ShipStates> pending_refit_;
+	WarfareFlags warfare_flags_;
 	std::string shipname_;
 
 	PortDock* destination_;
@@ -316,6 +341,8 @@ protected:
 		Serial worker_economy_serial_;
 		uint32_t destination_;
 		uint32_t capacity_ = 0U;
+		uint8_t pending_refit_ = 0;
+		uint8_t warfare_flags_ = 0;
 		ShipStates ship_state_ = ShipStates::kTransport;
 		std::string shipname_;
 		std::unique_ptr<Expedition> expedition_;

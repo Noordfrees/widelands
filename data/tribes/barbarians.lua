@@ -120,7 +120,8 @@ tribes:new_tribe {
           "ax_warriors",
           "helmet",
           "helmet_mask",
-          "helmet_warhelm"
+          "helmet_warhelm",
+          "cannonball"
       }
    },
 
@@ -325,4 +326,5 @@ tribes:new_tribe {
    ship = "barbarians_ship",
    ferry = "barbarians_ferry",
    port = "barbarians_port",
+   cannonball = "cannonball",
 }

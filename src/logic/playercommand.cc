@@ -155,6 +155,10 @@ PlayerCommand* PlayerCommand::deserialize(StreamRead& des) {
 		return new CmdShipCancelExpedition(des);
 	case QueueCommandTypes::kExpeditionConfig:
 		return new CmdExpeditionConfig(des);
+	case QueueCommandTypes::kRefitShip:
+		return new CmdRefitShip(des);
+	case QueueCommandTypes::kControlWarShip:
+		return new CmdControlWarShip(des);
 
 	default:
 		throw wexception("PlayerCommand::deserialize(): Invalid command id encountered");
@@ -637,7 +641,7 @@ void CmdMilitarySiteSetSoldierPreference::read(FileRead& fr,
 			                            kCurrentPacketVersionSoldierPreference);
 		}
 	} catch (const WException& e) {
-		throw GameDataError("start/stop building: %s", e.what());
+		throw GameDataError("milsite soldier preference: %s", e.what());
 	}
 }
 
@@ -677,7 +681,7 @@ void CmdStartOrCancelExpedition::read(FileRead& fr, EditorGameBase& egbase, MapO
 			   "CmdStartOrCancelExpedition", packet_version, kCurrentPacketVersionExpedition);
 		}
 	} catch (const WException& e) {
-		throw GameDataError("start/stop building: %s", e.what());
+		throw GameDataError("start/cancel expedition: %s", e.what());
 	}
 }
 void CmdStartOrCancelExpedition::write(FileWrite& fw, EditorGameBase& egbase, MapObjectSaver& mos) {
@@ -731,7 +735,7 @@ void CmdExpeditionConfig::read(FileRead& fr, EditorGameBase& egbase, MapObjectLo
 			   "CmdExpeditionConfig", packet_version, kCurrentPacketVersionCmdExpeditionConfig);
 		}
 	} catch (const WException& e) {
-		throw GameDataError("enhance building: %s", e.what());
+		throw GameDataError("configure expedition: %s", e.what());
 	}
 }
 void CmdExpeditionConfig::write(FileWrite& fw, EditorGameBase& egbase, MapObjectSaver& mos) {
@@ -742,6 +746,94 @@ void CmdExpeditionConfig::write(FileWrite& fw, EditorGameBase& egbase, MapObject
 	fw.unsigned_8(type == wwWARE ? 0 : 1);
 	fw.unsigned_32(index);
 	fw.unsigned_8(add ? 1 : 0);
+}
+
+/*** Cmd_RefitShip ***/
+
+CmdRefitShip::CmdRefitShip(StreamRead& des) : PlayerCommand(0, des.unsigned_8()) {
+	serial_ = des.unsigned_32();
+	state_ = des.unsigned_8();
+}
+
+void CmdRefitShip::execute(Game& game) {
+	if (upcast(Ship, ship, game.objects().get_object(serial_))) {
+		ship->refit(game, static_cast<Ship::ShipStates>(state_));
+	}
+}
+
+void CmdRefitShip::serialize(StreamWrite& ser) {
+	write_id_and_sender(ser);
+	ser.unsigned_32(serial_);
+	ser.unsigned_8(state_);
+}
+
+constexpr uint16_t kCurrentPacketVersionCmdRefitShip = 1;
+
+void CmdRefitShip::read(FileRead& fr, EditorGameBase& egbase, MapObjectLoader& mol) {
+	try {
+		const uint16_t packet_version = fr.unsigned_16();
+		if (packet_version == kCurrentPacketVersionCmdRefitShip) {
+			PlayerCommand::read(fr, egbase, mol);
+			serial_ = get_object_serial_or_zero<Ship>(fr.unsigned_32(), mol);
+			state_ = fr.unsigned_8();
+		} else {
+			throw UnhandledVersionError(
+			   "CmdRefitShip", packet_version, kCurrentPacketVersionCmdRefitShip);
+		}
+	} catch (const WException& e) {
+		throw GameDataError("refit ship: %s", e.what());
+	}
+}
+void CmdRefitShip::write(FileWrite& fw, EditorGameBase& egbase, MapObjectSaver& mos) {
+	fw.unsigned_16(kCurrentPacketVersionCmdRefitShip);
+	PlayerCommand::write(fw, egbase, mos);
+
+	fw.unsigned_32(mos.get_object_file_index_or_zero(egbase.objects().get_object(serial_)));
+	fw.unsigned_8(state_);
+}
+
+/*** Cmd_CmdControlWarShip ***/
+
+CmdControlWarShip::CmdControlWarShip(StreamRead& des) : PlayerCommand(0, des.unsigned_8()) {
+	serial_ = des.unsigned_32();
+	flags_ = des.unsigned_8();
+}
+
+void CmdControlWarShip::execute(Game& game) {
+	if (upcast(Ship, ship, game.objects().get_object(serial_))) {
+		ship->set_warfare_flags(game, static_cast<Ship::WarfareFlags>(flags_));
+	}
+}
+
+void CmdControlWarShip::serialize(StreamWrite& ser) {
+	write_id_and_sender(ser);
+	ser.unsigned_32(serial_);
+	ser.unsigned_8(flags_);
+}
+
+constexpr uint16_t kCurrentPacketVersionCmdControlWarShip = 1;
+
+void CmdControlWarShip::read(FileRead& fr, EditorGameBase& egbase, MapObjectLoader& mol) {
+	try {
+		const uint16_t packet_version = fr.unsigned_16();
+		if (packet_version == kCurrentPacketVersionCmdControlWarShip) {
+			PlayerCommand::read(fr, egbase, mol);
+			serial_ = get_object_serial_or_zero<Ship>(fr.unsigned_32(), mol);
+			flags_ = fr.unsigned_8();
+		} else {
+			throw UnhandledVersionError(
+			   "CmdControlWarShip", packet_version, kCurrentPacketVersionCmdControlWarShip);
+		}
+	} catch (const WException& e) {
+		throw GameDataError("war ship control: %s", e.what());
+	}
+}
+void CmdControlWarShip::write(FileWrite& fw, EditorGameBase& egbase, MapObjectSaver& mos) {
+	fw.unsigned_16(kCurrentPacketVersionCmdControlWarShip);
+	PlayerCommand::write(fw, egbase, mos);
+
+	fw.unsigned_32(mos.get_object_file_index_or_zero(egbase.objects().get_object(serial_)));
+	fw.unsigned_8(flags_);
 }
 
 /*** Cmd_EnhanceBuilding ***/
@@ -1091,7 +1183,7 @@ void CmdShipSink::read(FileRead& fr, EditorGameBase& egbase, MapObjectLoader& mo
 			   "CmdShipSink", packet_version, kCurrentPacketVersionCmdShipSink);
 		}
 	} catch (const WException& e) {
-		throw GameDataError("Ship explore: %s", e.what());
+		throw GameDataError("Ship sink: %s", e.what());
 	}
 }
 void CmdShipSink::write(FileWrite& fw, EditorGameBase& egbase, MapObjectSaver& mos) {
@@ -1135,7 +1227,7 @@ void CmdShipCancelExpedition::read(FileRead& fr, EditorGameBase& egbase, MapObje
 			   "CmdShipCancelExpedition", packet_version, kCurrentPacketVersionShipCancelExpedition);
 		}
 	} catch (const WException& e) {
-		throw GameDataError("Ship explore: %s", e.what());
+		throw GameDataError("Ship cancel expedition: %s", e.what());
 	}
 }
 void CmdShipCancelExpedition::write(FileWrite& fw, EditorGameBase& egbase, MapObjectSaver& mos) {

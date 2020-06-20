@@ -23,6 +23,7 @@
 #include <memory>
 
 #include "base/macros.h"
+#include "economy/request.h"
 #include "economy/shippingitem.h"
 #include "logic/map_objects/immovable.h"
 #include "logic/map_objects/tribes/wareworker.h"
@@ -32,7 +33,6 @@ namespace Widelands {
 struct ShipFleet;
 struct RoutingNodeNeighbour;
 struct Ship;
-class Warehouse;
 class ExpeditionBootstrap;
 
 class PortdockDescr : public MapObjectDescr {
@@ -132,7 +132,14 @@ public:
 	// Gets called by the ExpeditionBootstrap as soon as all wares and workers are available.
 	void set_expedition_bootstrap_complete(Game& game, bool complete);
 
+	// Called by ships to ensure that a cannonball request for that ship is/isn't open.
+	// Does nothing if a request already is/isn't open.
+	void open_cannonball_request(Game&, Ship&, Quantity);
+	void close_cannonball_request(Ship&);
+	Request* get_cannonball_request(Ship&) const;
+
 private:
+	friend class MapBuildingdataPacket;
 	friend struct ShipFleet;
 	friend struct ShippingSchedule;
 
@@ -156,6 +163,11 @@ private:
 	bool expedition_cancelling_;
 
 	std::unique_ptr<ExpeditionBootstrap> expedition_bootstrap_;
+
+	std::map<OPtr<Ship>, std::unique_ptr<Request>> cannonball_requests_;
+
+	static void cannonball_request_callback(Game&, Request&, DescriptionIndex, Worker*, PlayerImmovable&);
+	void do_load_cannonball(Game&, Request&, DescriptionIndex);
 
 	// saving and loading
 protected:

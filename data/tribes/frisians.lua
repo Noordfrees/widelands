@@ -131,6 +131,7 @@ tribes:new_tribe {
           "fur_garment_golden",
           "helmet",
           "helmet_golden",
+          "cannonball"
       }
    },
 
@@ -373,4 +374,5 @@ tribes:new_tribe {
    ship = "frisians_ship",
    ferry = "frisians_ferry",
    port = "frisians_port",
+   cannonball = "cannonball",
 }

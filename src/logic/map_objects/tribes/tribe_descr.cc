@@ -210,6 +210,7 @@ TribeDescr::TribeDescr(const LuaTable& table,
 		geologist_ = add_special_worker(table.get_string("geologist"));
 		soldier_ = add_special_worker(table.get_string("soldier"));
 		ferry_ = add_special_worker(table.get_string("ferry"));
+		cannonball_ = add_special_ware(table.get_string("cannonball"));
 
 		const std::string shipname = table.get_string("ship");
 		try {
@@ -348,6 +349,10 @@ DescriptionIndex TribeDescr::port() const {
 DescriptionIndex TribeDescr::ferry() const {
 	assert(tribes_.worker_exists(ferry_));
 	return ferry_;
+}
+DescriptionIndex TribeDescr::cannonball() const {
+	assert(tribes_.ware_exists(cannonball_));
+	return cannonball_;
 }
 
 const std::vector<DescriptionIndex>& TribeDescr::trainingsites() const {

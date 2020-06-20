@@ -59,7 +59,7 @@ constexpr uint16_t kCurrentPacketVersionDismantlesite = 1;
 constexpr uint16_t kCurrentPacketVersionConstructionsite = 4;
 constexpr uint16_t kCurrentPacketPFBuilding = 2;
 // Responsible for warehouses and expedition bootstraps
-constexpr uint16_t kCurrentPacketVersionWarehouse = 8;
+constexpr uint16_t kCurrentPacketVersionWarehouse = 9;
 constexpr uint16_t kCurrentPacketVersionMilitarysite = 6;
 constexpr uint16_t kCurrentPacketVersionProductionsite = 9;
 constexpr uint16_t kCurrentPacketVersionTrainingsite = 6;
@@ -479,6 +479,15 @@ void MapBuildingdataPacket::read_warehouse(Warehouse& warehouse,
 					if (warehouse.portdock_->expedition_started()) {
 						warehouse.portdock_->expedition_bootstrap()->load(
 						   warehouse, fr, game, mol, tribes_lookup_table, packet_version);
+					}
+
+					warehouse.portdock_->cannonball_requests_.clear();
+					// TODO(Nordfriese): Savegame compatibility
+					for (size_t i = (packet_version >= 9 ? fr.unsigned_32() : 0); i; --i) {
+						const Serial ship = fr.unsigned_32();
+						Request* req = new Request(warehouse, 0, &PortDock::cannonball_request_callback, wwWARE);
+						req->read(fr, game, mol, tribes_lookup_table);
+						warehouse.portdock_->cannonball_requests_[&mol.get<Ship>(ship)].reset(req);
 					}
 				}
 			}
@@ -1187,6 +1196,12 @@ void MapBuildingdataPacket::write_warehouse(const Warehouse& warehouse,
 		// Expedition specific stuff. See comment in loader.
 		if (warehouse.portdock_->expedition_started()) {
 			warehouse.portdock_->expedition_bootstrap()->save(fw, game, mos);
+		}
+
+		fw.unsigned_32(warehouse.portdock_->cannonball_requests_.size());
+		for (const auto& pair : warehouse.portdock_->cannonball_requests_) {
+			fw.unsigned_32(mos.get_object_file_index(*pair.first.get(game)));
+			pair.second->write(fw, game, mos);
 		}
 	}
 }

@@ -58,17 +58,31 @@ tribes:new_productionsite_type {
    inputs = {
       { name = "log", amount = 2 },
       { name = "planks", amount = 10 },
-      { name = "cloth", amount = 4 }
+      { name = "cloth", amount = 4 },
+      { name = "granite", amount = 5 }
    },
+   outputs = { "cannonball" },
 
    programs = {
       work = {
          -- TRANSLATORS: Completed/Skipped/Did not start working because ...
          descname = _"working",
          actions = {
+            "call=make_cannonball",
             "call=ship on failure fail",
             "call=ship_preparation",
          }
+      },
+      make_cannonball = {
+         -- TRANSLATORS: Completed/Skipped/Did not start making a cannon ball because ...
+         descname = _"making a cannon ball",
+         actions = {
+            "return=skipped unless economy needs cannonball",
+            "consume=granite:2",
+            "sleep=25000",
+            "animate=working 35000",
+            "produce=cannonball"
+         },
       },
       ship = {
          -- TRANSLATORS: Completed/Skipped/Did not start constructing a ship because ...

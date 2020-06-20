@@ -47,6 +47,13 @@ static const char pic_scout_e[] = "images/wui/ship/ship_scout_e.png";
 static const char pic_scout_sw[] = "images/wui/ship/ship_scout_sw.png";
 static const char pic_scout_se[] = "images/wui/ship/ship_scout_se.png";
 static const char pic_construct_port[] = "images/wui/ship/ship_construct_port_space.png";
+static const char pic_refit_transport[] = "images/wui/stats/ship_stats_shipping.png";
+static const char pic_refit_kaper[] = "images/wui/stats/ship_stats_kaper.png";
+static const char pic_refit_battle[] = "images/wui/stats/ship_stats_battleship.png";
+static const char pic_warfare_aggressive[] = "images/wui/ship/warfare_aggressive.png";
+static const char pic_warfare_defensive[] = "images/wui/ship/warfare_defensive.png";
+static const char pic_warfare_stationary[] = "images/wui/ship/warfare_stationary.png";
+static const char pic_warfare_roaming[] = "images/wui/ship/warfare_roaming.png";
 
 constexpr int kPadding = 5;
 }  // namespace
@@ -116,8 +123,51 @@ ShipWindow::ShipWindow(InteractiveGameBase& igb, UniqueWindow::Registry& reg, Sh
 
 	vbox_.add(&navigation_box_, UI::Box::Resizing::kAlign, UI::Align::kCenter);
 
-	// Bottom buttons
+	// Bottom buttons, top row
 	UI::Box* buttons = new UI::Box(&vbox_, 0, 0, UI::Box::Horizontal);
+	vbox_.add(buttons, UI::Box::Resizing::kFullSize);
+
+	UI::Radiobutton* radiobutton = nullptr;
+	radio_stationary_.add_button(buttons, Vector2i::zero(), g_gr->images().get(pic_warfare_stationary),
+			_("Stationary"), &radiobutton);
+	buttons->add(radiobutton);
+	radio_stationary_.add_button(buttons, Vector2i::zero(), g_gr->images().get(pic_warfare_roaming),
+			_("Roaming"), &radiobutton);
+	buttons->add(radiobutton);
+	radio_stationary_.set_state(ship->get_warfare_flags() & Widelands::Ship::WarfareFlags::kStationary ? 0 : 1);
+
+	buttons->add_inf_space();
+
+	btn_refit_transport_ = make_button(buttons, "refit_transport", _("Refit to transport ship"), pic_refit_transport,
+			[this]() { act_refit(Widelands::Ship::ShipStates::kTransport); });
+	buttons->add(btn_refit_transport_);
+	btn_refit_kaper_ = make_button(buttons, "refit_kaper", _("Refit to Kaper"), pic_refit_kaper,
+			[this]() { act_refit(Widelands::Ship::ShipStates::kKaper); });
+	buttons->add(btn_refit_kaper_);
+	btn_refit_battle_ = make_button(buttons, "refit_battle", _("Refit to battleship"), pic_refit_battle,
+			[this]() { act_refit(Widelands::Ship::ShipStates::kBattleship); });
+	buttons->add(btn_refit_battle_);
+
+	buttons->add_inf_space();
+
+	radio_aggressive_.add_button(buttons, Vector2i::zero(), g_gr->images().get(pic_warfare_aggressive),
+			_("Aggressive"), &radiobutton);
+	buttons->add(radiobutton);
+	radio_aggressive_.add_button(buttons, Vector2i::zero(), g_gr->images().get(pic_warfare_defensive),
+			_("Defensive"), &radiobutton);
+	buttons->add(radiobutton);
+	radio_aggressive_.set_state(ship->get_warfare_flags() & Widelands::Ship::WarfareFlags::kAggressive ? 0 : 1);
+
+	if (igb.can_act(ship->owner().player_number())) {
+		radio_stationary_.changedto.connect([this](int32_t state) { act_set_warfare_flag(Widelands::Ship::WarfareFlags::kStationary, state == 0); });
+		radio_aggressive_.changedto.connect([this](int32_t state) { act_set_warfare_flag(Widelands::Ship::WarfareFlags::kAggressive, state == 0); });
+	} else {
+		radio_stationary_.set_enabled(false);
+		radio_aggressive_.set_enabled(false);
+	}
+
+	// Bottom buttons, bottom row
+	buttons = new UI::Box(&vbox_, 0, 0, UI::Box::Horizontal);
 	vbox_.add(buttons, UI::Box::Resizing::kFullSize);
 
 	btn_sink_ = make_button(buttons, "sink", _("Sink the ship"), pic_sink, [this]() { act_sink(); });
@@ -270,6 +320,22 @@ void ShipWindow::think() {
 		btn_explore_island_ccw_->set_enabled(can_act && coast_nearby &&
 		                                     (state != Ship::ShipStates::kExpeditionColonizing));
 		btn_sink_->set_enabled(can_act && (state != Ship::ShipStates::kExpeditionColonizing));
+
+		for (UI::Button* b : {btn_refit_transport_, btn_refit_kaper_, btn_refit_battle_}) {
+			b->set_enabled(false);
+		}
+		radio_aggressive_.set_enabled(false);
+		radio_stationary_.set_enabled(false);
+	} else {
+		btn_refit_kaper_->set_enabled(ship->get_ship_state() != Widelands::Ship::ShipStates::kKaper);
+		btn_refit_battle_->set_enabled(ship->get_ship_state() != Widelands::Ship::ShipStates::kBattleship);
+		btn_refit_transport_->set_enabled(!btn_refit_kaper_->enabled() || !btn_refit_battle_->enabled());
+		radio_aggressive_.set_enabled(btn_refit_transport_->enabled());
+		radio_stationary_.set_enabled(btn_refit_transport_->enabled());
+	}
+	if (!can_act) {
+		radio_aggressive_.set_state(ship->get_warfare_flags() & Widelands::Ship::WarfareFlags::kAggressive ? 0 : 1);
+		radio_stationary_.set_state(ship->get_warfare_flags() & Widelands::Ship::WarfareFlags::kStationary ? 0 : 1);
 	}
 	btn_cancel_expedition_->set_enabled(ship->state_is_expedition() && can_act &&
 	                                    (state != Ship::ShipStates::kExpeditionColonizing));
@@ -286,6 +352,27 @@ UI::Button* ShipWindow::make_button(UI::Panel* parent,
 	   parent, name, 0, 0, 34, 34, UI::ButtonStyle::kWuiMenu, g_gr->images().get(picname), title);
 	btn->sigclicked.connect(callback);
 	return btn;
+}
+
+void ShipWindow::act_refit(Widelands::Ship::ShipStates s) {
+	Widelands::Ship* ship = ship_.get(igbase_.egbase());
+	if (ship == nullptr) {
+		return;
+	}
+	igbase_.game().send_player_refit_ship(*ship, static_cast<uint8_t>(s));
+}
+void ShipWindow::act_set_warfare_flag(Widelands::Ship::WarfareFlags which, bool on) {
+	Widelands::Ship* ship = ship_.get(igbase_.egbase());
+	if (ship == nullptr) {
+		return;
+	}
+	uint8_t flags = ship->get_warfare_flags();
+	if (on) {
+		flags |= which;
+	} else {
+		flags &= ~which;
+	}
+	igbase_.game().send_player_control_warship(*ship, flags);
 }
 
 /// Move the main view towards the current ship location
