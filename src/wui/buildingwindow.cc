@@ -76,6 +76,9 @@ BuildingWindow::BuildingWindow(InteractiveGameBase& parent,
 BuildingWindow::~BuildingWindow() {
 	// Accessing the toggle_workarea_ button can cause segfaults, so we leave it alone
 	hide_workarea(false);
+	if (parent_->get_moving_workarea_for_building() == building_.serial()) {
+		parent_->set_moving_workarea_for_building(0);
+	}
 }
 
 void BuildingWindow::on_building_note(const Widelands::NoteBuilding& note) {
@@ -614,12 +617,9 @@ void BuildingWindow::configure_workarea_button() {
 		}
 	}
 	if (move_workarea_) {
-		if (Widelands::Building* building = building_.get(parent_->egbase())) {
-			InteractivePlayer& ipl = dynamic_cast<InteractivePlayer&>(*parent_);
-			move_workarea_->set_perm_pressed(ipl.get_moving_workarea_for_building() == building);
-			move_workarea_->set_tooltip(ipl.get_moving_workarea_for_building() == building ?
-					_("Cancel moving work area") : _("Move work area"));
-		}
+		move_workarea_->set_perm_pressed(parent_->get_moving_workarea_for_building() == building_.serial());
+		move_workarea_->set_tooltip(parent_->get_moving_workarea_for_building() == building_.serial() ?
+				_("Cancel moving work area") : _("Move work area"));
 	}
 }
 
@@ -632,27 +632,24 @@ void BuildingWindow::toggle_workarea() {
 }
 
 void BuildingWindow::move_workarea() {
-	if (Widelands::Building* building = building_.get(parent_->egbase())) {
-		InteractivePlayer& ipl = dynamic_cast<InteractivePlayer&>(*parent_);
-		if (ipl.get_moving_workarea_for_building() == building) {
-			ipl.set_moving_workarea_for_building(nullptr);
-		} else {
-			BuildingWindow* other = nullptr;
-			if (const Widelands::Building* b = ipl.get_moving_workarea_for_building()) {
-				UI::UniqueWindow::Registry& registry =
-				   ipl.unique_windows().get_registry((boost::format("building_%d") % b->serial()).str());
-				other = dynamic_cast<BuildingWindow*>(registry.window);
-			}
-
-			ipl.set_moving_workarea_for_building(building);
-			show_workarea();
-
-			if (other) {
-				other->configure_workarea_button();
-			}
+	if (parent_->get_moving_workarea_for_building() == building_.serial()) {
+		parent_->set_moving_workarea_for_building(0);
+	} else {
+		BuildingWindow* other = nullptr;
+		if (const Widelands::Serial b = parent_->get_moving_workarea_for_building()) {
+			UI::UniqueWindow::Registry& registry =
+			   parent_->unique_windows().get_registry((boost::format("building_%d") % b).str());
+			other = dynamic_cast<BuildingWindow*>(registry.window);
 		}
-		configure_workarea_button();
+
+		parent_->set_moving_workarea_for_building(building_.serial());
+		show_workarea();
+
+		if (other) {
+			other->configure_workarea_button();
+		}
 	}
+	configure_workarea_button();
 }
 
 void BuildingWindow::create_input_queue_panel(UI::Box* const box,

@@ -177,6 +177,7 @@ InteractiveBase::InteractiveBase(EditorGameBase& the_egbase, Section& global_s)
                   UI::ButtonStyle::kWuiPrimary),
      quick_navigation_(&map_view_),
      workareas_cache_(nullptr),
+     moving_workarea_for_building_(0),
      egbase_(the_egbase),
 #ifndef NDEBUG  //  not in releases
      display_flags_(dfDebug | dfShowSoldierLevels | dfShowBuildings),
@@ -1319,6 +1320,18 @@ void InteractiveBase::road_building_remove_overlay() {
 	assert(road_building_mode_);
 	road_building_mode_->overlay_road_previews.clear();
 	road_building_mode_->overlay_steepness_indicators.clear();
+}
+
+void InteractiveBase::set_moving_workarea_for_building(Widelands::Serial b) {
+	if (b) {
+		if (in_road_building_mode()) {
+			abort_build_road();
+		}
+		set_sel_picture(g_image_cache->get("images/ui_basic/fsel_workarea.png"));
+	} else {
+		unset_sel_picture();
+	}
+	moving_workarea_for_building_ = b;
 }
 
 bool InteractiveBase::handle_key(bool const down, SDL_Keysym const code) {

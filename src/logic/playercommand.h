@@ -913,8 +913,8 @@ private:
 };
 
 struct CmdMoveWorkarea : PlayerCommand {
-	CmdMoveWorkarea(uint32_t t, PlayerNumber p, const Building& b, const Coords& c)
-	   : PlayerCommand(t, p), building_(b.serial()), position_(c) {
+	CmdMoveWorkarea(uint32_t t, PlayerNumber p, Serial b, const Coords& c)
+	   : PlayerCommand(t, p), building_(b), position_(c) {
 	}
 
 	QueueCommandTypes id() const override {

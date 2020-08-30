@@ -2105,6 +2105,7 @@ void CmdMoveWorkarea::write(FileWrite& fw, EditorGameBase& egbase, MapObjectSave
 	fw.unsigned_32(mos.get_object_file_index_or_zero(egbase.objects().get_object(building_)));
 	fw.unsigned_16(position_.x);
 	fw.unsigned_16(position_.y);
+}
 
 // CmdPickCustomStartingPosition
 void CmdPickCustomStartingPosition::execute(Game& game) {

@@ -77,11 +77,6 @@ public:
 		flag_to_connect_ = location;
 	}
 
-	const Widelands::Building* get_moving_workarea_for_building() const {
-		return moving_workarea_for_building_;
-	}
-	void set_moving_workarea_for_building(const Widelands::Building*);
-
 	void popup_message(Widelands::MessageId, const Widelands::Message&);
 
 private:
@@ -113,8 +108,6 @@ private:
 	UI::UniqueWindow::Registry message_menu_;
 
 	const Image* grid_marker_pic_;
-
-	const Widelands::Building* moving_workarea_for_building_;
 
 	std::map<Widelands::Ship*, Widelands::Coords> expedition_port_spaces_;
 

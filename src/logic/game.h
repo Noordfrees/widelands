@@ -275,6 +275,7 @@ public:
 	void send_player_cancel_expedition_ship(Ship&);
 	void send_player_propose_trade(const Trade& trade);
 	void send_player_toggle_mute(const Building&, bool all);
+	void send_player_move_workarea(PlayerNumber, Serial, const Coords&);
 
 	InteractivePlayer* get_ipl();
 

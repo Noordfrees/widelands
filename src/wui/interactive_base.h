@@ -169,6 +169,11 @@ public:
 		return &map_view_;
 	}
 
+	Widelands::Serial get_moving_workarea_for_building() const {
+		return moving_workarea_for_building_;
+	}
+	void set_moving_workarea_for_building(Widelands::Serial);
+
 protected:
 	// For referencing the items in mapviewmenu_
 	enum class MapviewMenuEntry { kMinimap, kIncreaseZoom, kDecreaseZoom, kResetZoom };
@@ -347,6 +352,8 @@ private:
 	// The currently enabled work area previews
 	std::unordered_set<std::unique_ptr<WorkareaPreview>> workarea_previews_;
 	std::unique_ptr<Workareas> workareas_cache_;
+
+	Widelands::Serial moving_workarea_for_building_;
 
 	std::unique_ptr<Notifications::Subscriber<GraphicResolutionChanged>>
 	   graphic_resolution_changed_subscriber_;

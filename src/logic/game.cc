@@ -885,6 +885,11 @@ void Game::send_player_toggle_mute(const Building& b, bool all) {
 	   new CmdToggleMuteMessages(get_gametime(), b.owner().player_number(), b, all));
 }
 
+void Game::send_player_move_workarea(PlayerNumber p, Serial b, const Coords& c) {
+	send_player_command(
+	   new CmdMoveWorkarea(get_gametime(), p, b, c));
+}
+
 int Game::propose_trade(const Trade& trade) {
 	// TODO(sirver,trading): Check if a trade is possible (i.e. if there is a
 	// path between the two markets);
