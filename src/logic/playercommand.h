@@ -922,7 +922,6 @@ struct CmdMoveWorkarea : PlayerCommand {
 	}
 
 	void execute(Game& game) override;
-
 	explicit CmdMoveWorkarea(StreamRead& des);
 	void serialize(StreamWrite& ser) override;
 
@@ -934,6 +933,29 @@ struct CmdMoveWorkarea : PlayerCommand {
 private:
 	Serial building_;
 	Coords position_;
+};
+
+struct CmdPickCustomStartingPosition : PlayerCommand {
+	CmdPickCustomStartingPosition(uint32_t t, PlayerNumber p, const Coords& c)
+	   : PlayerCommand(t, p), coords_(c) {
+	}
+
+	QueueCommandTypes id() const override {
+		return QueueCommandTypes::kPickCustomStartingPosition;
+	}
+
+	void execute(Game& game) override;
+
+	explicit CmdPickCustomStartingPosition(StreamRead& des);
+	void serialize(StreamWrite& ser) override;
+
+	CmdPickCustomStartingPosition() : PlayerCommand() {
+	}
+	void write(FileWrite&, EditorGameBase&, MapObjectSaver&) override;
+	void read(FileRead&, EditorGameBase&, MapObjectLoader&) override;
+
+private:
+	Coords coords_;
 };
 
 }  // namespace Widelands
