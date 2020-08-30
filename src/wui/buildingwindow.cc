@@ -377,6 +377,14 @@ void BuildingWindow::create_capsbuttons(UI::Box* capsbuttons, Widelands::Buildin
 			wa_info = &building->descr().workarea_info();
 		}
 		if (!wa_info->empty()) {
+			if (building->can_move_workarea_to(building->get_position()) && igbase()->can_act(building->owner().player_number())) {
+				move_workarea_ =
+				   new UI::Button(capsbuttons, "move_workarea", 0, 0, 34, 34, UI::ButtonStyle::kWuiMenu,
+					              g_image_cache->get("images/wui/buildings/move_workarea.png"));
+				move_workarea_->sigclicked.connect([this]() { move_workarea(); });
+				capsbuttons->add(move_workarea_);
+			}
+
 			toggle_workarea_ =
 			   new UI::Button(capsbuttons, "workarea", 0, 0, 34, 34, UI::ButtonStyle::kWuiMenu,
 			                  g_image_cache->get("images/wui/buildings/toggle_workarea.png"));
@@ -385,13 +393,6 @@ void BuildingWindow::create_capsbuttons(UI::Box* capsbuttons, Widelands::Buildin
 			capsbuttons->add(toggle_workarea_);
 			configure_workarea_button();
 			set_fastclick_panel(toggle_workarea_);
-
-			if (building->can_move_workarea_to(building->get_position()) && igbase()->can_act(building->owner().player_number())) {
-				move_workarea_ =
-				   new UI::Button(capsbuttons, "move_workarea", 0, 0, 34, 34, UI::ButtonStyle::kWuiMenu,
-					              g_image_cache->get("images/wui/buildings/move_workarea.png"));
-				move_workarea_->sigclicked.connect([this]() { move_workarea(); });
-			}
 		}
 
 		if (igbase()->get_display_flag(InteractiveBase::dfDebug)) {
