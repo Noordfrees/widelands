@@ -57,7 +57,7 @@ BuildingWindow::BuildingWindow(InteractiveGameBase& parent,
      building_(&b),
      building_descr_for_help_(&descr),
      building_position_(b.get_position()),
-     showing_workarea_(false),
+     showing_workarea_(nullptr),
      avoid_fastclick_(avoid_fastclick),
      expeditionbtn_(nullptr),
      mute_this_(nullptr),
@@ -85,7 +85,7 @@ void BuildingWindow::on_building_note(const Widelands::NoteBuilding& note) {
 		case Widelands::NoteBuilding::Action::kChanged:
 			if (!is_dying_) {
 				const std::string active_tab = tabs_->tabs()[tabs_->active()]->get_name();
-				init(true, showing_workarea_);
+				init(true, showing_workarea_ != nullptr);
 				tabs_->activate(active_tab);
 			}
 			break;
@@ -93,6 +93,12 @@ void BuildingWindow::on_building_note(const Widelands::NoteBuilding& note) {
 		case Widelands::NoteBuilding::Action::kStartWarp:
 			igbase()->add_wanted_building_window(
 			   building_position_, get_pos(), is_minimal(), is_pinned());
+			break;
+		case Widelands::NoteBuilding::Action::kWorkareaMoved:
+			if (showing_workarea_ != nullptr) {
+				hide_workarea(false);
+				show_workarea();
+			}
 			break;
 		default:
 			break;
@@ -106,6 +112,7 @@ void BuildingWindow::init(bool avoid_fastclick, bool workarea_preview_wanted) {
 	capscache_ = 0;
 	caps_setup_ = false;
 	toggle_workarea_ = nullptr;
+	move_workarea_ = nullptr;
 	avoid_fastclick_ = avoid_fastclick;
 
 	vbox_.reset(new UI::Box(this, 0, 0, UI::Box::Vertical));
@@ -375,6 +382,13 @@ void BuildingWindow::create_capsbuttons(UI::Box* capsbuttons, Widelands::Buildin
 			capsbuttons->add(toggle_workarea_);
 			configure_workarea_button();
 			set_fastclick_panel(toggle_workarea_);
+
+			if (building->can_move_workarea_to(building->get_position()) && igbase()->can_act(building->owner().player_number())) {
+				move_workarea_ =
+				   new UI::Button(capsbuttons, "move_workarea", 0, 0, 34, 34, UI::ButtonStyle::kWuiMenu,
+					              g_image_cache->get("images/wui/buildings/move_workarea.png"));
+				move_workarea_->sigclicked.connect([this]() { move_workarea(); });
+			}
 		}
 
 		if (igbase()->get_display_flag(InteractiveBase::dfDebug)) {
@@ -547,7 +561,7 @@ void BuildingWindow::act_debug() {
  * Show the building's workarea (if it has one).
  */
 void BuildingWindow::show_workarea() {
-	if (showing_workarea_) {
+	if (showing_workarea_ != nullptr) {
 		return;  // already shown, nothing to be done
 	}
 	Widelands::Building* building = building_.get(parent_->egbase());
@@ -564,8 +578,8 @@ void BuildingWindow::show_workarea() {
 	if (workarea_info->empty()) {
 		return;
 	}
-	igbase()->show_workarea(*workarea_info, building_position_);
-	showing_workarea_ = true;
+	showing_workarea_.reset(new Widelands::Coords(building->get_workarea_center()));
+	igbase()->show_workarea(*workarea_info, *showing_workarea_);
 
 	configure_workarea_button();
 }
@@ -575,12 +589,12 @@ void BuildingWindow::show_workarea() {
  * is 'true'.
  */
 void BuildingWindow::hide_workarea(bool configure_button) {
-	if (!showing_workarea_) {
+	if (showing_workarea_ == nullptr) {
 		return;  // already hidden, nothing to be done
 	}
 
-	igbase()->hide_workarea(building_position_, false);
-	showing_workarea_ = false;
+	igbase()->hide_workarea(*showing_workarea_, false);
+	showing_workarea_.reset();
 	if (configure_button) {
 		configure_workarea_button();
 	}
@@ -591,7 +605,7 @@ void BuildingWindow::hide_workarea(bool configure_button) {
  */
 void BuildingWindow::configure_workarea_button() {
 	if (toggle_workarea_) {
-		if (showing_workarea_) {
+		if (showing_workarea_ != nullptr) {
 			toggle_workarea_->set_tooltip(_("Hide work area"));
 			toggle_workarea_->set_perm_pressed(true);
 		} else {
@@ -599,13 +613,45 @@ void BuildingWindow::configure_workarea_button() {
 			toggle_workarea_->set_perm_pressed(false);
 		}
 	}
+	if (move_workarea_) {
+		if (Widelands::Building* building = building_.get(parent_->egbase())) {
+			InteractivePlayer& ipl = dynamic_cast<InteractivePlayer&>(*parent_);
+			move_workarea_->set_perm_pressed(ipl.get_moving_workarea_for_building() == building);
+			move_workarea_->set_tooltip(ipl.get_moving_workarea_for_building() == building ?
+					_("Cancel moving work area") : _("Move work area"));
+		}
+	}
 }
 
 void BuildingWindow::toggle_workarea() {
-	if (showing_workarea_) {
+	if (showing_workarea_ != nullptr) {
 		hide_workarea(true);
 	} else {
 		show_workarea();
+	}
+}
+
+void BuildingWindow::move_workarea() {
+	if (Widelands::Building* building = building_.get(parent_->egbase())) {
+		InteractivePlayer& ipl = dynamic_cast<InteractivePlayer&>(*parent_);
+		if (ipl.get_moving_workarea_for_building() == building) {
+			ipl.set_moving_workarea_for_building(nullptr);
+		} else {
+			BuildingWindow* other = nullptr;
+			if (const Widelands::Building* b = ipl.get_moving_workarea_for_building()) {
+				UI::UniqueWindow::Registry& registry =
+				   ipl.unique_windows().get_registry((boost::format("building_%d") % b->serial()).str());
+				other = dynamic_cast<BuildingWindow*>(registry.window);
+			}
+
+			ipl.set_moving_workarea_for_building(building);
+			show_workarea();
+
+			if (other) {
+				other->configure_workarea_button();
+			}
+		}
+		configure_workarea_button();
 	}
 }
 

@@ -206,7 +206,7 @@ struct NoteBuilding {
 
 	Serial serial;
 
-	enum class Action { kChanged, kStartWarp, kFinishWarp, kWorkersChanged };
+	enum class Action { kChanged, kStartWarp, kFinishWarp, kWorkersChanged, kWorkareaMoved };
 	const Action action;
 
 	NoteBuilding(Serial init_serial, const Action& init_action)
@@ -353,6 +353,15 @@ public:
 		return seeing_;
 	}
 
+	const Coords& get_workarea_center() const {
+		return workarea_center_;
+	}
+	void set_workarea_center(const Coords&);
+	virtual bool can_move_workarea_to(const Coords&) const {
+		// currently only productionsites may do this
+		return false;
+	}
+
 protected:
 	// Updates 'statistics_string' with the string that should be displayed for
 	// this building right now. Overwritten by child classes.
@@ -406,6 +415,8 @@ private:
 
 	bool mute_messages_;
 	bool is_destruction_blocked_;
+
+	Coords workarea_center_;
 };
 }  // namespace Widelands
 

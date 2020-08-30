@@ -912,6 +912,30 @@ private:
 	bool all_;
 };
 
+struct CmdMoveWorkarea : PlayerCommand {
+	CmdMoveWorkarea(uint32_t t, PlayerNumber p, const Building& b, const Coords& c)
+	   : PlayerCommand(t, p), building_(b.serial()), position_(c) {
+	}
+
+	QueueCommandTypes id() const override {
+		return QueueCommandTypes::kMoveWorkarea;
+	}
+
+	void execute(Game& game) override;
+
+	explicit CmdMoveWorkarea(StreamRead& des);
+	void serialize(StreamWrite& ser) override;
+
+	CmdMoveWorkarea() : PlayerCommand() {
+	}
+	void write(FileWrite&, EditorGameBase&, MapObjectSaver&) override;
+	void read(FileRead&, EditorGameBase&, MapObjectLoader&) override;
+
+private:
+	Serial building_;
+	Coords position_;
+};
+
 }  // namespace Widelands
 
 #endif  // end of include guard: WL_LOGIC_PLAYERCOMMAND_H

@@ -311,7 +311,7 @@ bool Worker::run_breed(Game& game, State& state, const Action& action) {
  *
  * Predicates:
  * radius:\<dist\>
- * Find objects within the given radius
+ * Find objects within the given radius. The area’s center is always the building’s workarea center.
  *
  * attrib:\<attribute\>  (optional)
  * Find objects with the given attribute
@@ -327,7 +327,7 @@ bool Worker::run_findobject(Game& game, State& state, const Action& action) {
 	CheckStepWalkOn cstep(descr().movecaps(), false);
 
 	const Map& map = game.map();
-	Area<FCoords> area(map.get_fcoords(get_position()), 0);
+	Area<FCoords> area(map.get_fcoords(dynamic_cast<Building&>(*get_location(game)).get_workarea_center()), 0);
 	bool found_reserved = false;
 
 	for (;; ++area.radius) {
@@ -493,6 +493,7 @@ int16_t Worker::findspace_helper_for_forester(const Coords& pos, const Map& map,
  * Predicates:
  * radius:\<dist\>
  * Search for nodes within the given radius around the worker.
+ * The area’s center is always the building’s workarea center.
  *
  * size:[any|build|small|medium|big|mine|port]
  * Search for fields with the given amount of space.
@@ -558,7 +559,7 @@ bool Worker::run_findspace(Game& game, State& state, const Action& action) {
 
 	CheckStepDefault cstep(descr().movecaps());
 
-	Area<FCoords> area(map.get_fcoords(get_position()), action.iparam1);
+	Area<FCoords> area(map.get_fcoords(dynamic_cast<Building&>(*get_location(game)).get_workarea_center()), action.iparam1);
 
 	FindNodeAnd functor;
 	functor.add(FindNodeSize(static_cast<FindNodeSize::Size>(action.iparam2)));

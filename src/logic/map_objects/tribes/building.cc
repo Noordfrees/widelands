@@ -432,6 +432,7 @@ bool Building::init(EditorGameBase& egbase) {
 		map.get_trn(position_, &neighb);
 		set_position(egbase, neighb);
 	}
+	workarea_center_ = position_;
 
 	// Make sure the flag is there
 
@@ -651,6 +652,13 @@ void Building::leave_skip(Game&, Worker& w) {
 
 	if (it != leave_queue_.end()) {
 		leave_queue_.erase(it);
+	}
+}
+
+void Building::set_workarea_center(const Coords& c) {
+	if (can_move_workarea_to(c)) {
+		workarea_center_ = c;
+		Notifications::publish(NoteBuilding(serial(), NoteBuilding::Action::kWorkareaMoved));
 	}
 }
 

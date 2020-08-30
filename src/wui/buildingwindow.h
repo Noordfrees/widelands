@@ -80,6 +80,7 @@ protected:
 	void show_workarea();
 	void hide_workarea(bool configure_button);
 	void toggle_workarea();
+	void move_workarea();
 	void configure_workarea_button();
 	void act_start_stop();
 	void act_start_or_cancel_expedition();
@@ -126,13 +127,14 @@ private:
 
 	UI::Box* capsbuttons_;  ///< \ref UI::Box that contains capabilities buttons
 	UI::Button* toggle_workarea_;
+	UI::Button* move_workarea_;
 
 	//  capabilities that were last used in setting up the caps panel
 	uint32_t capscache_;
 	Widelands::PlayerNumber capscache_player_number_;
 	bool caps_setup_;
 
-	bool showing_workarea_;
+	std::unique_ptr<Widelands::Coords> showing_workarea_;
 	bool avoid_fastclick_;
 
 	UI::Button* expeditionbtn_;

@@ -37,6 +37,7 @@
 #include "logic/map_objects/tribes/tribe_descr.h"
 #include "logic/message_queue.h"
 #include "logic/player.h"
+#include "logic/playercommand.h"
 #include "ui_basic/unique_window.h"
 #include "wui/building_statistics_menu.h"
 #include "wui/debugconsole.h"
@@ -203,7 +204,8 @@ InteractivePlayer::InteractivePlayer(Widelands::Game& g,
                      UI::DropdownType::kPictorialMenu,
                      UI::PanelStyle::kWui,
                      UI::ButtonStyle::kWuiPrimary),
-     grid_marker_pic_(g_image_cache->get("images/wui/overlays/grid_marker.png")) {
+     grid_marker_pic_(g_image_cache->get("images/wui/overlays/grid_marker.png")),
+     moving_workarea_for_building_(nullptr) {
 	add_main_menu();
 
 	set_display_flag(InteractiveBase::dfShowWorkareaOverlap, true);  // enable by default
@@ -452,6 +454,15 @@ void InteractivePlayer::draw_map_view(MapView* given_map_view, RenderTarget* dst
 	const uint32_t gametime = gbase.get_gametime();
 
 	Workareas workareas = get_workarea_overlays(map);
+	if (moving_workarea_for_building_ && moving_workarea_for_building_->can_move_workarea_to(get_sel_pos().node)) {
+		// display a workarea preview around the mouse cursor
+		workareas.push_back(get_workarea_overlay(map, WorkareaPreview {
+			get_sel_pos().node,
+			&moving_workarea_for_building_->descr().workarea_info(),
+			std::map<Widelands::TCoords<>, uint32_t>()
+		}));
+	}
+
 	FieldsToDraw* fields_to_draw = given_map_view->draw_terrain(gbase, &plr, workareas, false, dst);
 	const auto& road_building_s = road_building_steepness_overlays();
 
@@ -542,6 +553,18 @@ void InteractivePlayer::draw_map_view(MapView* given_map_view, RenderTarget* dst
 	}
 }
 
+void InteractivePlayer::set_moving_workarea_for_building(const Widelands::Building* b) {
+	if (b) {
+		if (in_road_building_mode()) {
+			abort_build_road();
+		}
+		set_sel_picture(g_image_cache->get("images/ui_basic/fsel_workarea.png"));
+	} else {
+		unset_sel_picture();
+	}
+	moving_workarea_for_building_ = b;
+}
+
 void InteractivePlayer::popup_message(Widelands::MessageId const id,
                                       const Widelands::Message& message) {
 	message_menu_.create();
@@ -562,6 +585,14 @@ Widelands::PlayerNumber InteractivePlayer::player_number() const {
 void InteractivePlayer::node_action(const Widelands::NodeAndTriangle<>& node_and_triangle) {
 	const Map& map = egbase().map();
 	if (player().is_seeing(Map::get_index(node_and_triangle.node, map.get_width()))) {
+		if (moving_workarea_for_building_) {
+			if (moving_workarea_for_building_->can_move_workarea_to(node_and_triangle.node)) {
+				game().send_player_command(new Widelands::CmdMoveWorkarea(game().get_gametime(), player_number(), *moving_workarea_for_building_, node_and_triangle.node));
+				set_moving_workarea_for_building(nullptr);
+			}
+			return;
+		}
+
 		// Special case for buildings
 		if (upcast(Building, building, map.get_immovable(node_and_triangle.node))) {
 			if (can_see(building->owner().player_number())) {

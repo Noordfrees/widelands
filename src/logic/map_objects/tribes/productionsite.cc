@@ -1168,6 +1168,13 @@ void ProductionSite::set_default_anim(const std::string& anim) {
 	default_anim_ = anim;
 }
 
+bool ProductionSite::can_move_workarea_to(const Coords& c) const {
+	// If there are multiple programs with different radius, the distance within
+	// which we may move the workarea is dictated by the *lowest* radius.
+	const WorkareaInfo& info = descr().workarea_info();
+	return !info.empty() && owner().egbase().map().calc_distance(c, get_position()) <= info.begin()->first;
+}
+
 constexpr uint32_t kStatsEntireDuration = 5 * 60 * 1000;  // statistic evaluation base
 constexpr uint32_t kStatsDurationCap = 180 * 1000;  // This is highest allowed program duration
 

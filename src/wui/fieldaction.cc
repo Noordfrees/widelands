@@ -964,8 +964,8 @@ void FieldActionWindow::building_icon_mouse_in(const Widelands::DescriptionIndex
 							               kOverlapColorDefault :
 							               kOverlapColorPale;
 						}
-						ibase().show_workarea(wa, mr.location(), colors);
-						overlapping_workareas_.insert(mr.location());
+						ibase().show_workarea(wa, bld->get_workarea_center(), colors);
+						overlapping_workareas_.insert(bld->get_workarea_center());
 					}
 				}
 			}

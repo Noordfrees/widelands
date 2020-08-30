@@ -1518,7 +1518,7 @@ void ProductionProgram::ActMine::execute(Game& game, ProductionSite& ps) const {
 
 	{
 		MapRegion<Area<FCoords>> mr(
-		   *map, Area<FCoords>(map->get_fcoords(ps.get_position()), workarea_));
+		   *map, Area<FCoords>(map->get_fcoords(ps.get_workarea_center()), workarea_));
 		do {
 			DescriptionIndex fres = mr.location().field->get_resources();
 			ResourceAmount amount = mr.location().field->get_resources_amount();
@@ -1569,7 +1569,7 @@ void ProductionProgram::ActMine::execute(Game& game, ProductionSite& ps) const {
 
 		{
 			MapRegion<Area<FCoords>> mr(
-			   *map, Area<FCoords>(map->get_fcoords(ps.get_position()), workarea_));
+			   *map, Area<FCoords>(map->get_fcoords(ps.get_workarea_center()), workarea_));
 			do {
 				DescriptionIndex fres = mr.location().field->get_resources();
 				ResourceAmount amount = mr.location().field->get_resources_amount();
@@ -1998,7 +1998,7 @@ void ProductionProgram::ActConstruct::execute(Game& game, ProductionSite& psite)
 	const Map& map = game.map();
 	std::vector<ImmovableFound> immovables;
 	CheckStepWalkOn cstep(MOVECAPS_WALK, true);
-	Area<FCoords> area(map.get_fcoords(psite.get_position()), radius);
+	Area<FCoords> area(map.get_fcoords(psite.get_workarea_center()), radius);
 	if (map.find_reachable_immovables(game, area, &immovables, cstep, FindImmovableByDescr(descr))) {
 		state.objvar = immovables[0].object;
 

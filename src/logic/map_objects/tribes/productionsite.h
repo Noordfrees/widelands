@@ -370,6 +370,8 @@ public:
 
 	const BuildingSettings* create_building_settings() const override;
 
+	bool can_move_workarea_to(const Coords&) const override;
+
 protected:
 	void update_statistics_string(std::string* statistics) override;
 

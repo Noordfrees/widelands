@@ -56,7 +56,7 @@
 namespace Widelands {
 
 // Overall package version
-constexpr uint16_t kCurrentPacketVersion = 6;
+constexpr uint16_t kCurrentPacketVersion = 7;
 
 // Building type package versions
 constexpr uint16_t kCurrentPacketVersionDismantlesite = 1;
@@ -136,6 +136,11 @@ void MapBuildingdataPacket::read(FileSystem& fs,
 					building.leave_time_ = fr.unsigned_32();
 
 					building.mute_messages_ = packet_version >= 6 && fr.unsigned_8();
+
+					if (packet_version >= 7) {
+						building.workarea_center_.x = fr.unsigned_16();
+						building.workarea_center_.y = fr.unsigned_16();
+					}
 
 					if (uint32_t const leaver_serial = fr.unsigned_32()) {
 						try {
@@ -954,6 +959,9 @@ void MapBuildingdataPacket::write(FileSystem& fs, EditorGameBase& egbase, MapObj
 			}
 			fw.unsigned_32(building->leave_time_);
 			fw.unsigned_8(building->mute_messages_ ? 1 : 0);
+			fw.unsigned_16(building->workarea_center_.x);
+			fw.unsigned_16(building->workarea_center_.y);
+
 			if (MapObject const* const o = building->leave_allow_.get(egbase)) {
 				assert(mos.is_object_known(*o));
 				fw.unsigned_32(mos.get_object_file_index(*o));

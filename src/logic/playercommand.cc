@@ -2058,4 +2058,51 @@ void CmdToggleMuteMessages::write(FileWrite& fw, EditorGameBase& egbase, MapObje
 	fw.unsigned_8(all_);
 }
 
+// CmdMoveWorkarea
+void CmdMoveWorkarea::execute(Game& game) {
+	if (upcast(Building, b, game.objects().get_object(building_))) {
+		b->set_workarea_center(position_);
+	}
+}
+
+CmdMoveWorkarea::CmdMoveWorkarea(StreamRead& des) : PlayerCommand(0, des.unsigned_8()) {
+	building_ = des.unsigned_32();
+	position_.x = des.unsigned_16();
+	position_.y = des.unsigned_16();
+}
+
+void CmdMoveWorkarea::serialize(StreamWrite& ser) {
+	write_id_and_sender(ser);
+	ser.unsigned_32(building_);
+	ser.unsigned_16(position_.x);
+	ser.unsigned_16(position_.y);
+}
+
+constexpr uint8_t kCurrentPacketVersionCmdMoveWorkarea = 1;
+
+void CmdMoveWorkarea::read(FileRead& fr, EditorGameBase& egbase, MapObjectLoader& mol) {
+	try {
+		uint8_t packet_version = fr.unsigned_8();
+		if (packet_version == kCurrentPacketVersionCmdMoveWorkarea) {
+			PlayerCommand::read(fr, egbase, mol);
+			building_ = fr.unsigned_32();
+			position_.x = fr.unsigned_16();
+			position_.y = fr.unsigned_16();
+		} else {
+			throw UnhandledVersionError(
+			   "CmdMoveWorkarea", packet_version, kCurrentPacketVersionCmdMoveWorkarea);
+		}
+	} catch (const std::exception& e) {
+		throw GameDataError("Cmd_MoveWorkarea: %s", e.what());
+	}
+}
+
+void CmdMoveWorkarea::write(FileWrite& fw, EditorGameBase& egbase, MapObjectSaver& mos) {
+	fw.unsigned_8(kCurrentPacketVersionCmdMoveWorkarea);
+	PlayerCommand::write(fw, egbase, mos);
+	fw.unsigned_32(mos.get_object_file_index_or_zero(egbase.objects().get_object(building_)));
+	fw.unsigned_16(position_.x);
+	fw.unsigned_16(position_.y);
+}
+
 }  // namespace Widelands
