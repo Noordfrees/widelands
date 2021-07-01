@@ -17,21 +17,24 @@ descriptions:new_productionsite_type {
       log = 2,
    },
 
+   animation_directory = dirname,
    spritesheets = {
       idle = {
-         directory = dirname,
-         basename = "idle",
          hotspot = {50, 46},
          fps = 4,
          frames = 4,
          columns = 2,
          rows = 2
+      },
+      build = {
+         hotspot = {39, 46},
+         frames = 4,
+         columns = 2,
+         rows = 2,
       }
    },
    animations = {
       unoccupied = {
-         directory = dirname,
-         basename = "unoccupied",
          hotspot = {39, 46}
       }
    },
