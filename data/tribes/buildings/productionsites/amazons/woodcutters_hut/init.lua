@@ -34,6 +34,14 @@ descriptions:new_productionsite_type {
       idle = { hotspot = {41, 46}},
       unoccupied = { hotspot = {39, 46}}
    },
+   spritesheets = {
+      build = {
+         hotspot = {39, 46},
+         frames = 4,
+         columns = 2,
+         rows = 2,
+      }
+   },
 
    aihints = {},
 
