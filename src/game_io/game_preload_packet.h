@@ -38,16 +38,20 @@ struct GamePreloadPacket : public GameDataPacket {
 	void read(FileSystem&, Game&, MapObjectLoader* = nullptr) override;
 	void write(FileSystem&, Game&, MapObjectSaver* = nullptr) override;
 
-	char const* get_mapname() const {
-		return mapname_.c_str();
+	const std::string& get_mapname() const {
+		return mapname_;
 	}
-	std::string get_background() const {
+	const std::string& get_mapname_textdomain() const {
+		return mapname_textdomain_;
+	}
+
+	const std::string& get_background() const {
 		return background_;
 	}
-	std::string get_background_theme() const {
+	const std::string& get_background_theme() const {
 		return background_theme_;
 	}
-	std::string get_win_condition() const {
+	const std::string& get_win_condition() const {
 		return win_condition_;
 	}
 	std::string get_localized_win_condition() const;
@@ -57,14 +61,14 @@ struct GamePreloadPacket : public GameDataPacket {
 	uint8_t get_player_nr() const {
 		return player_nr_;
 	}
-	std::string get_version() const {
+	const std::string& get_version() const {
 		return version_;
 	}
 
 	uint8_t get_number_of_players() const {
 		return number_of_players_;
 	}
-	std::string get_minimap_path() const {
+	const std::string& get_minimap_path() const {
 		return minimap_path_;
 	}
 
@@ -121,6 +125,7 @@ private:
 	GameController::GameType gametype_ = GameController::GameType::kUndefined;
 	// Required add-ons with the recommended version
 	AddOns::AddOnRequirements required_addons_;
+	std::string win_condition_textdomain_, mapname_textdomain_;
 };
 }  // namespace Widelands
 

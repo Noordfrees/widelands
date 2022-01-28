@@ -1,4 +1,25 @@
+/*
+ * Copyright (C) 2002-2022 by the Widelands Development Team
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ */
+
 #include "wui/savegamedata.h"
+
+#include <memory>
 
 #include "base/i18n.h"
 #include "base/string.h"
@@ -29,9 +50,15 @@ void SavegameData::set_gametime(uint32_t input_gametime) {
 void SavegameData::set_nrplayers(Widelands::PlayerNumber input_nrplayers) {
 	nrplayers = as_string(static_cast<unsigned int>(input_nrplayers));
 }
-void SavegameData::set_mapname(const std::string& input_mapname) {
-	// TODO(Nordfriese): If the map was defined by an add-on, use that add-on's textdomain
-	// instead (if available). We'll need to store the add-on name in the savegame for this.
+void SavegameData::set_mapname(const std::string& input_mapname, const std::string& textdomain) {
+	if (!textdomain.empty()) {
+		std::unique_ptr<i18n::GenericTextdomain> td(AddOns::create_textdomain_for_addon(textdomain));
+		if (td != nullptr) {
+			mapname = _(input_mapname);
+			return;
+		}
+	}
+
 	i18n::Textdomain td("maps");
 	mapname = _(input_mapname);
 }

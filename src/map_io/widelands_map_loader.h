@@ -57,7 +57,6 @@ struct WidelandsMapLoader : public MapLoader {
 
 private:
 	FileSystem* fs_;  // not owned (owned by Map).
-	std::string filename_;
 	std::unique_ptr<MapObjectLoader> mol_;
 	std::string old_world_name_;
 };

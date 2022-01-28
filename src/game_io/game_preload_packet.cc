@@ -41,11 +41,18 @@ namespace Widelands {
 constexpr uint16_t kCurrentPacketVersion = 9;
 constexpr const char* kMinimapFilename = "minimap.png";
 
-// Win condition localization can come from the 'widelands' or 'win_conditions' textdomain.
+// Win condition localization can come from the 'widelands' or
+// 'win_conditions' textdomain or an add-on's textdomain.
 std::string GamePreloadPacket::get_localized_win_condition() const {
+	if (!win_condition_textdomain_.empty()) {
+		std::unique_ptr<i18n::GenericTextdomain> td(
+		   AddOns::create_textdomain_for_addon(win_condition_textdomain_));
+		if (td != nullptr) {
+			return _(win_condition_);
+		}
+	}
+
 	const std::string result = _(win_condition_);
-	// TODO(Nordfriese): If the win condition is defined in an add-on, we should store that
-	// add-on's textdomain in the file and use it instead for retrieving the translation
 	i18n::Textdomain td("win_conditions");
 	return _(result);
 }
@@ -158,6 +165,13 @@ void GamePreloadPacket::write(FileSystem& fs, Game& game, MapObjectSaver* const)
 		}
 	}
 	s.set_string("addons", addons);
+
+	if (NOCOM) {
+		s.set_string("win_condition_textdomain", NOCOM);
+	}
+	if (NOCOM) {
+		s.set_string("mapname_textdomain", NOCOM);
+	}
 
 	prof.write("preload", false, fs);
 
