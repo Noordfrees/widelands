@@ -19,7 +19,6 @@ wl.Descriptions():new_tribe {
    military_capacity_script = path.dirname(__file__) .. "military_capacity.lua",
    animation_directory = image_dirname,
    animations = {
-      frontier = { hotspot = {1, 19} },
       bridge_normal_e = { hotspot = {-2, 12} },
       bridge_busy_e = { hotspot = {-2, 12} },
       bridge_normal_se = { hotspot = {5, 2} },
@@ -28,12 +27,18 @@ wl.Descriptions():new_tribe {
       bridge_busy_sw = { hotspot = {36, 3} }
    },
    spritesheets = {
+      frontier = {
+         frames = 1,
+         columns = 1,
+         rows = 1,
+         hotspot = { 6, 19 }
+      },
       flag = {
          fps = 10,
          frames = 16,
-         rows = 4,
-         columns = 4,
-         hotspot = { 11, 35 }
+         columns = 8,
+         rows = 2,
+         hotspot = { 12, 40 }
       },
    },
 
@@ -1294,10 +1299,10 @@ wl.Descriptions():new_tribe {
                -- TRANSLATORS: DO NOT TRANSLATE, but you may transliterate into non-latin fonts.
                --    Classical Latin quote meaning:
                --    "The fish stinks first at the head."
-               _("Piscis primum a capite foetet"),
+               _("Piscis primum a capite foetet."),
                -- TRANSLATORS: Lore helptext for an empire production site:  Fisher's House
                --    Translation for the classical Latin quote:
-               --    "Piscis primum a capite foetet"
+               --    "Piscis primum a capite foetet."
                _("The fish stinks first at the head.")
             ),
             -- TRANSLATORS: Lore author helptext for an empire production site: Fisher's House
@@ -2074,9 +2079,9 @@ wl.Descriptions():new_tribe {
                _("Who watches the watchmen?")
             ),
             -- TRANSLATORS: Lore author helptext for an empire production site: Sentry
-            --              (the limes was the border defence system of fortifications of the Roman Empire)
+            --              (the Limes was the border defence system of fortifications of the Roman Empire)
             lore_author = pgettext("empire_building",
-               "Saledus warning Lutius that sentries are not adequate protection for the limes"
+               "Saledus warning Lutius that sentries are not adequate protection for the Limes"
             ),
             -- TRANSLATORS: Purpose helptext for an empire military site: Sentry
             purpose = pgettext("empire_building", "Garrisons soldiers to expand your territory."),
