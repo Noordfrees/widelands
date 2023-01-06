@@ -1,0 +1,15 @@
+# Automatically created by Widelands 1.2~git26007 (dae1f87@master) Release
+
+[global]
+packet_version="1"
+map_w="256"
+map_h="256"
+nr_players="2"
+name=_"Kattegat"
+author="Nordfriese"
+descr=_"Claus and his allies invade their enemies’ homeland to damage their trade routes. Will they be fast and thorough enough to tip the odds of war in their favour?"
+hint=
+theme="winter"
+tags="ferries,seafaring,unbalanced"
+addons=
+background="campaigns/fri06.wmf/pics/background.jpg"
