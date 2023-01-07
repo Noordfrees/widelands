@@ -35,6 +35,7 @@ launch_expedition(flagship_field[1], flagship_field[2], {
          log = 4,
          frisians_brickmaker = 1,
          frisians_reed_farmer = 1,
+         frisians_forester = 2,
       })
 launch_expedition(83, 21, {
          granite = 1,
@@ -43,7 +44,7 @@ launch_expedition(83, 21, {
          log = 2,
          frisians_stonemason = 2,
          frisians_woodcutter = 3,
-         frisians_forester = 2,
+         frisians_forester = 3,
       })
 launch_expedition(90, 23, {
          iron = 2,
@@ -56,6 +57,7 @@ launch_expedition(90, 23, {
          frisians_blacksmith = 1,
          frisians_smoker = 1,
          frisians_fisher = 1,
+         frisians_woodcutter = 2,
       })
 
 if difficulty < 3 then

@@ -4,7 +4,6 @@
 
 include "scripting/richtext_scenarios.lua"
 
--- TODO(Nordfriese): Need new images for them all
 function claus(title, text)
    return speech ("map:claus.png", "1CC200", title, text)
 end

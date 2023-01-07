@@ -48,6 +48,21 @@ function receive_ships()
    end
 end
 
+function spot_enemy_ship()
+   while true do
+      sleep(500)
+      for _,ship in ipairs(p2:get_ships()) do
+         if p1:sees_field(ship.field) then
+            local prior_center = scroll_to_field(ship.field)
+            sleep(1000)
+            campaign_message_box(enemy_ship_spotted)
+            scroll_to_map_pixel(prior_center)
+            return
+         end
+      end
+   end
+end
+
 function mission_thread()
    local perm_hidden_fringe = 10
    for x = -perm_hidden_fringe, perm_hidden_fringe do
@@ -62,23 +77,37 @@ function mission_thread()
    end
 
    campaign_message_box(intro_1)
-   -- NOCOM story
+   campaign_message_box(intro_2)
+   campaign_message_box(intro_3)
 
    include "map:scripting/starting_conditions.lua"
    run(receive_ships)
    run(launch_ships)
+   run(spot_enemy_ship)
 
-   p1.see_all=true  -- NOCOM
+   sleep(2000)
+   campaign_message_box(intro_4)
+   o_explore = add_campaign_objective(obj_explore_and_land)
 
-   -- NOCOM story
-
-   local o = add_campaign_objective(obj_explore_and_land)
    while #p1:get_buildings("frisians_port") == 0 do sleep(500) end
-   p1:get_buildings("frisians_port")[1]:set_soldiers({[harke] = 1, [eschel] = 1})
-   set_objective_done(o)
 
-   -- NOCOM story
-   o = add_campaign_objective(obj_wood)
+   local first_port = p1:get_buildings("frisians_port")[1]
+   first_port:set_soldiers({[harke] = 1, [eschel] = 1})
+   scroll_to_field(first_port.fields[1])
+
+   sleep(1000)
+   campaign_message_box(first_port_built_1)
+   local o_wood = add_campaign_objective(obj_wood)
+   sleep(1000)
+   campaign_message_box(first_port_built_2)
+   add_campaign_objective(obj_soldiers)
+
+   run(function()
+      while #p1:get_buildings("frisians_port") < 2 do sleep(2000) end
+      set_objective_done(o_explore)
+      campaign_message_box(second_port_built)
+   end)
+
    while not check_for_buildings(p1, {
       frisians_foresters_house = 5,
       frisians_woodcutters_house = 5,
@@ -87,13 +116,11 @@ function mission_thread()
       frisians_clay_pit = 1,
       frisians_well = 1,
    }) do sleep(1000) end
-   set_objective_done(o)
+   set_objective_done(o_wood)
 
-   o = add_campaign_objective(obj_block)
+   local o_block = add_campaign_objective(obj_block)
    while starting_port.fleet == end_port.fleet do sleep(8000) end
-   set_objective_done(o)
-
-   -- NOCOM story
+   set_objective_done(o_block)
 
    local data = {
       harke = false,
@@ -123,6 +150,8 @@ function mission_thread()
    end
    game:save_campaign_data("frisians", "fri06", data)
    p1:mark_scenario_as_solved("fri06.wmf")
+
+   campaign_message_box(victory_1)
    -- END OF MISSION 6
 end
 
