@@ -25,6 +25,27 @@ local objective_message_height = 550
 -- objectives
 -- ===========
 
+obj_explore_and_land = {
+   name = "explore_and_land",
+   title =_("Explore"),
+   number = 1,
+   body = objective_text(_("Explore the Kattegat."),
+      li(_([[Explore the area with your expedition ships.]])) ..
+      li(_([[When you have seen enough, build at least one port.]]))
+   ),
+}
+
+obj_wood = {
+   name = "wood",
+   title =_("Wood economy"),
+   number = 1,
+   body = objective_text(_("Secure Your Wood Production."),
+      li(_([[Build at least five woodcutter’s houses.]])) ..
+      li(_([[Build at least five forester’s houses.]])) ..
+      li(_([[Build a building materials supply chain.]]))
+   ),
+}
+
 obj_block = {
    name = "block",
    title =_("Block the Kattegat"),

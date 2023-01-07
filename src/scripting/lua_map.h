@@ -23,6 +23,7 @@
 #include "economy/flag.h"
 #include "economy/portdock.h"
 #include "economy/road.h"
+#include "economy/ship_fleet.h"
 #include "logic/game.h"
 #include "logic/map_objects/tribes/constructionsite.h"
 #include "logic/map_objects/tribes/dismantlesite.h"
@@ -960,6 +961,7 @@ public:
 	/*
 	 * Properties
 	 */
+	int get_fleet(lua_State* L);
 
 	/*
 	 * Lua methods
@@ -969,6 +971,32 @@ public:
 	 * C methods
 	 */
 	CASTED_GET(PortDock)
+};
+
+class LuaShipFleet : public LuaMapObject {
+public:
+	LUNA_CLASS_HEAD(LuaShipFleet);
+
+	LuaShipFleet() = default;
+	explicit LuaShipFleet(Widelands::ShipFleet& mo) : LuaMapObject(mo) {
+	}
+	explicit LuaShipFleet(lua_State* L) : LuaMapObject(L) {
+	}
+	~LuaShipFleet() override = default;
+
+	/*
+	 * Properties
+	 */
+
+	/*
+	 * Lua methods
+	 */
+	int __eq(lua_State* L);
+
+	/*
+	 * C methods
+	 */
+	CASTED_GET(ShipFleet)
 };
 
 class LuaBuilding : public LuaPlayerImmovable {
@@ -1419,6 +1447,8 @@ public:
 	int set_shipname(lua_State* L);
 	int get_capacity(lua_State* L);
 	int set_capacity(lua_State* L);
+	int get_fleet(lua_State* L);
+
 	/*
 	 * Lua methods
 	 */

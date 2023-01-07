@@ -62,6 +62,7 @@ function mission_thread()
    end
 
    campaign_message_box(intro_1)
+   -- NOCOM story
 
    include "map:scripting/starting_conditions.lua"
    run(receive_ships)
@@ -69,20 +70,30 @@ function mission_thread()
 
    p1.see_all=true  -- NOCOM
 
+   -- NOCOM story
+
+   local o = add_campaign_objective(obj_explore_and_land)
    while #p1:get_buildings("frisians_port") == 0 do sleep(500) end
    p1:get_buildings("frisians_port")[1]:set_soldiers({[harke] = 1, [eschel] = 1})
+   set_objective_done(o)
 
+   -- NOCOM story
+   o = add_campaign_objective(obj_wood)
+   while not check_for_buildings(p1, {
+      frisians_foresters_house = 5,
+      frisians_woodcutters_house = 5,
+      frisians_reed_farm = 1,
+      frisians_brick_kiln = 1,
+      frisians_clay_pit = 1,
+      frisians_well = 1,
+   }) do sleep(1000) end
+   set_objective_done(o)
 
+   o = add_campaign_objective(obj_block)
+   while starting_port.fleet == end_port.fleet do sleep(8000) end
+   set_objective_done(o)
 
-
-
-   sleep(60*60*1000)  -- NOCOM
-
-
-
-
-
-
+   -- NOCOM story
 
    local data = {
       harke = false,

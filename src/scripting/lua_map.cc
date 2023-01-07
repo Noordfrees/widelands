@@ -903,12 +903,13 @@ int upcasted_map_object_to_lua(lua_State* L, Widelands::MapObject* mo) {
 		return CAST_TO_LUA(MilitarySite);
 	case Widelands::MapObjectType::TRAININGSITE:
 		return CAST_TO_LUA(TrainingSite);
+	case Widelands::MapObjectType::SHIP_FLEET:
+		return CAST_TO_LUA(ShipFleet);
 	case Widelands::MapObjectType::MAPOBJECT:
 	case Widelands::MapObjectType::RESOURCE:
 	case Widelands::MapObjectType::TERRAIN:
 	case Widelands::MapObjectType::BATTLE:
 	case Widelands::MapObjectType::BOB:
-	case Widelands::MapObjectType::SHIP_FLEET:
 	case Widelands::MapObjectType::FERRY_FLEET:
 	case Widelands::MapObjectType::WARE:
 	case Widelands::MapObjectType::PINNED_NOTE:
@@ -5311,6 +5312,60 @@ const MethodType<LuaPortDock> LuaPortDock::Methods[] = {
    {nullptr, nullptr},
 };
 const PropertyType<LuaPortDock> LuaPortDock::Properties[] = {
+   PROP_RO(LuaPortDock, fleet),
+   {nullptr, nullptr, nullptr},
+};
+
+/*
+ ==========================================================
+ PROPERTIES
+ ==========================================================
+ */
+
+/* RST
+   .. attribute:: fleet
+
+      .. versionadded:: 1.2
+
+      (RO) The :class:`ShipFleet` this portdock belongs to.
+*/
+int LuaPortDock::get_fleet(lua_State* L) {
+	return upcasted_map_object_to_lua(L, get(L, get_egbase(L))->get_fleet());
+}
+
+/*
+ ==========================================================
+ LUA METHODS
+ ==========================================================
+ */
+
+/*
+ ==========================================================
+ C METHODS
+ ==========================================================
+ */
+
+/* RST
+ShipFleet
+---------
+
+.. class:: ShipFleet
+
+   .. versionadded:: 1.2
+
+   Each :class:`PortDock` and most :class:`Ship`s belong to a fleet.
+   The fleet handles scheduling and routing between ports and ships.
+
+   More properties are available through this object's
+   :class:`MapObjectDescription`, which you can access via :any:`MapObject.descr`.
+*/
+
+const char LuaShipFleet::className[] = "PortDock";
+const MethodType<LuaShipFleet> LuaShipFleet::Methods[] = {
+   METHOD(LuaShipFleet, __eq),
+   {nullptr, nullptr},
+};
+const PropertyType<LuaShipFleet> LuaShipFleet::Properties[] = {
    {nullptr, nullptr, nullptr},
 };
 
@@ -5325,6 +5380,12 @@ const PropertyType<LuaPortDock> LuaPortDock::Properties[] = {
  LUA METHODS
  ==========================================================
  */
+int LuaShipFleet::__eq(lua_State* L) {
+	const Widelands::ShipFleet* f1 = get(L, get_egbase(L));
+	const Widelands::ShipFleet* f2 = (*get_user_class<LuaShipFleet>(L, -1))->get(L, get_egbase(L));
+	lua_pushboolean(L, f1 == f2 ? 1 : 0);
+	return 1;
+}
 
 /*
  ==========================================================
@@ -6956,6 +7017,7 @@ const PropertyType<LuaShip> LuaShip::Properties[] = {
    PROP_RW(LuaShip, island_explore_direction),
    PROP_RW(LuaShip, shipname),
    PROP_RW(LuaShip, capacity),
+   PROP_RO(LuaShip, fleet),
    {nullptr, nullptr, nullptr},
 };
 
@@ -6964,6 +7026,18 @@ const PropertyType<LuaShip> LuaShip::Properties[] = {
  PROPERTIES
  ==========================================================
  */
+
+/* RST
+   .. attribute:: fleet
+
+      .. versionadded:: 1.2
+
+      (RO) The :class:`ShipFleet` this portdock belongs to.
+*/
+int LuaShip::get_fleet(lua_State* L) {
+	return upcasted_map_object_to_lua(L, get(L, get_egbase(L))->get_fleet());
+}
+
 // UNTESTED, for debug only
 int LuaShip::get_debug_ware_economy(lua_State* L) {
 	lua_pushlightuserdata(L, get(L, get_egbase(L))->get_economy(Widelands::wwWARE));
@@ -8503,6 +8577,10 @@ void luaopen_wlmap(lua_State* L) {
 	register_class<LuaPlayerSlot>(L, "map");
 	register_class<LuaEconomy>(L, "map");
 	register_class<LuaMapObject>(L, "map");
+
+	register_class<LuaShipFleet>(L, "map", true);
+	add_parent<LuaShipFleet, LuaMapObject>(L);
+	lua_pop(L, 1);  // Pop the meta table
 
 	register_class<LuaBob>(L, "map", true);
 	add_parent<LuaBob, LuaMapObject>(L);
