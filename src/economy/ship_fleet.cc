@@ -59,6 +59,8 @@ const ShipFleetDescr& ShipFleet::descr() const {
  */
 ShipFleet::ShipFleet(Player* player) : MapObject(&g_ship_fleet_descr), schedule_(*this) {
 	owner_ = player;
+	field_terrain_changed_subscriber_ = Notifications::subscribe<NoteFieldTerrainChanged>(
+	   [this](const NoteFieldTerrainChanged& note) { terrain_changed(note.fc); });
 }
 
 /**
@@ -553,7 +555,39 @@ void ShipFleet::connect_port(EditorGameBase& egbase, uint32_t idx) {
 	}
 
 	if (!se.targets.empty()) {
-		log_err_time(egbase.get_gametime(), "ShipFleet::connect_port: Could not reach all ports!\n");
+		upcast(Game, game, &egbase);
+		molog(egbase.get_gametime(), "ShipFleet::connect_port: Could not reach all ports -> split");
+		std::set<uint32_t, std::greater<uint32_t>> remove_indices;
+		for (const auto& target : se.targets) {
+			remove_indices.insert(target.idx);
+			PortDock* dock = ports_.at(target.idx);
+
+			// Inform the port about the split
+			if (game != nullptr) {
+				schedule_.port_removed(*game, dock);
+			}
+
+			dock->set_fleet(nullptr);
+			dock->init_fleet(egbase);
+
+			// Clean up port paths
+			for (auto it = port_paths_.begin(); it != port_paths_.end();) {
+				if (it->first.first == dock->serial() || it->first.second == dock->serial()) {
+					it = port_paths_.erase(it);
+				} else {
+					++it;
+				}
+			}
+		}
+
+		// NOCOM ships
+
+		// Clean up ports
+		for (uint32_t i : remove_indices) {
+			ports_.erase(ports_.begin() + i);
+		}
+
+		update(egbase);
 	}
 }
 
@@ -698,6 +732,43 @@ void ShipFleet::act(Game& game, uint32_t /*data*/) {
 	if (next.is_valid()) {
 		schedule_act(game, next);
 		act_pending_ = true;
+	}
+}
+
+void ShipFleet::terrain_changed(const FCoords& f) {
+	// TODO(Nordfriese): This only handles splits, not merges.
+
+	const Map& map = owner().egbase().map();
+
+	// Changing a field's terrain may also affect these three neighbouring nodes.
+	const FCoords brn = map.br_n(f);
+	const FCoords bln = map.bl_n(f);
+	const FCoords rn = map.r_n(f);
+
+	if ((f.field->nodecaps() & MOVECAPS_SWIM) != 0 && (brn.field->nodecaps() & MOVECAPS_SWIM) != 0 && (bln.field->nodecaps() & MOVECAPS_SWIM) != 0 && (rn.field->nodecaps() & MOVECAPS_SWIM) != 0) {
+		// All fields are still swimmable, no problem.
+		return;
+	}
+
+	// Check if any port paths in the fleet leads to these coords.
+	for (auto it = port_paths_.begin(); it != port_paths_.end(); ++it) {
+		if (it->second.path == nullptr) {
+			continue;
+		}
+
+		const Path& path = *it->second.path;
+		Coords c = path.get_start();
+		bool found = (c == f || c == brn || c == bln || c == rn);
+
+		for (size_t i = 0; !found && i < path.get_nsteps(); ++i) {
+			c = map.get_neighbour(c, path[i]);
+			found |= (c == f || c == brn || c == bln || c == rn);
+		}
+
+		if (found) {
+			// Delete the path. It will be recomputed the first time a ship queries it.
+			it->second = PortPath();
+		}
 	}
 }
 

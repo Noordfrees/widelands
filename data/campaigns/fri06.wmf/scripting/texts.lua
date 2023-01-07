@@ -48,8 +48,8 @@ obj_wood = {
    title =_("Wood economy"),
    number = 1,
    body = objective_text(_("Secure Your Wood Production."),
-      li(_([[Build at least five woodcutter’s houses.]])) ..
-      li(_([[Build at least five forester’s houses.]])) ..
+      li(_([[Build at least four woodcutter’s houses.]])) ..
+      li(_([[Build at least four forester’s houses.]])) ..
       li(_([[Build a building materials supply chain.]]))
    ),
 }

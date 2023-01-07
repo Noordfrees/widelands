@@ -131,6 +131,8 @@ private:
 	PortPath& portpath_bidir(uint32_t i, uint32_t j, bool& reverse);
 	const PortPath& portpath_bidir(uint32_t i, uint32_t j, bool& reverse) const;
 
+	void terrain_changed(const FCoords& f);
+
 	std::vector<Ship*> ships_;
 	std::vector<PortDock*> ports_;
 
@@ -139,6 +141,9 @@ private:
 	std::map<std::pair<Serial, Serial>, PortPath> port_paths_;
 
 	ShippingSchedule schedule_;
+
+	std::unique_ptr<Notifications::Subscriber<NoteFieldTerrainChanged>>
+	   field_terrain_changed_subscriber_;
 
 	// saving and loading
 protected:

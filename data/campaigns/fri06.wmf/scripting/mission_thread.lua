@@ -109,8 +109,8 @@ function mission_thread()
    end)
 
    while not check_for_buildings(p1, {
-      frisians_foresters_house = 5,
-      frisians_woodcutters_house = 5,
+      frisians_foresters_house = 4,
+      frisians_woodcutters_house = 4,
       frisians_reed_farm = 1,
       frisians_brick_kiln = 1,
       frisians_clay_pit = 1,
