@@ -67,12 +67,12 @@ function mission_thread()
    local perm_hidden_fringe = 10
    for x = -perm_hidden_fringe, perm_hidden_fringe do
       for y = 0, map.height - 1 do
-         p1:hide_fields({map:get_field((map.width + x) % map.width, y)}, "permanent")
+         p1:hide_fields({map:wrap_field(x, y)}, "permanent")
       end
    end
    for y = -perm_hidden_fringe, perm_hidden_fringe do
       for x = 0, map.width - 1 do
-         p1:hide_fields({map:get_field(x, (map.height + y) % map.height)}, "permanent")
+         p1:hide_fields({map:wrap_field(x, y}, "permanent")
       end
    end
 

@@ -562,15 +562,14 @@ void ShipFleet::connect_port(EditorGameBase& egbase, uint32_t idx) {
 			remove_indices.insert(target.idx);
 			PortDock* dock = ports_.at(target.idx);
 
-			// Inform the port about the split
+			// Inform the port about the split.
 			if (game != nullptr) {
 				schedule_.port_removed(*game, dock);
 			}
 
 			dock->set_fleet(nullptr);
-			dock->init_fleet(egbase);
 
-			// Clean up port paths
+			// Clean up port paths.
 			for (auto it = port_paths_.begin(); it != port_paths_.end();) {
 				if (it->first.first == dock->serial() || it->first.second == dock->serial()) {
 					it = port_paths_.erase(it);
@@ -580,13 +579,24 @@ void ShipFleet::connect_port(EditorGameBase& egbase, uint32_t idx) {
 			}
 		}
 
-		// NOCOM ships
-
-		// Clean up ports
+		// Clean up and reinitialize affected ports.
 		for (uint32_t i : remove_indices) {
+			ports_.at(i)->init_fleet(egbase);
 			ports_.erase(ports_.begin() + i);
 		}
 
+		// Now remove and reinitialize all ships, since we don't know which ones we can still reach.
+		for (Ship* ship : ships_) {
+			if (game != nullptr) {
+				schedule_.ship_removed(*game, ship);
+			}
+			ship->set_fleet(nullptr);
+		}
+		for (Ship* ship : ships_) {
+			ship->init_fleet(egbase);
+		}
+
+		// Recompute as soon as possible.
 		update(egbase);
 	}
 }

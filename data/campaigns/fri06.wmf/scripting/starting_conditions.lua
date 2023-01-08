@@ -81,6 +81,7 @@ launch_expedition(69, 22, {
          coal = 3,
       })
 end
+map.player_slots[1].starting_field = flagship_field
 scroll_to_field(map:get_field(flagship_field[1], flagship_field[2]))
 
 -- =======================================================================
