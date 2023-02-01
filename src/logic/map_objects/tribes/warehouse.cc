@@ -114,9 +114,35 @@ AttackTarget::AttackResult Warehouse::AttackTarget::attack(Soldier* enemy) const
 		enemy->send_signal(game, "sleep");
 		return AttackTarget::AttackResult::DefenderLaunched;
 	}
+	if (!get_allow_conquer(enemy->owner().player_number())) {
+		// Okay we still got the higher military presence, so the attacked
+		// militarysite will be destroyed.
+		warehouse_->set_defeating_player(enemy->owner().player_number());
+		warehouse_->schedule_destroy(game);
+		return AttackTarget::AttackResult::Defenseless;
+	}
+	const Coords coords = warehouse_->get_position();
+	// The enemy conquers the building
+	// In fact we do not conquer it, but place a new building of same type at
+	// the old location. We need to take a copy.
+	const FormerBuildings former_buildings = warehouse_->old_buildings_;
 
-	warehouse_->set_defeating_player(enemy->owner().player_number());
+	// The enemy conquers the building
+	// In fact we do not conquer it, but place a new building of same type at
+	// the old location.
+	Player* enemyplayer = enemy->get_owner();
+
+	// Now we destroy the old building before we place the new one.
+	// Waiting for the destroy playercommand causes crashes with the building window, so we need to
+	// close it right away.
+	warehouse_->set_defeating_player(enemyplayer->player_number());
 	warehouse_->schedule_destroy(game);
+
+	Building* const newbuilding = &enemyplayer->force_building(coords, former_buildings);
+	upcast(Warehouse, newsite, newbuilding);
+	newsite->init(game);
+
+
 	return AttackTarget::AttackResult::Defenseless;
 }
 
