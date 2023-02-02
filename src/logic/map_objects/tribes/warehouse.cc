@@ -115,8 +115,7 @@ AttackTarget::AttackResult Warehouse::AttackTarget::attack(Soldier* enemy) const
 		return AttackTarget::AttackResult::DefenderLaunched;
 	}
 	if (!get_allow_conquer(enemy->owner().player_number())) {
-		// Okay we still got the higher military presence, so the attacked
-		// militarysite will be destroyed.
+		// Only ports can be conquered
 		warehouse_->set_defeating_player(enemy->owner().player_number());
 		warehouse_->schedule_destroy(game);
 		return AttackTarget::AttackResult::Defenseless;
@@ -127,9 +126,6 @@ AttackTarget::AttackResult Warehouse::AttackTarget::attack(Soldier* enemy) const
 	// the old location. We need to take a copy.
 	const FormerBuildings former_buildings = warehouse_->old_buildings_;
 
-	// The enemy conquers the building
-	// In fact we do not conquer it, but place a new building of same type at
-	// the old location.
 	Player* enemyplayer = enemy->get_owner();
 
 	// Now we destroy the old building before we place the new one.

@@ -255,13 +255,12 @@ private:
 		void enemy_soldier_approaches(const Soldier&) const override;
 		Widelands::AttackTarget::AttackResult attack(Soldier*) const override;
 		void set_allow_conquer(PlayerNumber p, bool c) const override {
-			// Warehouses can never be conquered
+			// Warehouses can never be conquered, but ports can
 			if (warehouse_->descr().get_isport()) {
 				allow_conquer_[p] = c;
 			}
 		}
 		[[nodiscard]] bool get_allow_conquer(PlayerNumber p) const override {
-			//return false;
 			auto it = allow_conquer_.find(p);
 			return it == allow_conquer_.end() || it->second;
 		}
