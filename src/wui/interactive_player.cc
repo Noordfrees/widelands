@@ -95,7 +95,7 @@ InfoToDraw filter_info_to_draw(InfoToDraw info_to_draw,
 	return result;
 }
 
-void draw_bobs_for_visible_field(const Widelands::EditorGameBase& egbase,
+void draw_bobs_for_field(const Widelands::EditorGameBase& egbase,
                                  const FieldsToDraw::Field& field,
                                  const float scale,
                                  const InfoToDraw info_to_draw,
@@ -107,8 +107,10 @@ void draw_bobs_for_visible_field(const Widelands::EditorGameBase& egbase,
 	MutexLock m(MutexLock::ID::kObjects);
 	for (Widelands::Bob* bob = field.fcoords.field->get_first_bob(); bob != nullptr;
 	     bob = bob->get_next_bob()) {
-		bob->draw(egbase, filter_info_to_draw(info_to_draw, bob, player), field.rendertarget_pixel,
-		          field.fcoords, scale, dst);
+		if (field.seeing == Widelands::VisibleState::kVisible || bob->descr().type() == Widelands::MapObjectType::PINNED_NOTE) {
+			bob->draw(egbase, filter_info_to_draw(info_to_draw, bob, player), field.rendertarget_pixel,
+				      field.fcoords, scale, dst);
+		}
 	}
 }
 
@@ -537,6 +539,7 @@ void InteractivePlayer::draw_map_view(MapView* given_map_view, RenderTarget* dst
 		}
 
 		// Add road building overlays if applicable.
+		const InfoToDraw info_to_draw = get_info_to_draw(!given_map_view->is_animating());
 		if (f->seeing != Widelands::VisibleState::kUnexplored) {
 			draw_road_building(dst, *f, gametime, scale);
 
@@ -545,12 +548,10 @@ void InteractivePlayer::draw_map_view(MapView* given_map_view, RenderTarget* dst
 			draw_border_markers(*f, scale, *fields_to_draw, dst);
 
 			// Draw immovables and bobs.
-			const InfoToDraw info_to_draw = get_info_to_draw(!given_map_view->is_animating());
 
 			if (f->seeing == Widelands::VisibleState::kVisible) {
 				draw_immovables_for_visible_field(
 				   gbase, *f, scale, info_to_draw, plr, dst, deferred_coords);
-				draw_bobs_for_visible_field(gbase, *f, scale, info_to_draw, plr, dst);
 			} else if (deferred_coords.count(f->fcoords) > 0) {
 				// This is the main position of a building that is visible on another field
 				// so although this field isn't visible we draw the building as if it was.
@@ -561,6 +562,8 @@ void InteractivePlayer::draw_map_view(MapView* given_map_view, RenderTarget* dst
 				draw_immovable_for_formerly_visible_field(*f, info_to_draw, player_field, scale, dst);
 			}
 		}
+
+		draw_bobs_for_field(gbase, *f, scale, info_to_draw, plr, dst);
 
 		// Draw the player starting position overlays.
 		const bool suited_as_starting_pos =

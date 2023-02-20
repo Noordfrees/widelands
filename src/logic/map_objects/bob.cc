@@ -896,13 +896,13 @@ bool Bob::check_node_blocked(Game& game, const FCoords& field, bool /* commit */
 void Bob::set_owner(Player* const player) {
 	Player* old_owner = owner_.load();
 
-	if (old_owner != nullptr && position_.field != nullptr) {
+	if (old_owner != nullptr && position_.field != nullptr && descr().vision_range() > 0) {
 		old_owner->unsee_area(Area<FCoords>(get_position(), descr().vision_range()));
 	}
 
 	owner_ = player;
 
-	if (player != nullptr && position_.field != nullptr) {
+	if (player != nullptr && position_.field != nullptr && descr().vision_range() > 0) {
 		player->see_area(Area<FCoords>(get_position(), descr().vision_range()));
 	}
 
@@ -934,7 +934,7 @@ void Bob::set_position(EditorGameBase& egbase, const Coords& coords) {
 	}
 	*linkpprev_ = this;
 
-	if (owner_ != nullptr) {
+	if (owner_ != nullptr && descr().vision_range() > 0) {
 		owner_.load()->see_area(Area<FCoords>(get_position(), descr().vision_range()));
 		if (oldposition.field != nullptr) {
 			owner_.load()->unsee_area(Area<FCoords>(oldposition, descr().vision_range()));
