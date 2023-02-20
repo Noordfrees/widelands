@@ -903,6 +903,8 @@ int upcasted_map_object_to_lua(lua_State* L, Widelands::MapObject* mo) {
 		return CAST_TO_LUA(MilitarySite);
 	case Widelands::MapObjectType::TRAININGSITE:
 		return CAST_TO_LUA(TrainingSite);
+	case Widelands::MapObjectType::PINNED_NOTE:
+		return CAST_TO_LUA(PinnedNote);
 	case Widelands::MapObjectType::MAPOBJECT:
 	case Widelands::MapObjectType::RESOURCE:
 	case Widelands::MapObjectType::TERRAIN:
@@ -911,7 +913,6 @@ int upcasted_map_object_to_lua(lua_State* L, Widelands::MapObject* mo) {
 	case Widelands::MapObjectType::SHIP_FLEET:
 	case Widelands::MapObjectType::FERRY_FLEET:
 	case Widelands::MapObjectType::WARE:
-	case Widelands::MapObjectType::PINNED_NOTE:
 		throw LuaError(
 		   format("upcasted_map_object_to_lua: Unknown %i", static_cast<int>(mo->descr().type())));
 	}
@@ -7471,6 +7472,125 @@ int LuaShip::make_expedition(lua_State* L) {
  */
 
 /* RST
+Ship
+----
+
+.. class:: PinnedNote
+
+   .. versionadded:: 1.2
+
+   Represents a note pinned to a map location.
+
+   More properties are available through this object's
+   :class:`MapObjectDescription`, which you can access via :any:`MapObject.descr`.
+*/
+
+const char LuaPinnedNote::className[] = "PinnedNote";
+const MethodType<LuaPinnedNote> LuaPinnedNote::Methods[] = {
+   METHOD(LuaPinnedNote, set_color),
+   {nullptr, nullptr},
+};
+const PropertyType<LuaPinnedNote> LuaPinnedNote::Properties[] = {
+   PROP_RO(LuaPinnedNote, owner),
+   PROP_RW(LuaPinnedNote, text),
+   PROP_RW(LuaPinnedNote, color),
+   {nullptr, nullptr, nullptr},
+};
+
+/*
+ ==========================================================
+ PROPERTIES
+ ==========================================================
+ */
+
+/* RST
+   .. attribute:: owner
+
+      (RO) The :class:`wl.game.Player` who owns this worker.
+*/
+int LuaPinnedNote::get_owner(lua_State* L) {
+	get_factory(L).push_player(L, get(L, get_egbase(L))->get_owner()->player_number());
+	return 1;
+}
+
+/* RST
+   .. attribute:: text
+
+      (RW) The :class:`string` text attached to the note.
+*/
+int LuaPinnedNote::get_text(lua_State* L) {
+	lua_pushstring(L, get(L, get_egbase(L))->get_text().c_str());
+	return 1;
+}
+int LuaPinnedNote::set_text(lua_State* L) {
+	get(L, get_egbase(L))->set_text(luaL_checkstring(L, -1));
+	return 0;
+}
+
+/* RST
+   .. attribute:: color
+
+      (RO) An :class:`array` with three integers representing the note's
+      R, G, and B color components respectively.
+
+      :see also: :meth:`set_color`
+*/
+int LuaPinnedNote::get_color(lua_State* L) {
+	const RGBColor& rgb = get(L, get_egbase(L))->get_rgb();
+	lua_newtable(L);
+
+	lua_pushuint32(L, 1);
+	lua_pushuint32(L, rgb.r);
+	lua_rawset(L, -3);
+
+	lua_pushuint32(L, 2);
+	lua_pushuint32(L, rgb.g);
+	lua_rawset(L, -3);
+
+	lua_pushuint32(L, 3);
+	lua_pushuint32(L, rgb.b);
+	lua_rawset(L, -3);
+
+	return 1;
+}
+
+/*
+ ==========================================================
+ LUA METHODS
+ ==========================================================
+ */
+
+/* RST
+   .. method:: set_color(r, g, b)
+
+      Change the note's color.
+
+      :arg r: The red component in range 0..255
+      :type r: :class:`integer`
+      :arg g: The green component in range 0..255
+      :type r: :class:`integer`
+      :arg b: The blue component in range 0..255
+      :type r: :class:`integer`
+
+      :see also: :attr:`color`
+*/
+int LuaPinnedNote::set_color(lua_State* L) {
+	get(L, get_egbase(L))->set_rgb(RGBColor(luaL_checkuint32(L, 2), luaL_checkuint32(L, 3), luaL_checkuint32(L, 4)));
+	return 0;
+}
+
+/*
+ ==========================================================
+ C METHODS
+ ==========================================================
+ */
+
+/*
+ ==========================================================
+ PROPERTIES
+ ==========================================================
+ */
+/* RST
 Worker
 ------
 
@@ -8547,6 +8667,11 @@ void luaopen_wlmap(lua_State* L) {
 	register_class<LuaShip>(L, "map", true);
 	add_parent<LuaShip, LuaBob>(L);
 	add_parent<LuaShip, LuaMapObject>(L);
+	lua_pop(L, 1);  // Pop the meta table
+
+	register_class<LuaPinnedNote>(L, "map", true);
+	add_parent<LuaPinnedNote, LuaBob>(L);
+	add_parent<LuaPinnedNote, LuaMapObject>(L);
 	lua_pop(L, 1);  // Pop the meta table
 
 	register_class<LuaBaseImmovable>(L, "map", true);

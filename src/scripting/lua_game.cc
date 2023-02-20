@@ -24,6 +24,7 @@
 #include "economy/flag.h"
 #include "logic/filesystem_constants.h"
 #include "logic/game_controller.h"
+#include "logic/map_objects/pinned_note.h"
 #include "logic/map_objects/tribes/tribe_descr.h"
 #include "logic/message.h"
 #include "logic/objective.h"
@@ -109,6 +110,7 @@ const MethodType<LuaPlayer> LuaPlayer::Methods[] = {
    METHOD(LuaPlayer, get_produced_wares_count),
    METHOD(LuaPlayer, set_attack_forbidden),
    METHOD(LuaPlayer, is_attack_forbidden),
+   METHOD(LuaPlayer, place_note),
    {nullptr, nullptr},
 };
 const PropertyType<LuaPlayer> LuaPlayer::Properties[] = {
@@ -1119,6 +1121,35 @@ int LuaPlayer::is_attack_forbidden(lua_State* L) {
 int LuaPlayer::set_attack_forbidden(lua_State* L) {
 	get(L, get_egbase(L)).set_attack_forbidden(luaL_checkinteger(L, 2), luaL_checkboolean(L, 3));
 	return 0;
+}
+
+/* RST
+   .. method:: place_note(field, text, r, g, b)
+
+      .. versionadded:: 1.2
+
+      Pin a new note to a map location.
+
+      :arg field: Where to place the note.
+      :type field: :class:`wl.map.Field`
+      :arg text: Text of the note.
+      :type text: :class:`string`
+      :arg r: The red component of the note's color in range 0..255
+      :type r: :class:`integer`
+      :arg g: The green component of the note's color in range 0..255
+      :type r: :class:`integer`
+      :arg b: The blue component of the note's color in range 0..255
+      :type r: :class:`integer`
+
+      :returns: The note created.
+      :rtype: :class:`wl.map.PinnedNote`
+*/
+int LuaPlayer::place_note(lua_State* L) {
+	Widelands::Game& game = get_game(L);
+	Widelands::Player& player = get(L, game);
+	Widelands::PinnedNote& note = Widelands::PinnedNote::create(game, player, (*get_user_class<LuaMaps::LuaField>(L, 2))->coords(), luaL_checkstring(L, 3), RGBColor(luaL_checkuint32(L, 4), luaL_checkuint32(L, 5), luaL_checkuint32(L, 6)));
+	LuaMaps::upcasted_map_object_to_lua(L, &note);
+	return 1;
 }
 
 /*

@@ -24,6 +24,7 @@
 #include "economy/portdock.h"
 #include "economy/road.h"
 #include "logic/game.h"
+#include "logic/map_objects/pinned_note.h"
 #include "logic/map_objects/tribes/constructionsite.h"
 #include "logic/map_objects/tribes/dismantlesite.h"
 #include "logic/map_objects/tribes/market.h"
@@ -1433,6 +1434,36 @@ public:
 	 */
 	CASTED_GET(Ship)
 };
+
+class LuaPinnedNote : public LuaBob {
+public:
+	LUNA_CLASS_HEAD(LuaPinnedNote);
+
+	LuaPinnedNote() = default;
+	explicit LuaPinnedNote(Widelands::PinnedNote& note) : LuaBob(note) {
+	}
+	explicit LuaPinnedNote(lua_State* L) : LuaBob(L) {
+	}
+	~LuaPinnedNote() override = default;
+
+	/*
+	 * Properties
+	 */
+	int get_owner(lua_State* L);
+	int get_text(lua_State* L);
+	int set_text(lua_State* L);
+	int get_color(lua_State* L);
+	/*
+	 * Lua methods
+	 */
+	int set_color(lua_State* L);
+
+	/*
+	 * C methods
+	 */
+	CASTED_GET(PinnedNote)
+};
+
 #undef CASTED_GET
 
 class LuaField : public LuaMapModuleClass {

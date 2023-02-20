@@ -109,6 +109,7 @@ public:
 	int get_produced_wares_count(lua_State* L);
 	int set_attack_forbidden(lua_State* L);
 	int is_attack_forbidden(lua_State* L);
+	int place_note(lua_State* L);
 
 	/*
 	 * C methods
