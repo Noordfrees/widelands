@@ -184,6 +184,7 @@ enum class KeyboardShortcut : uint16_t {
 	kInGameStatsBuildings,
 	kInGameStatsStock,
 	kInGameStatsSoldiers,
+	kInGameStatsPinnedNotes,
 	kInGameStatsSeafaring,
 	kInGamePause,
 	kInGameSpeedUp,

@@ -99,7 +99,7 @@ public:
 
 private:
 	// For referencing the items in statisticsmenu_
-	enum class StatisticsMenuEntry { kGeneral, kWare, kBuildings, kStock, kSoldiers, kSeafaring };
+	enum class StatisticsMenuEntry { kGeneral, kWare, kBuildings, kStock, kSoldiers, kPinnedNotes, kSeafaring };
 
 	// Adds the statisticsmenu_ to the toolbar
 	void add_statistics_menu();

@@ -26,9 +26,10 @@
 #include "ui_basic/box.h"
 #include "ui_basic/button.h"
 #include "ui_basic/editbox.h"
+#include "ui_basic/textarea.h"
 #include "ui_basic/unique_window.h"
 
-///  Shows the current teams lineup and allows the player to perform diplomatic actions.
+/** Allows to edit a single existing pinned note. */
 class PinnedNoteEditor : public UI::UniqueWindow {
 public:
 	PinnedNoteEditor(InteractivePlayer& parent,
@@ -56,6 +57,44 @@ private:
 	UI::EditBox* text_;
 
 	std::unique_ptr<Notifications::Subscriber<Widelands::NotePinnedNoteMoved>> subscriber_;
+};
+
+/** Overview of all pinned notes of a player. */
+class PinnedNoteOverview : public UI::UniqueWindow {
+public:
+	PinnedNoteOverview(InteractivePlayer& parent, UI::UniqueWindow::Registry& r);
+
+	void think() override;
+
+	UI::Panel::SaveType save_type() const override {
+		return UI::Panel::SaveType::kPinnedNotes;
+	}
+	void save(FileWrite&, Widelands::MapObjectSaver&) const override;
+	static UI::Window& load(FileRead&, InteractiveBase&);
+
+private:
+	struct PinnedNoteRow : public UI::Box {
+		PinnedNoteRow(InteractivePlayer& iplayer, UI::Panel& parent, Widelands::PinnedNote& note);
+
+		UI::Button goto_;
+		UI::Button edit_;
+		UI::Button delete_;
+		UI::Textarea text_;
+	};
+
+	InteractivePlayer& iplayer_;
+	UI::Box box_;
+	UI::Textarea status_;
+	std::vector<std::unique_ptr<PinnedNoteRow>> rows_;
+
+	struct CacheEntry {
+		CacheEntry(Widelands::Serial s, const std::string& t) : serial(s), text(t) {
+		}
+
+		Widelands::Serial serial;
+		std::string text;
+	};
+	std::vector<CacheEntry> cache_;
 };
 
 #endif  // end of include guard: WL_WUI_PINNED_NOTE_H

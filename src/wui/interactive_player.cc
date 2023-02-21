@@ -276,6 +276,10 @@ void InteractivePlayer::add_statistics_menu() {
 		new SeafaringStatisticsMenu(*this, menu_windows_.stats_seafaring);
 	};
 
+	menu_windows_.stats_pinned_notes.open_window = [this] {
+		new PinnedNoteOverview(*this, menu_windows_.stats_pinned_notes);
+	};
+
 	menu_windows_.stats_stock.open_window = [this] {
 		new StockMenu(*this, menu_windows_.stats_stock);
 	};
@@ -315,6 +319,11 @@ void InteractivePlayer::rebuild_statistics_menu() {
 		                    g_image_cache->get("images/wui/menus/statistics_seafaring.png"), false,
 		                    "", shortcut_string_for(KeyboardShortcut::kInGameStatsSeafaring, false));
 	}
+
+	/** TRANSLATORS: An entry in the game's statistics menu */
+	statisticsmenu_.add(_("Pinned Notes"), StatisticsMenuEntry::kPinnedNotes,
+	                    g_image_cache->get("images/wui/fieldaction/pinned_note.png"), false, "",
+	                    shortcut_string_for(KeyboardShortcut::kInGameStatsPinnedNotes, false));
 
 	/** TRANSLATORS: An entry in the game's statistics menu */
 	statisticsmenu_.add(_("Soldiers"), StatisticsMenuEntry::kSoldiers,
@@ -360,6 +369,9 @@ void InteractivePlayer::statistics_menu_selected(StatisticsMenuEntry entry) {
 	} break;
 	case StatisticsMenuEntry::kStock: {
 		menu_windows_.stats_stock.toggle();
+	} break;
+	case StatisticsMenuEntry::kPinnedNotes: {
+		menu_windows_.stats_pinned_notes.toggle();
 	} break;
 	case StatisticsMenuEntry::kSeafaring: {
 		if (egbase().map().allows_seafaring()) {
@@ -789,6 +801,10 @@ bool InteractivePlayer::handle_key(bool const down, SDL_Keysym const code) {
 		}
 		if (matches_shortcut(KeyboardShortcut::kInGameStatsStock, code)) {
 			menu_windows_.stats_stock.toggle();
+			return true;
+		}
+		if (matches_shortcut(KeyboardShortcut::kInGameStatsPinnedNotes, code)) {
+			menu_windows_.stats_pinned_notes.toggle();
 			return true;
 		}
 		if (matches_shortcut(KeyboardShortcut::kInGameStatsWares, code)) {

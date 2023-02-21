@@ -104,6 +104,7 @@ public:
 		UI::UniqueWindow::Registry stats_buildings;
 		UI::UniqueWindow::Registry stats_soldiers;
 		UI::UniqueWindow::Registry stats_seafaring;
+		UI::UniqueWindow::Registry stats_pinned_notes;
 
 		UI::UniqueWindow::Registry help;
 	} menu_windows_;

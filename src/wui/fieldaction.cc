@@ -25,6 +25,7 @@
 #include "economy/road.h"
 #include "economy/waterway.h"
 #include "graphic/style_manager.h"
+#include "graphic/text_layout.h"
 #include "logic/cmd_queue.h"
 #include "logic/map_objects/checkstep.h"
 #include "logic/map_objects/pinned_note.h"
@@ -499,7 +500,8 @@ void FieldActionWindow::add_buttons_auto() {
 
 	if (ipl != nullptr) {
 		add_button(&watchbox, "pinned_note", kImgButtonPinnedNote,
-		           &FieldActionWindow::act_pinned_note, _("Pinned note"));
+		           &FieldActionWindow::act_pinned_note,
+		           as_tooltip_text_with_hotkey(_("Pinned note"), shortcut_string_for(KeyboardShortcut::kInGamePinnedNote, true), UI::PanelStyle::kWui));
 	}
 
 	if (ibase().get_display_flag(InteractiveBase::dfDebug)) {

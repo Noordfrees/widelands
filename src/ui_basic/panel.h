@@ -408,6 +408,7 @@ public:
 		kShipWindow,
 		kAttackWindow,
 		kQuicknav,
+		kPinnedNotes,
 	};
 	virtual SaveType save_type() const {
 		return SaveType::kNone;
