@@ -50,6 +50,7 @@ const SDL_PixelFormat& rgba_format() {
 	memset(&format, 0, sizeof(format));
 	format.BitsPerPixel = 32;
 	format.BytesPerPixel = 4;
+#if 0
 	format.Rmask = 0x000000ff;
 	format.Gmask = 0x0000ff00;
 	format.Bmask = 0x00ff0000;
@@ -58,6 +59,16 @@ const SDL_PixelFormat& rgba_format() {
 	format.Gshift = 8;
 	format.Bshift = 16;
 	format.Ashift = 24;
+#else
+	format.Rmask = 0b1111111111;
+	format.Gmask = 0b11111111110000000000;
+	format.Bmask = 0b111111111100000000000000000000;
+	format.Amask = 0b11000000000000000000000000000000;
+	format.Rshift = 0;
+	format.Gshift = 10;
+	format.Bshift = 20;
+	format.Ashift = 30;
+#endif
 	return format;
 }
 

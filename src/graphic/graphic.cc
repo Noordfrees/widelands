@@ -126,8 +126,12 @@ void Graphic::initialize(const TraceGl& trace_gl,
 	SDL_DisplayMode disp_mode;
 	for (int i = 0; i < SDL_GetNumVideoDisplays(); ++i) {
 		if (SDL_GetCurrentDisplayMode(i, &disp_mode) == 0) {
-			log_info("Display #%d: %dx%d @ %dhz %s\n", i, disp_mode.w, disp_mode.h,
-			         disp_mode.refresh_rate, SDL_GetPixelFormatName(disp_mode.format));
+			log_info("Display #%d: %dx%d @ %dhz %dbpp %s\n", i, disp_mode.w, disp_mode.h,
+			         disp_mode.refresh_rate, SDL_BITSPERPIXEL(disp_mode.format),
+			         SDL_GetPixelFormatName(disp_mode.format));
+
+			disp_mode.format = SDL_PIXELFORMAT_ARGB2101010;
+			SDL_SetWindowDisplayMode(sdl_window_, &disp_mode);
 		} else {
 			log_warn("Couldn't get display mode for display #%d: %s\n", i, SDL_GetError());
 		}

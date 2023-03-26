@@ -132,7 +132,7 @@ void sdl_logging_func(void* userdata,
 }  // namespace
 
 // Default to stdout for logging.
-bool g_verbose = false;
+bool g_verbose = true;  // false;
 
 #ifdef _WIN32
 // Start with nullptr so that we won't initialize an empty file in the program's directory

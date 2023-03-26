@@ -22,10 +22,14 @@
 
 SDL_Surface* empty_sdl_surface(int16_t w, int16_t h) {
 	SDL_Surface* const surface =
+#if 0
 #if !defined(SDL_BYTEORDER) || SDL_BYTEORDER == SDL_LIL_ENDIAN
 	   SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 32, 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
 #else
 	   SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 32, 0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
+#endif
+#else
+	   SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, 32, 0b1111111111, 0b11111111110000000000, 0b111111111100000000000000000000, 0b11000000000000000000000000000000);
 #endif
 	return surface;
 }
