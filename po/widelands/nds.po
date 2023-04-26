@@ -12,10 +12,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Widelands\n"
 "Report-Msgid-Bugs-To: https://www.widelands.org/wiki/ReportingBugs/\n"
-"POT-Creation-Date: 2023-02-22 02:57+0000\n"
+"POT-Creation-Date: 2023-04-22 04:30+0000\n"
 "PO-Revision-Date: 2015-02-02 13:35+0000\n"
 "Last-Translator: Benedikt Straub <benedikt-straub@web.de>, 2018-2023\n"
-"Language-Team: Low German (http://www.transifex.com/widelands/widelands/language/nds/)\n"
+"Language-Team: Low German (http://app.transifex.com/widelands/widelands/language/nds/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -328,7 +328,7 @@ msgid "Redo"
 msgstr "Wedderhalen"
 
 #: ../../src/editor/editorinteractive.cc:174
-#: ../../src/wui/buildingwindow.cc:436 ../../src/wui/interactive_player.cc:234
+#: ../../src/wui/buildingwindow.cc:438 ../../src/wui/interactive_player.cc:234
 msgid "Help"
 msgstr "Hülp"
 
@@ -413,7 +413,7 @@ msgstr "De Kaart-Landskupp ännern"
 
 #. * TRANSLATORS: An entry in the editor's tool menu
 #: ../../src/editor/editorinteractive.cc:318
-#: ../../src/editor/ui_menus/tool_place_immovable_options_menu.cc:61
+#: ../../src/editor/ui_menus/tool_place_immovable_options_menu.cc:77
 #: ../../src/logic/map_objects/tribes/tribe_descr.cc:169
 msgid "Immovables"
 msgstr "Faste Dingen"
@@ -621,12 +621,12 @@ msgstr "Willst du de Bewarker würrelk verlaten?"
 #: ../../src/editor/editorinteractive.cc:1102 ../../src/logic/addons.cc:47
 #: ../../src/ui_basic/dropdown.cc:358 ../../src/ui_basic/dropdown.cc:360
 #: ../../src/ui_fsmenu/addons/contact.cc:81
-#: ../../src/ui_fsmenu/addons/manager.cc:1333
-#: ../../src/ui_fsmenu/addons/manager.cc:1344
-#: ../../src/ui_fsmenu/addons/manager.cc:1395
-#: ../../src/ui_fsmenu/addons/manager.cc:1443
-#: ../../src/ui_fsmenu/addons/manager.cc:1521
-#: ../../src/ui_fsmenu/addons/manager.cc:1590
+#: ../../src/ui_fsmenu/addons/manager.cc:1334
+#: ../../src/ui_fsmenu/addons/manager.cc:1345
+#: ../../src/ui_fsmenu/addons/manager.cc:1396
+#: ../../src/ui_fsmenu/addons/manager.cc:1444
+#: ../../src/ui_fsmenu/addons/manager.cc:1522
+#: ../../src/ui_fsmenu/addons/manager.cc:1591
 #: ../../src/ui_fsmenu/addons/remote_interaction.cc:103
 #: ../../src/ui_fsmenu/addons/remote_interaction.cc:293
 #: ../../src/ui_fsmenu/addons/remote_interaction.cc:560
@@ -773,8 +773,14 @@ msgstr "Tofällig Höcht: %1$d–%2$d"
 msgid "Critter: %1$s"
 msgstr "Deert: %1$s"
 
+#: ../../src/editor/tools/place_immovable_tool.cc:131
+#: ../../src/editor/ui_menus/tool_place_immovable_options_menu.cc:92
+#: ../../src/editor/ui_menus/tool_place_immovable_options_menu.cc:97
+msgid "Automatic Trees"
+msgstr "Automatisk Bomen"
+
 #. * TRANSLATORS: An entry in the tool history list.
-#: ../../src/editor/tools/place_immovable_tool.cc:110
+#: ../../src/editor/tools/place_immovable_tool.cc:138
 #, c-format
 msgid "Immovable: %1$s"
 msgstr "Fastes Ding: %1$s"
@@ -786,18 +792,18 @@ msgid "Terrain: %1$s"
 msgstr "Landskupp: %1$s"
 
 #. * TRANSLATORS: %s are the currently selected items in an editor tool
-#: ../../src/editor/ui_menus/categorized_item_selection_menu.h:180
+#: ../../src/editor/ui_menus/categorized_item_selection_menu.h:186
 #, c-format
 msgid "Current: %s …"
 msgstr "Utköörte Dingen: %s …"
 
 #. * TRANSLATORS: Help text in an editor tool
-#: ../../src/editor/ui_menus/categorized_item_selection_menu.h:183
+#: ../../src/editor/ui_menus/categorized_item_selection_menu.h:189
 msgid "Click to select an item. Use the Ctrl key to select multiple items."
 msgstr "Klick de Kaart tum Utkören. Bruuk de Strg-Tast tum Utkören vun mehr Dingen."
 
 #. * TRANSLATORS: %s are the currently selected items in an editor tool
-#: ../../src/editor/ui_menus/categorized_item_selection_menu.h:186
+#: ../../src/editor/ui_menus/categorized_item_selection_menu.h:192
 #: ../../src/editor/ui_menus/tool_change_resources_options_menu.cc:156
 #, c-format
 msgid "Current: %s"
@@ -981,25 +987,25 @@ msgstr "Fehler!"
 #. * TRANSLATORS: Directory name for user maps in map selection
 #: ../../src/editor/ui_menus/main_menu_load_map.cc:81
 #: ../../src/editor/ui_menus/main_menu_save_map.cc:279
-#: ../../src/ui_fsmenu/addons/packager_box.cc:210 ../../src/wui/mapdata.cc:193
+#: ../../src/ui_fsmenu/addons/packager_box.cc:210 ../../src/wui/mapdata.cc:195
 msgid "My Maps"
 msgstr "Miene Kaarten"
 
 #. * TRANSLATORS: Directory name for MP Scenarios in map selection
 #: ../../src/editor/ui_menus/main_menu_load_map.cc:83
-#: ../../src/wui/mapdata.cc:187
+#: ../../src/wui/mapdata.cc:189
 msgid "Multiplayer Scenarios"
 msgstr "Rutfödderungen för mennig Spelers"
 
 #. * TRANSLATORS: Directory name for SP Scenarios in map selection
 #: ../../src/editor/ui_menus/main_menu_load_map.cc:85
-#: ../../src/wui/mapdata.cc:190
+#: ../../src/wui/mapdata.cc:192
 msgid "Singleplayer Scenarios"
 msgstr "Rutfödderungen för eenen Speler"
 
 #. * TRANSLATORS: Directory name for downloaded maps in map selection
 #: ../../src/editor/ui_menus/main_menu_load_map.cc:87
-#: ../../src/wui/mapdata.cc:196
+#: ../../src/wui/mapdata.cc:198
 msgid "Downloaded Maps"
 msgstr "Runnerladen Kaarten"
 
@@ -1094,7 +1100,7 @@ msgstr "Deese Vörslagen-Klottjen-Grupp wegdoon"
 #: ../../src/editor/ui_menus/main_menu_map_options.cc:108
 #: ../../src/ui_fsmenu/addons/packager.cc:75
 #: ../../src/ui_fsmenu/addons/packager_box.cc:148
-#: ../../src/wui/quicknavigation.cc:202
+#: ../../src/wui/quicknavigation.cc:201
 msgid "+"
 msgstr "+"
 
@@ -1602,6 +1608,43 @@ msgstr "Klick de Kaart an tum Fastmaken vun de Höcht to eene tofällige Tahl in
 msgid "Fixed height"
 msgstr "Faste Höcht"
 
+#. * TRANSLATORS: Add-On localized name as header (Add-On internal name in
+#. italics)
+#: ../../src/editor/ui_menus/tool_place_immovable_options_menu.cc:47
+#: ../../src/ui_fsmenu/addons/rows_ui.cc:176
+#: ../../src/ui_fsmenu/addons/rows_ui.cc:359 ../../src/wui/stock_menu.cc:36
+#, c-format
+msgid "%1$s %2$s"
+msgstr "%1$s %2$s"
+
+#: ../../src/editor/ui_menus/tool_place_immovable_options_menu.cc:51
+#, c-format
+msgid "%1$s (removable by e.g. placing roads)"
+msgstr "%1$s (kann vun Straten un so wegmaakt worden)"
+
+#: ../../src/editor/ui_menus/tool_place_immovable_options_menu.cc:54
+#, c-format
+msgid "%1$s (needs a small building plot)"
+msgstr "%1$s (bruukt eene lütte Rüümte tum Bauen)"
+
+#: ../../src/editor/ui_menus/tool_place_immovable_options_menu.cc:57
+#, c-format
+msgid "%1$s (needs a medium building plot)"
+msgstr "%1$s (bruukt eene middelgrote Rüümte tum Bauen)"
+
+#: ../../src/editor/ui_menus/tool_place_immovable_options_menu.cc:60
+#, c-format
+msgid "%1$s (needs a big building plot)"
+msgstr "%1$s (bruukt eene grote Rüümte tum Bauen)"
+
+#: ../../src/editor/ui_menus/tool_place_immovable_options_menu.cc:98
+msgid "Automatically place the trees which grow best on the terrain"
+msgstr "Automatisk de Bomen planten, wat up de Landskupp am Besten wassen"
+
+#: ../../src/editor/ui_menus/tool_place_immovable_options_menu.cc:114
+msgid "Automatic Immovable Placement"
+msgstr "Automatisk Faste Dingen setten"
+
 #: ../../src/editor/ui_menus/tool_resize_options_menu.cc:34
 msgid "Resize"
 msgstr "Grött ännern"
@@ -1626,7 +1669,7 @@ msgid "%1%: %2%"
 msgstr "%1%: %2%"
 
 #. * TRANSLATORS: Help tooltip in tool history window
-#: ../../src/editor/ui_menus/tool_toolhistory_options_menu.cc:108
+#: ../../src/editor/ui_menus/tool_toolhistory_options_menu.cc:113
 msgid ""
 "Click to restore, Shift + Click to delete, and Ctrl + Click to pin an item."
 msgstr "Klick an tum Torügghalen, Umschalt + Klick tum Lösken, Strg + Klick tum Faststeken."
@@ -1691,7 +1734,7 @@ msgstr "Speler"
 #. * TRANSLATORS: Basic error message when we can't handle the graphics
 #. driver. Font
 #. support is limited here, so do not use advanced typography *
-#: ../../src/graphic/gl/initialize.cc:171
+#: ../../src/graphic/gl/initialize.cc:179
 msgid ""
 "Widelands won't work because we were unable to detect the shading language "
 "version."
@@ -1700,8 +1743,8 @@ msgstr "Widelands kann nich warken, wiel wi nich utfinnen könen, wat för eene 
 #. * TRANSLATORS: Basic error message when we can't handle the graphics
 #. driver. Font
 #. support is limited here, so do not use advanced typography *
-#: ../../src/graphic/gl/initialize.cc:175
-#: ../../src/graphic/gl/initialize.cc:188
+#: ../../src/graphic/gl/initialize.cc:183
+#: ../../src/graphic/gl/initialize.cc:196
 msgid ""
 "There is an unknown problem with reading the information from the graphics "
 "driver."
@@ -1710,7 +1753,7 @@ msgstr "’t gifft een Probleem, waar wi nix över weten, Informationen vun dien
 #. * TRANSLATORS: Basic error message when we can't handle the graphics
 #. driver. Font
 #. support is limited here, so do not use advanced typography *
-#: ../../src/graphic/gl/initialize.cc:185
+#: ../../src/graphic/gl/initialize.cc:193
 msgid ""
 "Widelands won't work because we were unable to detect the OpenGL version."
 msgstr "Widelands kann nich warken, wiel wi nich utfinnen könen, wat för eene OpenGL-Versioon du hest."
@@ -1718,15 +1761,15 @@ msgstr "Widelands kann nich warken, wiel wi nich utfinnen könen, wat för eene 
 #. * TRANSLATORS: Basic error message when we can't handle the graphics
 #. driver.
 #. Font support is limited here, so do not use advanced typography *
-#: ../../src/graphic/gl/initialize.cc:216
-#: ../../src/graphic/gl/initialize.cc:236
+#: ../../src/graphic/gl/initialize.cc:224
+#: ../../src/graphic/gl/initialize.cc:244
 msgid "Widelands won’t work because your graphics driver is too old."
 msgstr "Widelands kann nich warken, wiel dien Bill-Utgaav-Driever to oll is."
 
 #. * TRANSLATORS: Basic error message when we can't handle the graphics
 #. driver.
 #. Font support is limited here, so do not use advanced typography *
-#: ../../src/graphic/gl/initialize.cc:219
+#: ../../src/graphic/gl/initialize.cc:227
 #, c-format
 msgid "The %1$u version needs to be version %2$u.%3$u or newer."
 msgstr "De %1$u mutt de Versioon %2$u.%3$u of nejer hebben."
@@ -1734,16 +1777,16 @@ msgstr "De %1$u mutt de Versioon %2$u.%3$u of nejer hebben."
 #. * TRANSLATORS: Basic error message when we can't handle the graphics
 #. driver.
 #. Font support is limited here, so do not use advanced typography *
-#: ../../src/graphic/gl/initialize.cc:239
+#: ../../src/graphic/gl/initialize.cc:247
 #, c-format
 msgid "The %1$s needs to be version %2$u.%3$u or newer."
 msgstr "De %1$s mutt de Versioon %2$u.%3$u of nejer hebben."
 
-#: ../../src/graphic/gl/initialize.cc:255
+#: ../../src/graphic/gl/initialize.cc:263
 msgid "OpenGL"
 msgstr "OpenGL"
 
-#: ../../src/graphic/gl/initialize.cc:302
+#: ../../src/graphic/gl/initialize.cc:310
 msgid "Shading Language"
 msgstr "Shading-Spraak"
 
@@ -1962,11 +2005,11 @@ msgstr "Speel word vörbereidt …"
 msgid "Creating player infrastructure…"
 msgstr "Maak de Kraam för de Spelers …"
 
-#: ../../src/logic/game.cc:647 ../../src/logic/player.cc:227
+#: ../../src/logic/game.cc:647 ../../src/logic/player.cc:257
 msgid "Missing starting position"
 msgstr "Do fehlt eene Anfangs-Stee"
 
-#: ../../src/logic/game.cc:648 ../../src/logic/player.cc:228
+#: ../../src/logic/game.cc:648 ../../src/logic/player.cc:258
 #, c-format
 msgid ""
 "Widelands could not start the game, because player %u has no starting position.\n"
@@ -2276,89 +2319,89 @@ msgstr "%i%%"
 msgid "Can’t find any more resources!"
 msgstr "Kann keene Mineraale mehr finnen!"
 
-#: ../../src/logic/map_objects/tribes/ship.cc:455
+#: ../../src/logic/map_objects/tribes/ship.cc:460
 msgid "Port Space"
 msgstr "Rüümte för Muden"
 
-#: ../../src/logic/map_objects/tribes/ship.cc:455
+#: ../../src/logic/map_objects/tribes/ship.cc:460
 msgid "Port Space Found"
 msgstr "Rüümte för Muden funnen"
 
-#: ../../src/logic/map_objects/tribes/ship.cc:456
+#: ../../src/logic/map_objects/tribes/ship.cc:461
 msgid "An expedition ship found a new port build space."
 msgstr "Een Schipp up Söke hett nejen Rüümte för een Muu funnen."
 
-#: ../../src/logic/map_objects/tribes/ship.cc:579
+#: ../../src/logic/map_objects/tribes/ship.cc:584
 msgid "Island Circumnavigated"
 msgstr "Insel umlopen"
 
 #. * TRANSLATORS: A ship has circumnavigated an island and is waiting
 #. for orders
-#: ../../src/logic/map_objects/tribes/ship.cc:579
+#: ../../src/logic/map_objects/tribes/ship.cc:584
 msgctxt "ship"
 msgid "Waiting"
 msgstr "Wachten"
 
-#: ../../src/logic/map_objects/tribes/ship.cc:580
+#: ../../src/logic/map_objects/tribes/ship.cc:585
 msgid "An expedition ship sailed around its island without any events."
 msgstr "Een Schipp up Söke hett sien Insel umlopen ohne dat wat passeert is."
 
-#: ../../src/logic/map_objects/tribes/ship.cc:643
+#: ../../src/logic/map_objects/tribes/ship.cc:648
 msgid "Coast Reached"
 msgstr "Küst funnen"
 
 #. * TRANSLATORS: A ship has discovered land
-#: ../../src/logic/map_objects/tribes/ship.cc:643
+#: ../../src/logic/map_objects/tribes/ship.cc:648
 msgid "Land Ahoy!"
 msgstr "Küst to sehn kregen"
 
-#: ../../src/logic/map_objects/tribes/ship.cc:644
+#: ../../src/logic/map_objects/tribes/ship.cc:649
 msgid ""
 "An expedition ship reached a coast and is waiting for further commands."
 msgstr "Een Schipp up Söök hett eene Küst funnen un wacht up dien Gebood."
 
-#: ../../src/logic/map_objects/tribes/ship.cc:695
+#: ../../src/logic/map_objects/tribes/ship.cc:700
 msgid "New port construction site is gone"
 msgstr "Neje Rüümte för Muden is verswunnen"
 
-#: ../../src/logic/map_objects/tribes/ship.cc:695
+#: ../../src/logic/map_objects/tribes/ship.cc:700
 msgid "Port Lost!"
 msgstr "Muu quietworden!"
 
-#: ../../src/logic/map_objects/tribes/ship.cc:696
+#: ../../src/logic/map_objects/tribes/ship.cc:701
 msgid "Unloading of wares failed, expedition is cancelled now."
 msgstr "De Waren kunnen nich utladen worden; de Söök is nu ofbroken worden."
 
-#: ../../src/logic/map_objects/tribes/ship.cc:752
+#: ../../src/logic/map_objects/tribes/ship.cc:757
 msgid "No Port Can Be Built"
 msgstr "Keene Muu kann baut worden"
 
-#: ../../src/logic/map_objects/tribes/ship.cc:752
+#: ../../src/logic/map_objects/tribes/ship.cc:757
 msgid "Port Space Lost!"
 msgstr "Rüümte för Muden verloren!"
 
-#: ../../src/logic/map_objects/tribes/ship.cc:753
+#: ../../src/logic/map_objects/tribes/ship.cc:758
 msgid ""
 "A discovered port build space is not available for building a port anymore."
 msgstr "Bi een funnen Rüümte för Muden kann nu keene Muu mehr baut worden."
 
 #. * TRANSLATORS: Ship expedition ready
-#: ../../src/logic/map_objects/tribes/ship.cc:899
+#: ../../src/logic/map_objects/tribes/ship.cc:904
 msgctxt "ship"
 msgid "Expedition"
 msgstr "Söök"
 
-#: ../../src/logic/map_objects/tribes/ship.cc:899
+#: ../../src/logic/map_objects/tribes/ship.cc:904
 msgid "Expedition Ready"
 msgstr "Söke torecht"
 
-#: ../../src/logic/map_objects/tribes/ship.cc:900
+#: ../../src/logic/map_objects/tribes/ship.cc:905
 msgid "An expedition ship is waiting for your commands."
 msgstr "Een Schipp up Söök wacht up dien Gebood."
 
 #. * TRANSLATORS: This is a ship state. The ship is ready
 #. * to transport wares, but has nothing to do.
-#: ../../src/logic/map_objects/tribes/ship.cc:1058
+#: ../../src/logic/map_objects/tribes/ship.cc:1063
 #: ../../src/wui/seafaring_statistics_menu.cc:244
 msgctxt "ship_state"
 msgid "Empty"
@@ -2366,7 +2409,7 @@ msgstr "Leeg"
 
 #. * TRANSLATORS: This is a ship state. The ship is currently
 #. * transporting wares to a specific destination port.
-#: ../../src/logic/map_objects/tribes/ship.cc:1063
+#: ../../src/logic/map_objects/tribes/ship.cc:1068
 #, c-format
 msgctxt "ship_state"
 msgid "Shipping to %s"
@@ -2374,7 +2417,7 @@ msgstr "Up Schipperee na %s"
 
 #. * TRANSLATORS: This is a ship state. The ship is currently sailing
 #. * to a specific destination port without transporting wares.
-#: ../../src/logic/map_objects/tribes/ship.cc:1069
+#: ../../src/logic/map_objects/tribes/ship.cc:1074
 #, c-format
 msgctxt "ship_state"
 msgid "Sailing to %s"
@@ -2382,7 +2425,7 @@ msgstr "Seilt na %s"
 
 #. * TRANSLATORS: This is a ship state. An expedition is waiting for your
 #. commands.
-#: ../../src/logic/map_objects/tribes/ship.cc:1075
+#: ../../src/logic/map_objects/tribes/ship.cc:1080
 #: ../../src/wui/seafaring_statistics_menu.cc:248
 msgctxt "ship_state"
 msgid "Waiting"
@@ -2390,14 +2433,14 @@ msgstr "Wachten"
 
 #. * TRANSLATORS: This is a ship state. An expedition is scouting for port
 #. spaces.
-#: ../../src/logic/map_objects/tribes/ship.cc:1079
+#: ../../src/logic/map_objects/tribes/ship.cc:1084
 #: ../../src/wui/seafaring_statistics_menu.cc:250
 msgctxt "ship_state"
 msgid "Scouting"
 msgstr "Söcht"
 
 #. * TRANSLATORS: This is a ship state. An expedition has found a port space.
-#: ../../src/logic/map_objects/tribes/ship.cc:1083
+#: ../../src/logic/map_objects/tribes/ship.cc:1088
 #: ../../src/wui/seafaring_statistics_menu.cc:252
 msgctxt "ship_state"
 msgid "Port Space Found"
@@ -2406,7 +2449,7 @@ msgstr "Rüüme för Muden funnen"
 #. * TRANSLATORS: This is a ship state. An expedition is unloading
 #. wares/workers to build a
 #. * port.
-#: ../../src/logic/map_objects/tribes/ship.cc:1088
+#: ../../src/logic/map_objects/tribes/ship.cc:1093
 msgctxt "ship_state"
 msgid "Founding a Colony"
 msgstr "Sett een nejes Dörp up"
@@ -2509,15 +2552,15 @@ msgstr "Diene Weertskupp hett een nejes Kraamhuus kregen."
 #. * TRANSLATORS: Message header, short for "Waterway Destroyed" (not much
 #. space
 #. * available)
-#: ../../src/logic/map_objects/tribes/warehouse.cc:643
+#: ../../src/logic/map_objects/tribes/warehouse.cc:648
 msgid "Waterway"
 msgstr "Priel"
 
-#: ../../src/logic/map_objects/tribes/warehouse.cc:644
+#: ../../src/logic/map_objects/tribes/warehouse.cc:649
 msgid "Waterway destroyed"
 msgstr "Priel verneelt"
 
-#: ../../src/logic/map_objects/tribes/warehouse.cc:645
+#: ../../src/logic/map_objects/tribes/warehouse.cc:650
 msgid "A waterway had to be destroyed to make room for your new port dock."
 msgstr "Een Priel is verneelt worden, daarmit diene neje Muu baut worden kunn."
 
@@ -2577,19 +2620,19 @@ msgstr "Eene Kaart-Datei is ungültig:\n%s"
 msgid "This objective has no description."
 msgstr "Dit Upgaav is nich beschreven."
 
-#: ../../src/logic/player.cc:1956
+#: ../../src/logic/player.cc:1986
 #, c-format
 msgctxt "shipname"
 msgid "Ship %d"
 msgstr "Schipp %d"
 
-#: ../../src/logic/player.cc:1974
+#: ../../src/logic/player.cc:2004
 #, c-format
 msgctxt "warehouse"
 msgid "Port %d"
 msgstr "Muu %d"
 
-#: ../../src/logic/player.cc:1974
+#: ../../src/logic/player.cc:2004
 #, c-format
 msgctxt "warehouse"
 msgid "Warehouse %d"
@@ -3573,7 +3616,8 @@ msgid "%1$s<br>(%2$s)"
 msgstr "%1$s<br>(%2$s)"
 
 #: ../../src/ui_basic/window.cc:100 ../../src/ui_fsmenu/about.cc:41
-#: ../../src/ui_fsmenu/mousewheel_report.cc:73 ../../src/wui/watchwindow.cc:75
+#: ../../src/ui_fsmenu/mousewheel_report.cc:73
+#: ../../src/wui/watchwindow.cc:110
 msgid "Close"
 msgstr "Dichtmaken"
 
@@ -4117,7 +4161,7 @@ msgid ""
 "wrong order"
 msgstr "· »%1$s« bruukt eerst »%2$s« un dann »%3$s«, aver de Rieg is annersrum"
 
-#: ../../src/ui_fsmenu/addons/manager.cc:1200
+#: ../../src/ui_fsmenu/addons/manager.cc:1201
 #, c-format
 msgid ""
 "An enabled add-on is defective. No games can be started with the current configuration.\n"
@@ -4125,55 +4169,55 @@ msgid ""
 "%s"
 msgstr "Een anknipst Verwiedern is kaputt. Mit de stedenwies Instellens kann keen Speel begonnen worden.\nFehler-Naricht:\n%s"
 
-#: ../../src/ui_fsmenu/addons/manager.cc:1217
+#: ../../src/ui_fsmenu/addons/manager.cc:1218
 #, c-format
 msgid "%u Dependency Error"
 msgid_plural "%u Dependency Errors"
 msgstr[0] "%u Fehler mit de Ofhangens"
 msgstr[1] "%u Fehlers mit de Ofhangens"
 
-#: ../../src/ui_fsmenu/addons/manager.cc:1219
+#: ../../src/ui_fsmenu/addons/manager.cc:1220
 msgid ""
 "Add-Ons with dependency errors may work incorrectly or prevent games and "
 "maps from loading."
 msgstr "Verwiederns mit Fehlers mit de Ofhangens warken villicht nich as se sallen, of Kaarten un Spelen laden dann villicht nich."
 
-#: ../../src/ui_fsmenu/addons/manager.cc:1334
+#: ../../src/ui_fsmenu/addons/manager.cc:1335
 #, c-format
 msgid ""
 "The add-on ‘%1$s’ can not be uploaded because its version (%2$s) is not "
 "newer than the version present on the server (%3$s)."
 msgstr "Dat Verwiedern »%1$s« kann nich upladen werden, denn siene Versioon (%2$s) is nich nejer as de Versioon up de Server (%3$s)."
 
-#: ../../src/ui_fsmenu/addons/manager.cc:1345
+#: ../../src/ui_fsmenu/addons/manager.cc:1346
 #, c-format
 msgid ""
 "The add-on ‘%1$s’ can not be uploaded because its category (%2$s) does not "
 "match the category of the version present on the server (%3$s)."
 msgstr "Dat Verwiedern »%1$s« kann nich upladen werden, denn sien Deel (%2$s) is anners as siene Deel up de Server (%3$s)."
 
-#: ../../src/ui_fsmenu/addons/manager.cc:1356
+#: ../../src/ui_fsmenu/addons/manager.cc:1357
 #: ../../src/ui_fsmenu/addons/screenshot_upload.cc:54
 msgid "Upload"
 msgstr "Upladen"
 
-#: ../../src/ui_fsmenu/addons/manager.cc:1357
+#: ../../src/ui_fsmenu/addons/manager.cc:1358
 #, c-format
 msgid "Do you really want to upload the add-on ‘%s’ to the server?"
 msgstr "Willst du dat Verwiedern »%s« würrelk to de Server upladen?"
 
-#: ../../src/ui_fsmenu/addons/manager.cc:1367
+#: ../../src/ui_fsmenu/addons/manager.cc:1368
 #, c-format
 msgid "Uploading ‘%s’…"
 msgstr "Lade »%s« up …"
 
-#: ../../src/ui_fsmenu/addons/manager.cc:1374
-#: ../../src/ui_fsmenu/addons/manager.cc:1429
-#: ../../src/ui_fsmenu/addons/manager.cc:1491
+#: ../../src/ui_fsmenu/addons/manager.cc:1375
+#: ../../src/ui_fsmenu/addons/manager.cc:1430
+#: ../../src/ui_fsmenu/addons/manager.cc:1492
 msgid "%1% / %2%"
 msgstr "%1% / %2%"
 
-#: ../../src/ui_fsmenu/addons/manager.cc:1396
+#: ../../src/ui_fsmenu/addons/manager.cc:1397
 #, c-format
 msgid ""
 "The add-on ‘%1$s’ could not be uploaded to the server.\n"
@@ -4182,12 +4226,12 @@ msgid ""
 "%2$s"
 msgstr "Dat Verwiedern »%1$s« kunn nich to de Server upladen worden.\n\nFehler-Naricht:\n%2$s"
 
-#: ../../src/ui_fsmenu/addons/manager.cc:1409
+#: ../../src/ui_fsmenu/addons/manager.cc:1410
 #, c-format
 msgid "Downloading ‘%s’…"
 msgstr "Lade »%s« runner …"
 
-#: ../../src/ui_fsmenu/addons/manager.cc:1445
+#: ../../src/ui_fsmenu/addons/manager.cc:1446
 #, c-format
 msgid ""
 "The add-on ‘%1$s’ could not be downloaded from the server. Installing/upgrading this add-on will be skipped.\n"
@@ -4196,7 +4240,7 @@ msgid ""
 "%2$s"
 msgstr "Dat Verwiedern »%1$s« kunn nich vun de Server runnerladen worden. Dat Installeren/Vernejen vun deeser Verwiedern word översprungen.\n\nFehler:\n%2$s"
 
-#: ../../src/ui_fsmenu/addons/manager.cc:1522
+#: ../../src/ui_fsmenu/addons/manager.cc:1523
 #, c-format
 msgid ""
 "The translations for the add-on ‘%1$s’ could not be downloaded from the server. Installing/upgrading the translations will be skipped.\n"
@@ -4205,7 +4249,7 @@ msgid ""
 "%2$s"
 msgstr "De Översettens för dat Verwiedern »%1$s« kunnen nich vun de Server runnerladen worden. Dat Installeren/Vernejen vun de Översettens word översprungen.\n\nFehler-Naricht:\n%2$s"
 
-#: ../../src/ui_fsmenu/addons/manager.cc:1591
+#: ../../src/ui_fsmenu/addons/manager.cc:1592
 #, c-format
 msgid "The required add-on ‘%s’ could not be found on the server."
 msgstr "De bruukt Verwiedern »%s« gifft dat up de Server nich."
@@ -4220,7 +4264,7 @@ msgstr "Nejes Verwiedern"
 
 #: ../../src/ui_fsmenu/addons/packager.cc:84
 #: ../../src/ui_fsmenu/addons/packager_box.cc:166
-#: ../../src/wui/quicknavigation.cc:300
+#: ../../src/wui/quicknavigation.cc:296
 msgid "–"
 msgstr "–"
 
@@ -4914,14 +4958,6 @@ msgstr "Anknipsen"
 #, c-format
 msgid "%1$s+%2$u"
 msgstr "%1$s+%2$u"
-
-#. * TRANSLATORS: Add-On localized name as header (Add-On internal name in
-#. italics)
-#: ../../src/ui_fsmenu/addons/rows_ui.cc:176
-#: ../../src/ui_fsmenu/addons/rows_ui.cc:359 ../../src/wui/stock_menu.cc:36
-#, c-format
-msgid "%1$s %2$s"
-msgstr "%1$s %2$s"
 
 #: ../../src/ui_fsmenu/addons/rows_ui.cc:180
 #: ../../src/ui_fsmenu/addons/rows_ui.cc:363
@@ -7407,75 +7443,75 @@ msgstr "%1$s%2$s"
 msgid "Fastplace #%i"
 msgstr "Fixbau #%i"
 
-#: ../../src/wui/actionconfirm.cc:197
+#: ../../src/wui/actionconfirm.cc:198
 msgid "Destroy building?"
 msgstr "Huus ofbrannen?"
 
-#: ../../src/wui/actionconfirm.cc:198
+#: ../../src/wui/actionconfirm.cc:199
 msgid "Do you really want to destroy this building?"
 msgstr "Willst du deeses Huus würrelk ofbrannen?"
 
-#: ../../src/wui/actionconfirm.cc:258
+#: ../../src/wui/actionconfirm.cc:259
 msgid "Dismantle building?"
 msgstr "Huus plattrieten?"
 
-#: ../../src/wui/actionconfirm.cc:259
+#: ../../src/wui/actionconfirm.cc:260
 msgid "Do you really want to dismantle this building?"
 msgstr "Willst du deeses Huus würrelk plattrieten?"
 
-#: ../../src/wui/actionconfirm.cc:261 ../../src/wui/actionconfirm.cc:321
+#: ../../src/wui/actionconfirm.cc:262 ../../src/wui/actionconfirm.cc:322
 msgid "Preserve wares"
 msgstr "Waren behollen"
 
-#: ../../src/wui/actionconfirm.cc:263
+#: ../../src/wui/actionconfirm.cc:264
 msgid ""
 "Any wares left in the building will be dropped out by the builder, "
 "increasing the dismantling time"
 msgstr "Elkeen Waar, wat noch im Huus is, word vun de Baukeerl rutsmieten. Dat Plattrieten düürt dann langer."
 
-#: ../../src/wui/actionconfirm.cc:312
+#: ../../src/wui/actionconfirm.cc:313
 msgid "Enhance building?"
 msgstr "Huus utbauen?"
 
-#: ../../src/wui/actionconfirm.cc:316 ../../src/wui/actionconfirm.cc:319
+#: ../../src/wui/actionconfirm.cc:317 ../../src/wui/actionconfirm.cc:320
 msgid "Do you really want to enhance this building?"
 msgstr "Willst du deeses Huus würrelk utbauen?"
 
 #. * TRANSLATORS: Warning message when player wants to enhance a military
 #. building
-#: ../../src/wui/actionconfirm.cc:318
+#: ../../src/wui/actionconfirm.cc:319
 msgid "Be careful if the enemy is near!"
 msgstr "Pass up, wenn de Feind in de Naberskupp is!"
 
-#: ../../src/wui/actionconfirm.cc:325
+#: ../../src/wui/actionconfirm.cc:326
 msgid ""
 "Any wares left in the building will be dropped out by the builder, "
 "increasing the enhancing time"
 msgstr "Elkeen Waar, wat noch im Huus is, word vun de Baukeerl rutsmieten. Dat Utbauen düürt dann langer."
 
-#: ../../src/wui/actionconfirm.cc:376
+#: ../../src/wui/actionconfirm.cc:377
 msgid "Sink the ship?"
 msgstr "Schipp in de Grund jagen?"
 
 #. * TRANSLATORS: %s is a ship name
-#: ../../src/wui/actionconfirm.cc:378
+#: ../../src/wui/actionconfirm.cc:379
 #, c-format
 msgid "Do you really want to sink %s?"
 msgstr "Willst du de %s würrelk in de Grund jagen?"
 
-#: ../../src/wui/actionconfirm.cc:415
+#: ../../src/wui/actionconfirm.cc:416
 msgid "Cancel expedition?"
 msgstr "Söke ofbreken?"
 
-#: ../../src/wui/actionconfirm.cc:416
+#: ../../src/wui/actionconfirm.cc:417
 msgid "Do you really want to cancel the active expedition?"
 msgstr "Willst du de lopend Söke würrelk ofbreken?"
 
-#: ../../src/wui/actionconfirm.cc:455
+#: ../../src/wui/actionconfirm.cc:456
 msgid "Do you really want to give up and become a spectator?"
 msgstr "Willst du würrelk upgeven un een Tokieker worden?"
 
-#: ../../src/wui/actionconfirm.cc:455
+#: ../../src/wui/actionconfirm.cc:456
 msgid "Resign?"
 msgstr "Upgeven?"
 
@@ -7486,7 +7522,7 @@ msgstr "Angriff"
 #. * TRANSLATORS: Number of soldiers that should attack. Used in the attack
 #. window.
 #: ../../src/wui/attack_window.cc:171
-#: ../../src/wui/constructionsitewindow.cc:520
+#: ../../src/wui/constructionsitewindow.cc:524
 #, c-format
 msgid "%u soldier"
 msgid_plural "%u soldiers"
@@ -7551,12 +7587,12 @@ msgstr "Dat Huus ofbrannen"
 msgid "Destroy the target building instead of conquering it"
 msgstr "Dat angriepen Huus nich innehmen, sünnern ofbrannen"
 
-#: ../../src/wui/attack_window.cc:334 ../../src/wui/buildingwindow.cc:408
+#: ../../src/wui/attack_window.cc:334 ../../src/wui/buildingwindow.cc:410
 #: ../../src/wui/shipwindow.cc:152
 msgid "Show Debug Window"
 msgstr "Unnersöken-Fenster wiesen"
 
-#: ../../src/wui/attack_window.cc:338 ../../src/wui/buildingwindow.cc:424
+#: ../../src/wui/attack_window.cc:338 ../../src/wui/buildingwindow.cc:426
 msgid "Center view on this"
 msgstr "Hierher gahn"
 
@@ -7640,150 +7676,150 @@ msgstr "%1%/%2%"
 msgid "Lacking soldiers:"
 msgstr "Soldaten hapern:"
 
-#: ../../src/wui/buildingwindow.cc:202
+#: ../../src/wui/buildingwindow.cc:204
 msgid "Muted – click to unmute"
 msgstr "Stummknipst – tum Luudmaken klicken"
 
-#: ../../src/wui/buildingwindow.cc:203
+#: ../../src/wui/buildingwindow.cc:205
 msgid "Mute this building’s messages"
 msgstr "De Narichten vun deesem Huus stummknipsen"
 
-#: ../../src/wui/buildingwindow.cc:208
+#: ../../src/wui/buildingwindow.cc:210
 msgid "All buildings of this type are muted – click to unmute"
 msgstr "All deese Husen stummknipst – tum Luudmaken klicken"
 
-#: ../../src/wui/buildingwindow.cc:212
+#: ../../src/wui/buildingwindow.cc:214
 msgid "Mute all buildings of this type"
 msgstr "All deese Husen stummknipsen"
 
 #. * TRANSLATORS: Stop/Continue toggle button for production sites.
-#: ../../src/wui/buildingwindow.cc:276
+#: ../../src/wui/buildingwindow.cc:278
 msgid "Continue"
 msgstr "Wiedermaken"
 
 #. * TRANSLATORS: Stop/Continue toggle button for production sites.
-#: ../../src/wui/buildingwindow.cc:278
+#: ../../src/wui/buildingwindow.cc:280
 msgid "Stop"
 msgstr "Anhollen"
 
 #. * TRANSLATORS: Infinite Production toggle button for production sites.
-#: ../../src/wui/buildingwindow.cc:292
+#: ../../src/wui/buildingwindow.cc:294
 msgid "Stop producing indefinitely"
 msgstr "Nich mehr ewig produzeren"
 
 #. * TRANSLATORS: Infinite Production toggle button for production sites.
-#: ../../src/wui/buildingwindow.cc:294
+#: ../../src/wui/buildingwindow.cc:296
 msgid "Produce indefinitely regardless of the economy’s needs"
 msgstr "Ewig produzeren, ok wenn de Weertskupp dat nich bruukt"
 
-#: ../../src/wui/buildingwindow.cc:317
+#: ../../src/wui/buildingwindow.cc:319
 #, c-format
 msgid "Enhance to %s"
 msgstr "To %s utbauen"
 
-#: ../../src/wui/buildingwindow.cc:320 ../../src/wui/fieldaction.cc:97
+#: ../../src/wui/buildingwindow.cc:322 ../../src/wui/fieldaction.cc:97
 msgid "Construction costs:"
 msgstr "Beschickens-Kösten:"
 
-#: ../../src/wui/buildingwindow.cc:338
+#: ../../src/wui/buildingwindow.cc:340
 msgid "Destroy"
 msgstr "Ofbrannen"
 
-#: ../../src/wui/buildingwindow.cc:353
+#: ../../src/wui/buildingwindow.cc:355
 msgid "Dismantle"
 msgstr "Plattrieten"
 
-#: ../../src/wui/buildingwindow.cc:356
+#: ../../src/wui/buildingwindow.cc:358
 msgid "Returns:"
 msgstr "Gifft torügg:"
 
-#: ../../src/wui/buildingwindow.cc:417
+#: ../../src/wui/buildingwindow.cc:419
 msgid "Watch the scout"
 msgstr "De Bespejer beluren"
 
-#: ../../src/wui/buildingwindow.cc:680
+#: ../../src/wui/buildingwindow.cc:682
 msgid "Hide work area"
 msgstr "Arbeidsgewest verbargen"
 
-#: ../../src/wui/buildingwindow.cc:683
+#: ../../src/wui/buildingwindow.cc:685
 msgid "Show work area"
 msgstr "Arbeidsgewest wiesen"
 
-#: ../../src/wui/buildingwindow.cc:708
-#: ../../src/wui/constructionsitewindow.cc:331
+#: ../../src/wui/buildingwindow.cc:710
+#: ../../src/wui/constructionsitewindow.cc:335
 msgid "Start an expedition"
 msgstr "Söke anfangen"
 
-#: ../../src/wui/buildingwindow.cc:712
+#: ../../src/wui/buildingwindow.cc:714
 msgid "Cancel the expedition"
 msgstr "Söke ofbreken"
 
 #: ../../src/wui/constructionsitewindow.cc:149
-#: ../../src/wui/dismantlesitewindow.cc:64
+#: ../../src/wui/dismantlesitewindow.cc:66
 msgid "Building materials"
 msgstr "Baukraam"
 
-#: ../../src/wui/constructionsitewindow.cc:220
+#: ../../src/wui/constructionsitewindow.cc:224
 msgid "Stop this building’s work after completion"
 msgstr "Deeses Huus na de Beschicken anhollen"
 
-#: ../../src/wui/constructionsitewindow.cc:220
+#: ../../src/wui/constructionsitewindow.cc:224
 msgid "Stopped"
 msgstr "Anhollen"
 
-#: ../../src/wui/constructionsitewindow.cc:258
+#: ../../src/wui/constructionsitewindow.cc:262
 #: ../../src/wui/soldierlist.cc:446
 msgid "Prefer heroes"
 msgstr "Helden vörtrecken"
 
-#: ../../src/wui/constructionsitewindow.cc:261
+#: ../../src/wui/constructionsitewindow.cc:265
 #: ../../src/wui/soldierlist.cc:443
 msgid "Prefer rookies"
 msgstr "Snöttbaarten vörtrecken"
 
-#: ../../src/wui/constructionsitewindow.cc:290
+#: ../../src/wui/constructionsitewindow.cc:294
 #: ../../src/wui/warehousewindow.cc:149
 msgid "Normal policy"
 msgstr "Keen Vörrang, keen Groll"
 
-#: ../../src/wui/constructionsitewindow.cc:294
+#: ../../src/wui/constructionsitewindow.cc:298
 #: ../../src/wui/warehousewindow.cc:150
 msgid "Preferably store selected wares here"
 msgstr "Utköört Waren mit Vörrang hier verwahren"
 
-#: ../../src/wui/constructionsitewindow.cc:298
+#: ../../src/wui/constructionsitewindow.cc:302
 #: ../../src/wui/warehousewindow.cc:151
 msgid "Do not store selected wares here"
 msgstr "Utköört Waren hier nich verwahren"
 
-#: ../../src/wui/constructionsitewindow.cc:302
+#: ../../src/wui/constructionsitewindow.cc:306
 #: ../../src/wui/warehousewindow.cc:152
 msgid "Remove selected wares from here"
 msgstr "Utköört Waren vun hier wegbrengen"
 
-#: ../../src/wui/constructionsitewindow.cc:321
+#: ../../src/wui/constructionsitewindow.cc:325
 msgid "Ware settings to apply after construction"
 msgstr "Waar-Instellens, wat na de Beschicken bruukt worden sallen"
 
-#: ../../src/wui/constructionsitewindow.cc:324
+#: ../../src/wui/constructionsitewindow.cc:328
 msgid "Worker settings to apply after construction"
 msgstr "Arbeider-Instellens, wat na de Beschicken bruukt worden sallen"
 
-#: ../../src/wui/constructionsitewindow.cc:332
+#: ../../src/wui/constructionsitewindow.cc:336
 msgid "Start an expedition from this port after completion"
 msgstr "Begünn eene Söök, nadeem deese Muu beschickt worden is"
 
-#: ../../src/wui/constructionsitewindow.cc:356
+#: ../../src/wui/constructionsitewindow.cc:360
 msgid "Settings to apply after construction"
 msgstr "Instellens, wat na de Beschicken bruukt worden sallen"
 
-#: ../../src/wui/constructionsitewindow.cc:450
+#: ../../src/wui/constructionsitewindow.cc:454
 #: ../../src/wui/soldiercapacitycontrol.cc:71
 msgid ""
 "Decrease capacity. Hold down Ctrl to set the capacity to the lowest value"
 msgstr "Tahl vun Steden minnern. Holl de Strg-Tast drückt, um de Tahl up de lüttsten verlöövten Weert to setten"
 
-#: ../../src/wui/constructionsitewindow.cc:460
+#: ../../src/wui/constructionsitewindow.cc:464
 #: ../../src/wui/soldiercapacitycontrol.cc:80
 msgid ""
 "Increase capacity. Hold down Ctrl to set the capacity to the highest value"
@@ -7965,7 +8001,7 @@ msgstr "Faste Anmarken"
 msgid "Show debug window"
 msgstr "Unnersöken-Fenster wiesen"
 
-#: ../../src/wui/fieldaction.cc:515 ../../src/wui/watchwindow.cc:51
+#: ../../src/wui/fieldaction.cc:515 ../../src/wui/watchwindow.cc:85
 msgid "Watch"
 msgstr "Beluren"
 
@@ -8305,52 +8341,52 @@ msgstr "Tied"
 
 #. * TRANSLATORS: This is shown in the game summary for the players who have
 #. lost.
-#: ../../src/wui/game_summary.cc:214
+#: ../../src/wui/game_summary.cc:218
 msgid "Lost"
 msgstr "Verloren"
 
 #. * TRANSLATORS: This is shown in the game summary for the players who have
 #. won.
-#: ../../src/wui/game_summary.cc:218
+#: ../../src/wui/game_summary.cc:222
 msgid "Won"
 msgstr "Wunnen"
 
 #. * TRANSLATORS: This is shown in the game summary for the players who have
 #. resigned.
-#: ../../src/wui/game_summary.cc:227
+#: ../../src/wui/game_summary.cc:231
 msgid "Resigned"
 msgstr "Hett upgeven"
 
 #. * TRANSLATORS: This is shown in the game summary when we don't know
 #. * TRANSLATORS: if the player has lost or won.
-#: ../../src/wui/game_summary.cc:232
+#: ../../src/wui/game_summary.cc:236
 msgctxt "player_won"
 msgid "Unknown"
 msgstr "Unbekannt"
 
-#: ../../src/wui/game_summary.cc:242
+#: ../../src/wui/game_summary.cc:249
 msgid "You won!"
 msgstr "Du hest wunnen!"
 
-#: ../../src/wui/game_summary.cc:244
+#: ../../src/wui/game_summary.cc:251
 msgid "You lost."
 msgstr "Du hest verloren."
 
-#: ../../src/wui/game_summary.cc:248
+#: ../../src/wui/game_summary.cc:255
 #, c-format
 msgid "%s won!"
 msgstr "%s hett wunnen!"
 
-#: ../../src/wui/game_summary.cc:250
+#: ../../src/wui/game_summary.cc:257
 #, c-format
 msgid "Team %u won!"
 msgstr "Klottje %u hett wunnen!"
 
-#: ../../src/wui/game_summary.cc:308
+#: ../../src/wui/game_summary.cc:314
 msgid "Score"
 msgstr "Tahl vun Punkten"
 
-#: ../../src/wui/game_summary.cc:310
+#: ../../src/wui/game_summary.cc:316
 msgid "Team Score"
 msgstr "Tahl vun Punkten för de Klottje"
 
@@ -8504,118 +8540,118 @@ msgid "Priority: Very High"
 msgstr "Wichtigheid: Bannig hoog"
 
 #. * TRANSLATORS: Button tooltip in in a building's wares input queue
-#: ../../src/wui/inputqueuedisplay.cc:124
+#: ../../src/wui/inputqueuedisplay.cc:136
 msgid "Increase the number of wares you want to be stored here"
 msgstr "Verhoog de Tahl vun Waren, wat du hier verwahren willst"
 
 #. * TRANSLATORS: Button tooltip in in a building's wares input queue
-#: ../../src/wui/inputqueuedisplay.cc:126
+#: ../../src/wui/inputqueuedisplay.cc:138
 msgid "Decrease the number of wares you want to be stored here"
 msgstr "Minner de Tahl vun Waren, wat du hier verwahren willst"
 
 #. * TRANSLATORS: Button tooltip in in a building's wares input queue -
 #. option explanation
-#: ../../src/wui/inputqueuedisplay.cc:130
+#: ../../src/wui/inputqueuedisplay.cc:142
 msgid "Hold down Shift to increase all ware types at the same time"
 msgstr "Holl de Umschalt-Tast drückt, um dat för all Waren up eenmaal to verhoogen"
 
 #. * TRANSLATORS: Button tooltip in in a building's wares input queue -
 #. option explanation
-#: ../../src/wui/inputqueuedisplay.cc:133
+#: ../../src/wui/inputqueuedisplay.cc:145
 msgid "Hold down Shift to decrease all ware types at the same time"
 msgstr "Holl de Umschalt-Tast drückt, um dat för all Waren up eenmaal to minnern"
 
 #. * TRANSLATORS: Button tooltip in in a building's wares input queue -
 #. option explanation
-#: ../../src/wui/inputqueuedisplay.cc:138
+#: ../../src/wui/inputqueuedisplay.cc:150
 msgid "Hold down Ctrl to allow all of this ware"
 msgstr "Holl de Strg-Tast drückt, um all vun deeser Waar to verlöven"
 
 #. * TRANSLATORS: Button tooltip in in a building's wares input queue -
 #. option explanation
-#: ../../src/wui/inputqueuedisplay.cc:141
+#: ../../src/wui/inputqueuedisplay.cc:153
 msgid "Hold down Ctrl to allow none of this ware"
 msgstr "Holl de Strg-Tast drückt, um nix vun deeser Waar to verlöven"
 
-#: ../../src/wui/inputqueuedisplay.cc:193
+#: ../../src/wui/inputqueuedisplay.cc:206
 msgid "Remove ware"
 msgstr "Waar wegdoon"
 
-#: ../../src/wui/inputqueuedisplay.cc:202
+#: ../../src/wui/inputqueuedisplay.cc:215
 msgid "Add ware"
 msgstr "Waar hentofögen"
 
-#: ../../src/wui/inputqueuedisplay.cc:667
+#: ../../src/wui/inputqueuedisplay.cc:614
 msgid "Hide controls"
 msgstr "Stüren verbargen"
 
-#: ../../src/wui/inputqueuedisplay.cc:667
+#: ../../src/wui/inputqueuedisplay.cc:614
 msgid "Show controls"
 msgstr "Stüren wiesen"
 
 #. * TRANSLATORS: Title for the map view menu button in the game
-#: ../../src/wui/interactive_base.cc:134
+#: ../../src/wui/interactive_base.cc:135
 msgid "Map View"
 msgstr "Kaart-Sicht"
 
 #. * TRANSLATORS: An entry in the game's map view menu
-#: ../../src/wui/interactive_base.cc:275
+#: ../../src/wui/interactive_base.cc:276
 msgid "Hide Minimap"
 msgstr "Lütt Kaart verbargen"
 
-#: ../../src/wui/interactive_base.cc:275
+#: ../../src/wui/interactive_base.cc:276
 msgid "Show Minimap"
 msgstr "Lütt Kaart wiesen"
 
 #. * TRANSLATORS: An entry in the game's map view menu
-#: ../../src/wui/interactive_base.cc:282
+#: ../../src/wui/interactive_base.cc:283
 msgid "Hide Quick Navigation"
 msgstr "Fixnavigeren verbargen"
 
-#: ../../src/wui/interactive_base.cc:283
+#: ../../src/wui/interactive_base.cc:284
 msgid "Show Quick Navigation"
 msgstr "Fixnavigeren wiesen"
 
 #. * TRANSLATORS: An entry in the game's map view menu
-#: ../../src/wui/interactive_base.cc:290
+#: ../../src/wui/interactive_base.cc:291
 msgid "Zoom +"
 msgstr "Vergrotern"
 
 #. * TRANSLATORS: An entry in the game's map view menu
-#: ../../src/wui/interactive_base.cc:295
+#: ../../src/wui/interactive_base.cc:296
 msgid "Reset zoom"
 msgstr "Vergrotern torüggsetten"
 
 #. * TRANSLATORS: An entry in the game's map view menu
-#: ../../src/wui/interactive_base.cc:300
+#: ../../src/wui/interactive_base.cc:301
 msgid "Zoom –"
 msgstr "Verkleenern"
 
-#: ../../src/wui/interactive_base.cc:838
+#: ../../src/wui/interactive_base.cc:839
 #, c-format
 msgid "Road length: %1$u (%2$u)"
 msgstr "Straatenlängde: %1$u (%2$u)"
 
-#: ../../src/wui/interactive_base.cc:840
+#: ../../src/wui/interactive_base.cc:841
 #, c-format
 msgid "Waterway length: %1$u (%2$u) / %3$u"
 msgstr "Priellängde: %1$u (%2$u) / %3$u"
 
-#: ../../src/wui/interactive_base.cc:845
+#: ../../src/wui/interactive_base.cc:846
 #, c-format
 msgid "Road length: %u"
 msgstr "Straatenlängde: %u"
 
-#: ../../src/wui/interactive_base.cc:848
+#: ../../src/wui/interactive_base.cc:849
 #, c-format
 msgid "Waterway length: %1$u / %2$u"
 msgstr "Priellängde: %1$u / %2$u"
 
-#: ../../src/wui/interactive_base.cc:1730
+#: ../../src/wui/interactive_base.cc:1731
 msgid "Failed saving screenshot!"
 msgstr "Billschirmfoto to sekern fehlslagen!"
 
-#: ../../src/wui/interactive_base.cc:1734
+#: ../../src/wui/interactive_base.cc:1735
 msgid "Screenshot saved"
 msgstr "Billschirmfoto sekert"
 
@@ -8940,12 +8976,12 @@ msgid "No Author"
 msgstr "Keen Schriever"
 
 #. * TRANSLATORS: Parent directory/folder
-#: ../../src/wui/mapdata.cc:173 ../../src/wui/savegametable.cc:126
+#: ../../src/wui/mapdata.cc:175 ../../src/wui/savegametable.cc:126
 msgid "parent"
 msgstr "na boven"
 
 #. * TRANSLATORS: This label is shown when a folder is empty
-#: ../../src/wui/mapdata.cc:179
+#: ../../src/wui/mapdata.cc:181
 msgid "empty"
 msgstr "leeg"
 
@@ -9125,39 +9161,39 @@ msgstr "nich besett"
 msgid "(vacant)"
 msgstr "(nich besett)"
 
-#: ../../src/wui/quicknavigation.cc:167
+#: ../../src/wui/quicknavigation.cc:166
 msgid "Quick Navigation"
 msgstr "Fixnavigeren"
 
-#: ../../src/wui/quicknavigation.cc:180
+#: ../../src/wui/quicknavigation.cc:179
 msgid "Go to previous location"
 msgstr "To de lesten Stee gahn"
 
-#: ../../src/wui/quicknavigation.cc:192
+#: ../../src/wui/quicknavigation.cc:191
 msgid "Go to next location"
 msgstr "To de anner Stee gahn"
 
-#: ../../src/wui/quicknavigation.cc:203
+#: ../../src/wui/quicknavigation.cc:202
 msgid "Add a new landmark"
 msgstr "Neje Stee hentofögen"
 
-#: ../../src/wui/quicknavigation.cc:245 ../../src/wui/quicknavigation.cc:251
+#: ../../src/wui/quicknavigation.cc:244 ../../src/wui/quicknavigation.cc:250
 msgid "Go to this landmark"
 msgstr "To deeser Stee gahn"
 
-#: ../../src/wui/quicknavigation.cc:259
+#: ../../src/wui/quicknavigation.cc:258
 msgid "View this landmark in a watch window"
 msgstr "Deese Stee in eenem nejen Fenster beluren"
 
-#: ../../src/wui/quicknavigation.cc:276
+#: ../../src/wui/quicknavigation.cc:272
 msgid "Unset this landmark"
 msgstr "Stee vergeten"
 
-#: ../../src/wui/quicknavigation.cc:286 ../../src/wui/quicknavigation.cc:292
+#: ../../src/wui/quicknavigation.cc:282 ../../src/wui/quicknavigation.cc:288
 msgid "Set this landmark to the current map view location"
 msgstr "Deese Stee up de stedenwies Kaart-Sicht setten"
 
-#: ../../src/wui/quicknavigation.cc:300
+#: ../../src/wui/quicknavigation.cc:296
 msgid "Remove this landmark"
 msgstr "Stee lösken"
 
@@ -9750,7 +9786,7 @@ msgstr "Waren de up een Schipp wachten"
 msgid "Workers waiting to embark"
 msgstr "Arbeiders de up een Schipp wachten"
 
-#: ../../src/wui/warehousewindow.cc:323
+#: ../../src/wui/warehousewindow.cc:324
 msgid "Expedition"
 msgstr "Söök"
 
@@ -9788,10 +9824,10 @@ msgstr "%1%M"
 msgid "%1%G"
 msgstr "%1%G"
 
-#: ../../src/wui/watchwindow.cc:58
+#: ../../src/wui/watchwindow.cc:93
 msgid "Follow"
 msgstr "Nagahn"
 
-#: ../../src/wui/watchwindow.cc:63
+#: ../../src/wui/watchwindow.cc:98
 msgid "Center the main view on this"
 msgstr "Hierher gahn"

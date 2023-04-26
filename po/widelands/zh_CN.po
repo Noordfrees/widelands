@@ -7,17 +7,17 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2011
 # Frank Tang <roadtang@gmail.com>, 2015
 # GunChleoc, 2015
-# Jiawei Sun, 2022
+# 92373a9a734415f33212259453a6274d_77ab48e, 2022
 # Roy Luo <1598359376@qq.com>, 2020-2021
 # liu lizhi <xingzuo88@qq.com>, 2021
 msgid ""
 msgstr ""
 "Project-Id-Version: Widelands\n"
 "Report-Msgid-Bugs-To: https://www.widelands.org/wiki/ReportingBugs/\n"
-"POT-Creation-Date: 2023-02-22 02:57+0000\n"
+"POT-Creation-Date: 2023-04-22 04:30+0000\n"
 "PO-Revision-Date: 2015-02-02 13:35+0000\n"
-"Last-Translator: Jiawei Sun, 2022\n"
-"Language-Team: Chinese (China) (http://www.transifex.com/widelands/widelands/language/zh_CN/)\n"
+"Last-Translator: 92373a9a734415f33212259453a6274d_77ab48e, 2022\n"
+"Language-Team: Chinese (China) (http://app.transifex.com/widelands/widelands/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -330,7 +330,7 @@ msgid "Redo"
 msgstr "重做"
 
 #: ../../src/editor/editorinteractive.cc:174
-#: ../../src/wui/buildingwindow.cc:436 ../../src/wui/interactive_player.cc:234
+#: ../../src/wui/buildingwindow.cc:438 ../../src/wui/interactive_player.cc:234
 msgid "Help"
 msgstr "帮助"
 
@@ -415,7 +415,7 @@ msgstr "改变地图的地形"
 
 #. * TRANSLATORS: An entry in the editor's tool menu
 #: ../../src/editor/editorinteractive.cc:318
-#: ../../src/editor/ui_menus/tool_place_immovable_options_menu.cc:61
+#: ../../src/editor/ui_menus/tool_place_immovable_options_menu.cc:77
 #: ../../src/logic/map_objects/tribes/tribe_descr.cc:169
 msgid "Immovables"
 msgstr "固定物"
@@ -623,12 +623,12 @@ msgstr ""
 #: ../../src/editor/editorinteractive.cc:1102 ../../src/logic/addons.cc:47
 #: ../../src/ui_basic/dropdown.cc:358 ../../src/ui_basic/dropdown.cc:360
 #: ../../src/ui_fsmenu/addons/contact.cc:81
-#: ../../src/ui_fsmenu/addons/manager.cc:1333
-#: ../../src/ui_fsmenu/addons/manager.cc:1344
-#: ../../src/ui_fsmenu/addons/manager.cc:1395
-#: ../../src/ui_fsmenu/addons/manager.cc:1443
-#: ../../src/ui_fsmenu/addons/manager.cc:1521
-#: ../../src/ui_fsmenu/addons/manager.cc:1590
+#: ../../src/ui_fsmenu/addons/manager.cc:1334
+#: ../../src/ui_fsmenu/addons/manager.cc:1345
+#: ../../src/ui_fsmenu/addons/manager.cc:1396
+#: ../../src/ui_fsmenu/addons/manager.cc:1444
+#: ../../src/ui_fsmenu/addons/manager.cc:1522
+#: ../../src/ui_fsmenu/addons/manager.cc:1591
 #: ../../src/ui_fsmenu/addons/remote_interaction.cc:103
 #: ../../src/ui_fsmenu/addons/remote_interaction.cc:293
 #: ../../src/ui_fsmenu/addons/remote_interaction.cc:560
@@ -775,8 +775,14 @@ msgstr ""
 msgid "Critter: %1$s"
 msgstr ""
 
+#: ../../src/editor/tools/place_immovable_tool.cc:131
+#: ../../src/editor/ui_menus/tool_place_immovable_options_menu.cc:92
+#: ../../src/editor/ui_menus/tool_place_immovable_options_menu.cc:97
+msgid "Automatic Trees"
+msgstr ""
+
 #. * TRANSLATORS: An entry in the tool history list.
-#: ../../src/editor/tools/place_immovable_tool.cc:110
+#: ../../src/editor/tools/place_immovable_tool.cc:138
 #, c-format
 msgid "Immovable: %1$s"
 msgstr ""
@@ -788,18 +794,18 @@ msgid "Terrain: %1$s"
 msgstr ""
 
 #. * TRANSLATORS: %s are the currently selected items in an editor tool
-#: ../../src/editor/ui_menus/categorized_item_selection_menu.h:180
+#: ../../src/editor/ui_menus/categorized_item_selection_menu.h:186
 #, c-format
 msgid "Current: %s …"
 msgstr "当前：%s......"
 
 #. * TRANSLATORS: Help text in an editor tool
-#: ../../src/editor/ui_menus/categorized_item_selection_menu.h:183
+#: ../../src/editor/ui_menus/categorized_item_selection_menu.h:189
 msgid "Click to select an item. Use the Ctrl key to select multiple items."
 msgstr " 单击以选择项目。使用Ctrl键选择多个项目。 "
 
 #. * TRANSLATORS: %s are the currently selected items in an editor tool
-#: ../../src/editor/ui_menus/categorized_item_selection_menu.h:186
+#: ../../src/editor/ui_menus/categorized_item_selection_menu.h:192
 #: ../../src/editor/ui_menus/tool_change_resources_options_menu.cc:156
 #, c-format
 msgid "Current: %s"
@@ -983,25 +989,25 @@ msgstr "错误！"
 #. * TRANSLATORS: Directory name for user maps in map selection
 #: ../../src/editor/ui_menus/main_menu_load_map.cc:81
 #: ../../src/editor/ui_menus/main_menu_save_map.cc:279
-#: ../../src/ui_fsmenu/addons/packager_box.cc:210 ../../src/wui/mapdata.cc:193
+#: ../../src/ui_fsmenu/addons/packager_box.cc:210 ../../src/wui/mapdata.cc:195
 msgid "My Maps"
 msgstr "我的地图"
 
 #. * TRANSLATORS: Directory name for MP Scenarios in map selection
 #: ../../src/editor/ui_menus/main_menu_load_map.cc:83
-#: ../../src/wui/mapdata.cc:187
+#: ../../src/wui/mapdata.cc:189
 msgid "Multiplayer Scenarios"
 msgstr "多人游戏场景"
 
 #. * TRANSLATORS: Directory name for SP Scenarios in map selection
 #: ../../src/editor/ui_menus/main_menu_load_map.cc:85
-#: ../../src/wui/mapdata.cc:190
+#: ../../src/wui/mapdata.cc:192
 msgid "Singleplayer Scenarios"
 msgstr ""
 
 #. * TRANSLATORS: Directory name for downloaded maps in map selection
 #: ../../src/editor/ui_menus/main_menu_load_map.cc:87
-#: ../../src/wui/mapdata.cc:196
+#: ../../src/wui/mapdata.cc:198
 msgid "Downloaded Maps"
 msgstr "已下载的地图"
 
@@ -1096,7 +1102,7 @@ msgstr "删除这项建议的团队阵容"
 #: ../../src/editor/ui_menus/main_menu_map_options.cc:108
 #: ../../src/ui_fsmenu/addons/packager.cc:75
 #: ../../src/ui_fsmenu/addons/packager_box.cc:148
-#: ../../src/wui/quicknavigation.cc:202
+#: ../../src/wui/quicknavigation.cc:201
 msgid "+"
 msgstr "+"
 
@@ -1603,6 +1609,43 @@ msgstr "单击地图将地形海拔设置为指定范围内的随机值"
 msgid "Fixed height"
 msgstr "固定海拔"
 
+#. * TRANSLATORS: Add-On localized name as header (Add-On internal name in
+#. italics)
+#: ../../src/editor/ui_menus/tool_place_immovable_options_menu.cc:47
+#: ../../src/ui_fsmenu/addons/rows_ui.cc:176
+#: ../../src/ui_fsmenu/addons/rows_ui.cc:359 ../../src/wui/stock_menu.cc:36
+#, c-format
+msgid "%1$s %2$s"
+msgstr "%1$s %2$s"
+
+#: ../../src/editor/ui_menus/tool_place_immovable_options_menu.cc:51
+#, c-format
+msgid "%1$s (removable by e.g. placing roads)"
+msgstr ""
+
+#: ../../src/editor/ui_menus/tool_place_immovable_options_menu.cc:54
+#, c-format
+msgid "%1$s (needs a small building plot)"
+msgstr ""
+
+#: ../../src/editor/ui_menus/tool_place_immovable_options_menu.cc:57
+#, c-format
+msgid "%1$s (needs a medium building plot)"
+msgstr ""
+
+#: ../../src/editor/ui_menus/tool_place_immovable_options_menu.cc:60
+#, c-format
+msgid "%1$s (needs a big building plot)"
+msgstr ""
+
+#: ../../src/editor/ui_menus/tool_place_immovable_options_menu.cc:98
+msgid "Automatically place the trees which grow best on the terrain"
+msgstr ""
+
+#: ../../src/editor/ui_menus/tool_place_immovable_options_menu.cc:114
+msgid "Automatic Immovable Placement"
+msgstr ""
+
 #: ../../src/editor/ui_menus/tool_resize_options_menu.cc:34
 msgid "Resize"
 msgstr "调整大小"
@@ -1627,7 +1670,7 @@ msgid "%1%: %2%"
 msgstr "%1%:%2%"
 
 #. * TRANSLATORS: Help tooltip in tool history window
-#: ../../src/editor/ui_menus/tool_toolhistory_options_menu.cc:108
+#: ../../src/editor/ui_menus/tool_toolhistory_options_menu.cc:113
 msgid ""
 "Click to restore, Shift + Click to delete, and Ctrl + Click to pin an item."
 msgstr ""
@@ -1692,7 +1735,7 @@ msgstr "互相配合的玩家"
 #. * TRANSLATORS: Basic error message when we can't handle the graphics
 #. driver. Font
 #. support is limited here, so do not use advanced typography *
-#: ../../src/graphic/gl/initialize.cc:171
+#: ../../src/graphic/gl/initialize.cc:179
 msgid ""
 "Widelands won't work because we were unable to detect the shading language "
 "version."
@@ -1701,8 +1744,8 @@ msgstr " Widelands无法正常工作，因为我们检测不到shading language 
 #. * TRANSLATORS: Basic error message when we can't handle the graphics
 #. driver. Font
 #. support is limited here, so do not use advanced typography *
-#: ../../src/graphic/gl/initialize.cc:175
-#: ../../src/graphic/gl/initialize.cc:188
+#: ../../src/graphic/gl/initialize.cc:183
+#: ../../src/graphic/gl/initialize.cc:196
 msgid ""
 "There is an unknown problem with reading the information from the graphics "
 "driver."
@@ -1711,7 +1754,7 @@ msgstr "读取显卡信息时出现未知的问题。"
 #. * TRANSLATORS: Basic error message when we can't handle the graphics
 #. driver. Font
 #. support is limited here, so do not use advanced typography *
-#: ../../src/graphic/gl/initialize.cc:185
+#: ../../src/graphic/gl/initialize.cc:193
 msgid ""
 "Widelands won't work because we were unable to detect the OpenGL version."
 msgstr "因无法检测 OpenGL 版本，故游戏无法启动。"
@@ -1719,15 +1762,15 @@ msgstr "因无法检测 OpenGL 版本，故游戏无法启动。"
 #. * TRANSLATORS: Basic error message when we can't handle the graphics
 #. driver.
 #. Font support is limited here, so do not use advanced typography *
-#: ../../src/graphic/gl/initialize.cc:216
-#: ../../src/graphic/gl/initialize.cc:236
+#: ../../src/graphic/gl/initialize.cc:224
+#: ../../src/graphic/gl/initialize.cc:244
 msgid "Widelands won’t work because your graphics driver is too old."
 msgstr "显卡驱动程序过于陈旧，导致游戏无法运行。"
 
 #. * TRANSLATORS: Basic error message when we can't handle the graphics
 #. driver.
 #. Font support is limited here, so do not use advanced typography *
-#: ../../src/graphic/gl/initialize.cc:219
+#: ../../src/graphic/gl/initialize.cc:227
 #, c-format
 msgid "The %1$u version needs to be version %2$u.%3$u or newer."
 msgstr ""
@@ -1735,16 +1778,16 @@ msgstr ""
 #. * TRANSLATORS: Basic error message when we can't handle the graphics
 #. driver.
 #. Font support is limited here, so do not use advanced typography *
-#: ../../src/graphic/gl/initialize.cc:239
+#: ../../src/graphic/gl/initialize.cc:247
 #, c-format
 msgid "The %1$s needs to be version %2$u.%3$u or newer."
 msgstr ""
 
-#: ../../src/graphic/gl/initialize.cc:255
+#: ../../src/graphic/gl/initialize.cc:263
 msgid "OpenGL"
 msgstr "OpenGL"
 
-#: ../../src/graphic/gl/initialize.cc:302
+#: ../../src/graphic/gl/initialize.cc:310
 msgid "Shading Language"
 msgstr ""
 
@@ -1958,11 +2001,11 @@ msgstr "初始化游戏"
 msgid "Creating player infrastructure…"
 msgstr "创建玩家基础设施…"
 
-#: ../../src/logic/game.cc:647 ../../src/logic/player.cc:227
+#: ../../src/logic/game.cc:647 ../../src/logic/player.cc:257
 msgid "Missing starting position"
 msgstr "缺少起始位置"
 
-#: ../../src/logic/game.cc:648 ../../src/logic/player.cc:228
+#: ../../src/logic/game.cc:648 ../../src/logic/player.cc:258
 #, c-format
 msgid ""
 "Widelands could not start the game, because player %u has no starting position.\n"
@@ -2269,89 +2312,89 @@ msgstr "%i%%"
 msgid "Can’t find any more resources!"
 msgstr "找不到更多资源！"
 
-#: ../../src/logic/map_objects/tribes/ship.cc:455
+#: ../../src/logic/map_objects/tribes/ship.cc:460
 msgid "Port Space"
 msgstr "港口空间"
 
-#: ../../src/logic/map_objects/tribes/ship.cc:455
+#: ../../src/logic/map_objects/tribes/ship.cc:460
 msgid "Port Space Found"
 msgstr "找到港口空间"
 
-#: ../../src/logic/map_objects/tribes/ship.cc:456
+#: ../../src/logic/map_objects/tribes/ship.cc:461
 msgid "An expedition ship found a new port build space."
 msgstr "一艘探险船发现了一个新的港口建造空间。"
 
-#: ../../src/logic/map_objects/tribes/ship.cc:579
+#: ../../src/logic/map_objects/tribes/ship.cc:584
 msgid "Island Circumnavigated"
 msgstr "环岛航行"
 
 #. * TRANSLATORS: A ship has circumnavigated an island and is waiting
 #. for orders
-#: ../../src/logic/map_objects/tribes/ship.cc:579
+#: ../../src/logic/map_objects/tribes/ship.cc:584
 msgctxt "ship"
 msgid "Waiting"
 msgstr "等待"
 
-#: ../../src/logic/map_objects/tribes/ship.cc:580
+#: ../../src/logic/map_objects/tribes/ship.cc:585
 msgid "An expedition ship sailed around its island without any events."
 msgstr " 一艘探险船绕岛航行，没有发生任何事件。 "
 
-#: ../../src/logic/map_objects/tribes/ship.cc:643
+#: ../../src/logic/map_objects/tribes/ship.cc:648
 msgid "Coast Reached"
 msgstr "到达海岸"
 
 #. * TRANSLATORS: A ship has discovered land
-#: ../../src/logic/map_objects/tribes/ship.cc:643
+#: ../../src/logic/map_objects/tribes/ship.cc:648
 msgid "Land Ahoy!"
 msgstr " 着陆啊！ "
 
-#: ../../src/logic/map_objects/tribes/ship.cc:644
+#: ../../src/logic/map_objects/tribes/ship.cc:649
 msgid ""
 "An expedition ship reached a coast and is waiting for further commands."
 msgstr "一艘探险船到达海岸正在等待下一步的命令。"
 
-#: ../../src/logic/map_objects/tribes/ship.cc:695
+#: ../../src/logic/map_objects/tribes/ship.cc:700
 msgid "New port construction site is gone"
 msgstr "新港口建设工地即将完工"
 
-#: ../../src/logic/map_objects/tribes/ship.cc:695
+#: ../../src/logic/map_objects/tribes/ship.cc:700
 msgid "Port Lost!"
 msgstr "港口丢失"
 
-#: ../../src/logic/map_objects/tribes/ship.cc:696
+#: ../../src/logic/map_objects/tribes/ship.cc:701
 msgid "Unloading of wares failed, expedition is cancelled now."
 msgstr "卸货失败，探险取消。"
 
-#: ../../src/logic/map_objects/tribes/ship.cc:752
+#: ../../src/logic/map_objects/tribes/ship.cc:757
 msgid "No Port Can Be Built"
 msgstr ""
 
-#: ../../src/logic/map_objects/tribes/ship.cc:752
+#: ../../src/logic/map_objects/tribes/ship.cc:757
 msgid "Port Space Lost!"
 msgstr ""
 
-#: ../../src/logic/map_objects/tribes/ship.cc:753
+#: ../../src/logic/map_objects/tribes/ship.cc:758
 msgid ""
 "A discovered port build space is not available for building a port anymore."
 msgstr ""
 
 #. * TRANSLATORS: Ship expedition ready
-#: ../../src/logic/map_objects/tribes/ship.cc:899
+#: ../../src/logic/map_objects/tribes/ship.cc:904
 msgctxt "ship"
 msgid "Expedition"
 msgstr "探险"
 
-#: ../../src/logic/map_objects/tribes/ship.cc:899
+#: ../../src/logic/map_objects/tribes/ship.cc:904
 msgid "Expedition Ready"
 msgstr "探险远征准备就绪"
 
-#: ../../src/logic/map_objects/tribes/ship.cc:900
+#: ../../src/logic/map_objects/tribes/ship.cc:905
 msgid "An expedition ship is waiting for your commands."
 msgstr "一艘探险船正等待着你的命令。"
 
 #. * TRANSLATORS: This is a ship state. The ship is ready
 #. * to transport wares, but has nothing to do.
-#: ../../src/logic/map_objects/tribes/ship.cc:1058
+#: ../../src/logic/map_objects/tribes/ship.cc:1063
 #: ../../src/wui/seafaring_statistics_menu.cc:244
 msgctxt "ship_state"
 msgid "Empty"
@@ -2359,7 +2402,7 @@ msgstr "空的"
 
 #. * TRANSLATORS: This is a ship state. The ship is currently
 #. * transporting wares to a specific destination port.
-#: ../../src/logic/map_objects/tribes/ship.cc:1063
+#: ../../src/logic/map_objects/tribes/ship.cc:1068
 #, c-format
 msgctxt "ship_state"
 msgid "Shipping to %s"
@@ -2367,7 +2410,7 @@ msgstr ""
 
 #. * TRANSLATORS: This is a ship state. The ship is currently sailing
 #. * to a specific destination port without transporting wares.
-#: ../../src/logic/map_objects/tribes/ship.cc:1069
+#: ../../src/logic/map_objects/tribes/ship.cc:1074
 #, c-format
 msgctxt "ship_state"
 msgid "Sailing to %s"
@@ -2375,7 +2418,7 @@ msgstr ""
 
 #. * TRANSLATORS: This is a ship state. An expedition is waiting for your
 #. commands.
-#: ../../src/logic/map_objects/tribes/ship.cc:1075
+#: ../../src/logic/map_objects/tribes/ship.cc:1080
 #: ../../src/wui/seafaring_statistics_menu.cc:248
 msgctxt "ship_state"
 msgid "Waiting"
@@ -2383,14 +2426,14 @@ msgstr "等待"
 
 #. * TRANSLATORS: This is a ship state. An expedition is scouting for port
 #. spaces.
-#: ../../src/logic/map_objects/tribes/ship.cc:1079
+#: ../../src/logic/map_objects/tribes/ship.cc:1084
 #: ../../src/wui/seafaring_statistics_menu.cc:250
 msgctxt "ship_state"
 msgid "Scouting"
 msgstr "侦察"
 
 #. * TRANSLATORS: This is a ship state. An expedition has found a port space.
-#: ../../src/logic/map_objects/tribes/ship.cc:1083
+#: ../../src/logic/map_objects/tribes/ship.cc:1088
 #: ../../src/wui/seafaring_statistics_menu.cc:252
 msgctxt "ship_state"
 msgid "Port Space Found"
@@ -2399,7 +2442,7 @@ msgstr "找到港口空间"
 #. * TRANSLATORS: This is a ship state. An expedition is unloading
 #. wares/workers to build a
 #. * port.
-#: ../../src/logic/map_objects/tribes/ship.cc:1088
+#: ../../src/logic/map_objects/tribes/ship.cc:1093
 msgctxt "ship_state"
 msgid "Founding a Colony"
 msgstr "建立殖民地"
@@ -2502,15 +2545,15 @@ msgstr "一个新的仓库已添加到你的经济系统。"
 #. * TRANSLATORS: Message header, short for "Waterway Destroyed" (not much
 #. space
 #. * available)
-#: ../../src/logic/map_objects/tribes/warehouse.cc:643
+#: ../../src/logic/map_objects/tribes/warehouse.cc:648
 msgid "Waterway"
 msgstr "水路"
 
-#: ../../src/logic/map_objects/tribes/warehouse.cc:644
+#: ../../src/logic/map_objects/tribes/warehouse.cc:649
 msgid "Waterway destroyed"
 msgstr "水路被摧毁"
 
-#: ../../src/logic/map_objects/tribes/warehouse.cc:645
+#: ../../src/logic/map_objects/tribes/warehouse.cc:650
 msgid "A waterway had to be destroyed to make room for your new port dock."
 msgstr " 为了在给你们的新码头腾出空间修建船坞，一条水道不得不被摧毁。 "
 
@@ -2570,19 +2613,19 @@ msgstr "地图文件已经失效：\n%s"
 msgid "This objective has no description."
 msgstr "此目标无描述。"
 
-#: ../../src/logic/player.cc:1956
+#: ../../src/logic/player.cc:1986
 #, c-format
 msgctxt "shipname"
 msgid "Ship %d"
 msgstr "船 %d"
 
-#: ../../src/logic/player.cc:1974
+#: ../../src/logic/player.cc:2004
 #, c-format
 msgctxt "warehouse"
 msgid "Port %d"
 msgstr ""
 
-#: ../../src/logic/player.cc:1974
+#: ../../src/logic/player.cc:2004
 #, c-format
 msgctxt "warehouse"
 msgid "Warehouse %d"
@@ -3558,7 +3601,8 @@ msgid "%1$s<br>(%2$s)"
 msgstr ""
 
 #: ../../src/ui_basic/window.cc:100 ../../src/ui_fsmenu/about.cc:41
-#: ../../src/ui_fsmenu/mousewheel_report.cc:73 ../../src/wui/watchwindow.cc:75
+#: ../../src/ui_fsmenu/mousewheel_report.cc:73
+#: ../../src/wui/watchwindow.cc:110
 msgid "Close"
 msgstr "关闭"
 
@@ -4100,7 +4144,7 @@ msgid ""
 "wrong order"
 msgstr "· ‘%1$s’ 首先需要  ‘%2$s’ 然后需要  ‘%3$s’, 但它们排列顺序不对 "
 
-#: ../../src/ui_fsmenu/addons/manager.cc:1200
+#: ../../src/ui_fsmenu/addons/manager.cc:1201
 #, c-format
 msgid ""
 "An enabled add-on is defective. No games can be started with the current configuration.\n"
@@ -4108,54 +4152,54 @@ msgid ""
 "%s"
 msgstr ""
 
-#: ../../src/ui_fsmenu/addons/manager.cc:1217
+#: ../../src/ui_fsmenu/addons/manager.cc:1218
 #, c-format
 msgid "%u Dependency Error"
 msgid_plural "%u Dependency Errors"
 msgstr[0] ""
 
-#: ../../src/ui_fsmenu/addons/manager.cc:1219
+#: ../../src/ui_fsmenu/addons/manager.cc:1220
 msgid ""
 "Add-Ons with dependency errors may work incorrectly or prevent games and "
 "maps from loading."
 msgstr "存在依赖错误的附件可能无法正常工作，或者阻止加载游戏和地图。"
 
-#: ../../src/ui_fsmenu/addons/manager.cc:1334
+#: ../../src/ui_fsmenu/addons/manager.cc:1335
 #, c-format
 msgid ""
 "The add-on ‘%1$s’ can not be uploaded because its version (%2$s) is not "
 "newer than the version present on the server (%3$s)."
 msgstr ""
 
-#: ../../src/ui_fsmenu/addons/manager.cc:1345
+#: ../../src/ui_fsmenu/addons/manager.cc:1346
 #, c-format
 msgid ""
 "The add-on ‘%1$s’ can not be uploaded because its category (%2$s) does not "
 "match the category of the version present on the server (%3$s)."
 msgstr ""
 
-#: ../../src/ui_fsmenu/addons/manager.cc:1356
+#: ../../src/ui_fsmenu/addons/manager.cc:1357
 #: ../../src/ui_fsmenu/addons/screenshot_upload.cc:54
 msgid "Upload"
 msgstr ""
 
-#: ../../src/ui_fsmenu/addons/manager.cc:1357
+#: ../../src/ui_fsmenu/addons/manager.cc:1358
 #, c-format
 msgid "Do you really want to upload the add-on ‘%s’ to the server?"
 msgstr ""
 
-#: ../../src/ui_fsmenu/addons/manager.cc:1367
+#: ../../src/ui_fsmenu/addons/manager.cc:1368
 #, c-format
 msgid "Uploading ‘%s’…"
 msgstr ""
 
-#: ../../src/ui_fsmenu/addons/manager.cc:1374
-#: ../../src/ui_fsmenu/addons/manager.cc:1429
-#: ../../src/ui_fsmenu/addons/manager.cc:1491
+#: ../../src/ui_fsmenu/addons/manager.cc:1375
+#: ../../src/ui_fsmenu/addons/manager.cc:1430
+#: ../../src/ui_fsmenu/addons/manager.cc:1492
 msgid "%1% / %2%"
 msgstr ""
 
-#: ../../src/ui_fsmenu/addons/manager.cc:1396
+#: ../../src/ui_fsmenu/addons/manager.cc:1397
 #, c-format
 msgid ""
 "The add-on ‘%1$s’ could not be uploaded to the server.\n"
@@ -4164,12 +4208,12 @@ msgid ""
 "%2$s"
 msgstr ""
 
-#: ../../src/ui_fsmenu/addons/manager.cc:1409
+#: ../../src/ui_fsmenu/addons/manager.cc:1410
 #, c-format
 msgid "Downloading ‘%s’…"
 msgstr "正在下载 ‘%s’…"
 
-#: ../../src/ui_fsmenu/addons/manager.cc:1445
+#: ../../src/ui_fsmenu/addons/manager.cc:1446
 #, c-format
 msgid ""
 "The add-on ‘%1$s’ could not be downloaded from the server. Installing/upgrading this add-on will be skipped.\n"
@@ -4178,7 +4222,7 @@ msgid ""
 "%2$s"
 msgstr "附加组件 ‘%1$s’ 不能从服务器下载， 将跳过安装/升级此附件。 错误信息： %2$s "
 
-#: ../../src/ui_fsmenu/addons/manager.cc:1522
+#: ../../src/ui_fsmenu/addons/manager.cc:1523
 #, c-format
 msgid ""
 "The translations for the add-on ‘%1$s’ could not be downloaded from the server. Installing/upgrading the translations will be skipped.\n"
@@ -4187,7 +4231,7 @@ msgid ""
 "%2$s"
 msgstr ""
 
-#: ../../src/ui_fsmenu/addons/manager.cc:1591
+#: ../../src/ui_fsmenu/addons/manager.cc:1592
 #, c-format
 msgid "The required add-on ‘%s’ could not be found on the server."
 msgstr "在服务器上找不到所需的附加组件 ‘%s’ 。"
@@ -4202,7 +4246,7 @@ msgstr ""
 
 #: ../../src/ui_fsmenu/addons/packager.cc:84
 #: ../../src/ui_fsmenu/addons/packager_box.cc:166
-#: ../../src/wui/quicknavigation.cc:300
+#: ../../src/wui/quicknavigation.cc:296
 msgid "–"
 msgstr ""
 
@@ -4891,14 +4935,6 @@ msgstr "启用"
 #, c-format
 msgid "%1$s+%2$u"
 msgstr "%1$s+%2$u"
-
-#. * TRANSLATORS: Add-On localized name as header (Add-On internal name in
-#. italics)
-#: ../../src/ui_fsmenu/addons/rows_ui.cc:176
-#: ../../src/ui_fsmenu/addons/rows_ui.cc:359 ../../src/wui/stock_menu.cc:36
-#, c-format
-msgid "%1$s %2$s"
-msgstr "%1$s %2$s"
 
 #: ../../src/ui_fsmenu/addons/rows_ui.cc:180
 #: ../../src/ui_fsmenu/addons/rows_ui.cc:363
@@ -7380,75 +7416,75 @@ msgstr "%1$s%2$s"
 msgid "Fastplace #%i"
 msgstr ""
 
-#: ../../src/wui/actionconfirm.cc:197
+#: ../../src/wui/actionconfirm.cc:198
 msgid "Destroy building?"
 msgstr "摧毁建筑？"
 
-#: ../../src/wui/actionconfirm.cc:198
+#: ../../src/wui/actionconfirm.cc:199
 msgid "Do you really want to destroy this building?"
 msgstr "你真的想摧毁这栋建筑吗？ "
 
-#: ../../src/wui/actionconfirm.cc:258
+#: ../../src/wui/actionconfirm.cc:259
 msgid "Dismantle building?"
 msgstr "拆除建筑？"
 
-#: ../../src/wui/actionconfirm.cc:259
+#: ../../src/wui/actionconfirm.cc:260
 msgid "Do you really want to dismantle this building?"
 msgstr "你真的想拆除这栋建筑吗？ "
 
-#: ../../src/wui/actionconfirm.cc:261 ../../src/wui/actionconfirm.cc:321
+#: ../../src/wui/actionconfirm.cc:262 ../../src/wui/actionconfirm.cc:322
 msgid "Preserve wares"
 msgstr "保存物品"
 
-#: ../../src/wui/actionconfirm.cc:263
+#: ../../src/wui/actionconfirm.cc:264
 msgid ""
 "Any wares left in the building will be dropped out by the builder, "
 "increasing the dismantling time"
 msgstr "建筑者会把留在大楼里的所有物品都扔掉，从而延长拆卸时间"
 
-#: ../../src/wui/actionconfirm.cc:312
+#: ../../src/wui/actionconfirm.cc:313
 msgid "Enhance building?"
 msgstr "升级建筑？"
 
-#: ../../src/wui/actionconfirm.cc:316 ../../src/wui/actionconfirm.cc:319
+#: ../../src/wui/actionconfirm.cc:317 ../../src/wui/actionconfirm.cc:320
 msgid "Do you really want to enhance this building?"
 msgstr "你真的想把这栋建筑升级吗？ "
 
 #. * TRANSLATORS: Warning message when player wants to enhance a military
 #. building
-#: ../../src/wui/actionconfirm.cc:318
+#: ../../src/wui/actionconfirm.cc:319
 msgid "Be careful if the enemy is near!"
 msgstr "敌人在附近的时候一定要小心！"
 
-#: ../../src/wui/actionconfirm.cc:325
+#: ../../src/wui/actionconfirm.cc:326
 msgid ""
 "Any wares left in the building will be dropped out by the builder, "
 "increasing the enhancing time"
 msgstr "建筑者会把留在大楼里的所有物品都扔掉，从而延长升级时间"
 
-#: ../../src/wui/actionconfirm.cc:376
+#: ../../src/wui/actionconfirm.cc:377
 msgid "Sink the ship?"
 msgstr "沉掉这艘船？"
 
 #. * TRANSLATORS: %s is a ship name
-#: ../../src/wui/actionconfirm.cc:378
+#: ../../src/wui/actionconfirm.cc:379
 #, c-format
 msgid "Do you really want to sink %s?"
 msgstr "你真的想沉掉%s吗？"
 
-#: ../../src/wui/actionconfirm.cc:415
+#: ../../src/wui/actionconfirm.cc:416
 msgid "Cancel expedition?"
 msgstr "取消探险？"
 
-#: ../../src/wui/actionconfirm.cc:416
+#: ../../src/wui/actionconfirm.cc:417
 msgid "Do you really want to cancel the active expedition?"
 msgstr "你真的想放弃已激活的探险？"
 
-#: ../../src/wui/actionconfirm.cc:455
+#: ../../src/wui/actionconfirm.cc:456
 msgid "Do you really want to give up and become a spectator?"
 msgstr ""
 
-#: ../../src/wui/actionconfirm.cc:455
+#: ../../src/wui/actionconfirm.cc:456
 msgid "Resign?"
 msgstr ""
 
@@ -7459,7 +7495,7 @@ msgstr "攻击"
 #. * TRANSLATORS: Number of soldiers that should attack. Used in the attack
 #. window.
 #: ../../src/wui/attack_window.cc:171
-#: ../../src/wui/constructionsitewindow.cc:520
+#: ../../src/wui/constructionsitewindow.cc:524
 #, c-format
 msgid "%u soldier"
 msgid_plural "%u soldiers"
@@ -7523,12 +7559,12 @@ msgstr "摧毁目标"
 msgid "Destroy the target building instead of conquering it"
 msgstr "摧毁目标建筑而不是征服它"
 
-#: ../../src/wui/attack_window.cc:334 ../../src/wui/buildingwindow.cc:408
+#: ../../src/wui/attack_window.cc:334 ../../src/wui/buildingwindow.cc:410
 #: ../../src/wui/shipwindow.cc:152
 msgid "Show Debug Window"
 msgstr "显示调试窗口"
 
-#: ../../src/wui/attack_window.cc:338 ../../src/wui/buildingwindow.cc:424
+#: ../../src/wui/attack_window.cc:338 ../../src/wui/buildingwindow.cc:426
 msgid "Center view on this"
 msgstr "以此为视角中心"
 
@@ -7612,150 +7648,150 @@ msgstr "%1%/%2%"
 msgid "Lacking soldiers:"
 msgstr "缺少士兵："
 
-#: ../../src/wui/buildingwindow.cc:202
+#: ../../src/wui/buildingwindow.cc:204
 msgid "Muted – click to unmute"
 msgstr "静音–单击取消静音"
 
-#: ../../src/wui/buildingwindow.cc:203
+#: ../../src/wui/buildingwindow.cc:205
 msgid "Mute this building’s messages"
 msgstr "把这栋建筑的信息调整为静默状态"
 
-#: ../../src/wui/buildingwindow.cc:208
+#: ../../src/wui/buildingwindow.cc:210
 msgid "All buildings of this type are muted – click to unmute"
 msgstr "此类型的所有建筑都已调整为静默状态 – 单击取消静默"
 
-#: ../../src/wui/buildingwindow.cc:212
+#: ../../src/wui/buildingwindow.cc:214
 msgid "Mute all buildings of this type"
 msgstr "将所有此类建筑调整为静默状态"
 
 #. * TRANSLATORS: Stop/Continue toggle button for production sites.
-#: ../../src/wui/buildingwindow.cc:276
+#: ../../src/wui/buildingwindow.cc:278
 msgid "Continue"
 msgstr "继续"
 
 #. * TRANSLATORS: Stop/Continue toggle button for production sites.
-#: ../../src/wui/buildingwindow.cc:278
+#: ../../src/wui/buildingwindow.cc:280
 msgid "Stop"
 msgstr "停止"
 
 #. * TRANSLATORS: Infinite Production toggle button for production sites.
-#: ../../src/wui/buildingwindow.cc:292
+#: ../../src/wui/buildingwindow.cc:294
 msgid "Stop producing indefinitely"
 msgstr ""
 
 #. * TRANSLATORS: Infinite Production toggle button for production sites.
-#: ../../src/wui/buildingwindow.cc:294
+#: ../../src/wui/buildingwindow.cc:296
 msgid "Produce indefinitely regardless of the economy’s needs"
 msgstr ""
 
-#: ../../src/wui/buildingwindow.cc:317
+#: ../../src/wui/buildingwindow.cc:319
 #, c-format
 msgid "Enhance to %s"
 msgstr "升级至 %s"
 
-#: ../../src/wui/buildingwindow.cc:320 ../../src/wui/fieldaction.cc:97
+#: ../../src/wui/buildingwindow.cc:322 ../../src/wui/fieldaction.cc:97
 msgid "Construction costs:"
 msgstr "建设成本："
 
-#: ../../src/wui/buildingwindow.cc:338
+#: ../../src/wui/buildingwindow.cc:340
 msgid "Destroy"
 msgstr "摧毁"
 
-#: ../../src/wui/buildingwindow.cc:353
+#: ../../src/wui/buildingwindow.cc:355
 msgid "Dismantle"
 msgstr "拆除"
 
-#: ../../src/wui/buildingwindow.cc:356
+#: ../../src/wui/buildingwindow.cc:358
 msgid "Returns:"
 msgstr "可回收："
 
-#: ../../src/wui/buildingwindow.cc:417
+#: ../../src/wui/buildingwindow.cc:419
 msgid "Watch the scout"
 msgstr "观察侦察兵"
 
-#: ../../src/wui/buildingwindow.cc:680
+#: ../../src/wui/buildingwindow.cc:682
 msgid "Hide work area"
 msgstr "隐藏工作区域"
 
-#: ../../src/wui/buildingwindow.cc:683
+#: ../../src/wui/buildingwindow.cc:685
 msgid "Show work area"
 msgstr "显示工作区域"
 
-#: ../../src/wui/buildingwindow.cc:708
-#: ../../src/wui/constructionsitewindow.cc:331
+#: ../../src/wui/buildingwindow.cc:710
+#: ../../src/wui/constructionsitewindow.cc:335
 msgid "Start an expedition"
 msgstr "启动一次探险"
 
-#: ../../src/wui/buildingwindow.cc:712
+#: ../../src/wui/buildingwindow.cc:714
 msgid "Cancel the expedition"
 msgstr "取消探险"
 
 #: ../../src/wui/constructionsitewindow.cc:149
-#: ../../src/wui/dismantlesitewindow.cc:64
+#: ../../src/wui/dismantlesitewindow.cc:66
 msgid "Building materials"
 msgstr "建筑材料"
 
-#: ../../src/wui/constructionsitewindow.cc:220
+#: ../../src/wui/constructionsitewindow.cc:224
 msgid "Stop this building’s work after completion"
 msgstr "完工后停止这栋建筑的工作"
 
-#: ../../src/wui/constructionsitewindow.cc:220
+#: ../../src/wui/constructionsitewindow.cc:224
 msgid "Stopped"
 msgstr "停止"
 
-#: ../../src/wui/constructionsitewindow.cc:258
+#: ../../src/wui/constructionsitewindow.cc:262
 #: ../../src/wui/soldierlist.cc:446
 msgid "Prefer heroes"
 msgstr "较喜欢英雄"
 
-#: ../../src/wui/constructionsitewindow.cc:261
+#: ../../src/wui/constructionsitewindow.cc:265
 #: ../../src/wui/soldierlist.cc:443
 msgid "Prefer rookies"
 msgstr "较喜欢新手"
 
-#: ../../src/wui/constructionsitewindow.cc:290
+#: ../../src/wui/constructionsitewindow.cc:294
 #: ../../src/wui/warehousewindow.cc:149
 msgid "Normal policy"
 msgstr "正常策略"
 
-#: ../../src/wui/constructionsitewindow.cc:294
+#: ../../src/wui/constructionsitewindow.cc:298
 #: ../../src/wui/warehousewindow.cc:150
 msgid "Preferably store selected wares here"
 msgstr "最好在这里储存精选的物品"
 
-#: ../../src/wui/constructionsitewindow.cc:298
+#: ../../src/wui/constructionsitewindow.cc:302
 #: ../../src/wui/warehousewindow.cc:151
 msgid "Do not store selected wares here"
 msgstr "不要把精选的物品存储在这里"
 
-#: ../../src/wui/constructionsitewindow.cc:302
+#: ../../src/wui/constructionsitewindow.cc:306
 #: ../../src/wui/warehousewindow.cc:152
 msgid "Remove selected wares from here"
 msgstr "把精选的物品从这里移走"
 
-#: ../../src/wui/constructionsitewindow.cc:321
+#: ../../src/wui/constructionsitewindow.cc:325
 msgid "Ware settings to apply after construction"
 msgstr "建设完毕之后执行物品的设置"
 
-#: ../../src/wui/constructionsitewindow.cc:324
+#: ../../src/wui/constructionsitewindow.cc:328
 msgid "Worker settings to apply after construction"
 msgstr "建设完毕之后执行工人的设置"
 
-#: ../../src/wui/constructionsitewindow.cc:332
+#: ../../src/wui/constructionsitewindow.cc:336
 msgid "Start an expedition from this port after completion"
 msgstr "建设完毕之后从这个港口启动一次探险"
 
-#: ../../src/wui/constructionsitewindow.cc:356
+#: ../../src/wui/constructionsitewindow.cc:360
 msgid "Settings to apply after construction"
 msgstr "建设完毕之后执行设置"
 
-#: ../../src/wui/constructionsitewindow.cc:450
+#: ../../src/wui/constructionsitewindow.cc:454
 #: ../../src/wui/soldiercapacitycontrol.cc:71
 msgid ""
 "Decrease capacity. Hold down Ctrl to set the capacity to the lowest value"
 msgstr "降低容量。按住Ctrl键可将容量设置为最低值"
 
-#: ../../src/wui/constructionsitewindow.cc:460
+#: ../../src/wui/constructionsitewindow.cc:464
 #: ../../src/wui/soldiercapacitycontrol.cc:80
 msgid ""
 "Increase capacity. Hold down Ctrl to set the capacity to the highest value"
@@ -7937,7 +7973,7 @@ msgstr ""
 msgid "Show debug window"
 msgstr ""
 
-#: ../../src/wui/fieldaction.cc:515 ../../src/wui/watchwindow.cc:51
+#: ../../src/wui/fieldaction.cc:515 ../../src/wui/watchwindow.cc:85
 msgid "Watch"
 msgstr "观察"
 
@@ -8275,52 +8311,52 @@ msgstr "时间"
 
 #. * TRANSLATORS: This is shown in the game summary for the players who have
 #. lost.
-#: ../../src/wui/game_summary.cc:214
+#: ../../src/wui/game_summary.cc:218
 msgid "Lost"
 msgstr "失败"
 
 #. * TRANSLATORS: This is shown in the game summary for the players who have
 #. won.
-#: ../../src/wui/game_summary.cc:218
+#: ../../src/wui/game_summary.cc:222
 msgid "Won"
 msgstr "获胜"
 
 #. * TRANSLATORS: This is shown in the game summary for the players who have
 #. resigned.
-#: ../../src/wui/game_summary.cc:227
+#: ../../src/wui/game_summary.cc:231
 msgid "Resigned"
 msgstr "辞职"
 
 #. * TRANSLATORS: This is shown in the game summary when we don't know
 #. * TRANSLATORS: if the player has lost or won.
-#: ../../src/wui/game_summary.cc:232
+#: ../../src/wui/game_summary.cc:236
 msgctxt "player_won"
 msgid "Unknown"
 msgstr "未知"
 
-#: ../../src/wui/game_summary.cc:242
+#: ../../src/wui/game_summary.cc:249
 msgid "You won!"
 msgstr "你赢了！"
 
-#: ../../src/wui/game_summary.cc:244
+#: ../../src/wui/game_summary.cc:251
 msgid "You lost."
 msgstr "你输了。"
 
-#: ../../src/wui/game_summary.cc:248
+#: ../../src/wui/game_summary.cc:255
 #, c-format
 msgid "%s won!"
 msgstr "%s胜利！"
 
-#: ../../src/wui/game_summary.cc:250
+#: ../../src/wui/game_summary.cc:257
 #, c-format
 msgid "Team %u won!"
 msgstr ""
 
-#: ../../src/wui/game_summary.cc:308
+#: ../../src/wui/game_summary.cc:314
 msgid "Score"
 msgstr "得分"
 
-#: ../../src/wui/game_summary.cc:310
+#: ../../src/wui/game_summary.cc:316
 msgid "Team Score"
 msgstr "团队得分"
 
@@ -8472,118 +8508,118 @@ msgid "Priority: Very High"
 msgstr "优先级：非常高"
 
 #. * TRANSLATORS: Button tooltip in in a building's wares input queue
-#: ../../src/wui/inputqueuedisplay.cc:124
+#: ../../src/wui/inputqueuedisplay.cc:136
 msgid "Increase the number of wares you want to be stored here"
 msgstr "增加你想存放在这里的物品数量"
 
 #. * TRANSLATORS: Button tooltip in in a building's wares input queue
-#: ../../src/wui/inputqueuedisplay.cc:126
+#: ../../src/wui/inputqueuedisplay.cc:138
 msgid "Decrease the number of wares you want to be stored here"
 msgstr "降低你想存放在这里的物品数量"
 
 #. * TRANSLATORS: Button tooltip in in a building's wares input queue -
 #. option explanation
-#: ../../src/wui/inputqueuedisplay.cc:130
+#: ../../src/wui/inputqueuedisplay.cc:142
 msgid "Hold down Shift to increase all ware types at the same time"
 msgstr "按住Shift键可同时增加所有物品类型"
 
 #. * TRANSLATORS: Button tooltip in in a building's wares input queue -
 #. option explanation
-#: ../../src/wui/inputqueuedisplay.cc:133
+#: ../../src/wui/inputqueuedisplay.cc:145
 msgid "Hold down Shift to decrease all ware types at the same time"
 msgstr "按住Shift键可同时减少所有物品类型"
 
 #. * TRANSLATORS: Button tooltip in in a building's wares input queue -
 #. option explanation
-#: ../../src/wui/inputqueuedisplay.cc:138
+#: ../../src/wui/inputqueuedisplay.cc:150
 msgid "Hold down Ctrl to allow all of this ware"
 msgstr "按住Ctrl键以允许所有的这些物品"
 
 #. * TRANSLATORS: Button tooltip in in a building's wares input queue -
 #. option explanation
-#: ../../src/wui/inputqueuedisplay.cc:141
+#: ../../src/wui/inputqueuedisplay.cc:153
 msgid "Hold down Ctrl to allow none of this ware"
 msgstr "按住Ctrl键以禁止所有的这些物品"
 
-#: ../../src/wui/inputqueuedisplay.cc:193
+#: ../../src/wui/inputqueuedisplay.cc:206
 msgid "Remove ware"
 msgstr "移除物品"
 
-#: ../../src/wui/inputqueuedisplay.cc:202
+#: ../../src/wui/inputqueuedisplay.cc:215
 msgid "Add ware"
 msgstr "添加物品"
 
-#: ../../src/wui/inputqueuedisplay.cc:667
+#: ../../src/wui/inputqueuedisplay.cc:614
 msgid "Hide controls"
 msgstr "隐藏控件"
 
-#: ../../src/wui/inputqueuedisplay.cc:667
+#: ../../src/wui/inputqueuedisplay.cc:614
 msgid "Show controls"
 msgstr "显示控件"
 
 #. * TRANSLATORS: Title for the map view menu button in the game
-#: ../../src/wui/interactive_base.cc:134
+#: ../../src/wui/interactive_base.cc:135
 msgid "Map View"
 msgstr "地图视图"
 
 #. * TRANSLATORS: An entry in the game's map view menu
-#: ../../src/wui/interactive_base.cc:275
+#: ../../src/wui/interactive_base.cc:276
 msgid "Hide Minimap"
 msgstr "隐藏迷你地图"
 
-#: ../../src/wui/interactive_base.cc:275
+#: ../../src/wui/interactive_base.cc:276
 msgid "Show Minimap"
 msgstr "显示迷你地图"
 
 #. * TRANSLATORS: An entry in the game's map view menu
-#: ../../src/wui/interactive_base.cc:282
+#: ../../src/wui/interactive_base.cc:283
 msgid "Hide Quick Navigation"
 msgstr ""
 
-#: ../../src/wui/interactive_base.cc:283
+#: ../../src/wui/interactive_base.cc:284
 msgid "Show Quick Navigation"
 msgstr ""
 
 #. * TRANSLATORS: An entry in the game's map view menu
-#: ../../src/wui/interactive_base.cc:290
+#: ../../src/wui/interactive_base.cc:291
 msgid "Zoom +"
 msgstr "放大"
 
 #. * TRANSLATORS: An entry in the game's map view menu
-#: ../../src/wui/interactive_base.cc:295
+#: ../../src/wui/interactive_base.cc:296
 msgid "Reset zoom"
 msgstr "重置缩放"
 
 #. * TRANSLATORS: An entry in the game's map view menu
-#: ../../src/wui/interactive_base.cc:300
+#: ../../src/wui/interactive_base.cc:301
 msgid "Zoom –"
 msgstr ""
 
-#: ../../src/wui/interactive_base.cc:838
+#: ../../src/wui/interactive_base.cc:839
 #, c-format
 msgid "Road length: %1$u (%2$u)"
 msgstr ""
 
-#: ../../src/wui/interactive_base.cc:840
+#: ../../src/wui/interactive_base.cc:841
 #, c-format
 msgid "Waterway length: %1$u (%2$u) / %3$u"
 msgstr ""
 
-#: ../../src/wui/interactive_base.cc:845
+#: ../../src/wui/interactive_base.cc:846
 #, c-format
 msgid "Road length: %u"
 msgstr "道路的长度：%u"
 
-#: ../../src/wui/interactive_base.cc:848
+#: ../../src/wui/interactive_base.cc:849
 #, c-format
 msgid "Waterway length: %1$u / %2$u"
 msgstr ""
 
-#: ../../src/wui/interactive_base.cc:1730
+#: ../../src/wui/interactive_base.cc:1731
 msgid "Failed saving screenshot!"
 msgstr ""
 
-#: ../../src/wui/interactive_base.cc:1734
+#: ../../src/wui/interactive_base.cc:1735
 msgid "Screenshot saved"
 msgstr ""
 
@@ -8907,12 +8943,12 @@ msgid "No Author"
 msgstr "没有作者"
 
 #. * TRANSLATORS: Parent directory/folder
-#: ../../src/wui/mapdata.cc:173 ../../src/wui/savegametable.cc:126
+#: ../../src/wui/mapdata.cc:175 ../../src/wui/savegametable.cc:126
 msgid "parent"
 msgstr "上一级"
 
 #. * TRANSLATORS: This label is shown when a folder is empty
-#: ../../src/wui/mapdata.cc:179
+#: ../../src/wui/mapdata.cc:181
 msgid "empty"
 msgstr "空"
 
@@ -9089,39 +9125,39 @@ msgstr ""
 msgid "(vacant)"
 msgstr "(空闲)"
 
-#: ../../src/wui/quicknavigation.cc:167
+#: ../../src/wui/quicknavigation.cc:166
 msgid "Quick Navigation"
 msgstr ""
 
-#: ../../src/wui/quicknavigation.cc:180
+#: ../../src/wui/quicknavigation.cc:179
 msgid "Go to previous location"
 msgstr ""
 
-#: ../../src/wui/quicknavigation.cc:192
+#: ../../src/wui/quicknavigation.cc:191
 msgid "Go to next location"
 msgstr ""
 
-#: ../../src/wui/quicknavigation.cc:203
+#: ../../src/wui/quicknavigation.cc:202
 msgid "Add a new landmark"
 msgstr ""
 
-#: ../../src/wui/quicknavigation.cc:245 ../../src/wui/quicknavigation.cc:251
+#: ../../src/wui/quicknavigation.cc:244 ../../src/wui/quicknavigation.cc:250
 msgid "Go to this landmark"
 msgstr ""
 
-#: ../../src/wui/quicknavigation.cc:259
+#: ../../src/wui/quicknavigation.cc:258
 msgid "View this landmark in a watch window"
 msgstr ""
 
-#: ../../src/wui/quicknavigation.cc:276
+#: ../../src/wui/quicknavigation.cc:272
 msgid "Unset this landmark"
 msgstr ""
 
-#: ../../src/wui/quicknavigation.cc:286 ../../src/wui/quicknavigation.cc:292
+#: ../../src/wui/quicknavigation.cc:282 ../../src/wui/quicknavigation.cc:288
 msgid "Set this landmark to the current map view location"
 msgstr ""
 
-#: ../../src/wui/quicknavigation.cc:300
+#: ../../src/wui/quicknavigation.cc:296
 msgid "Remove this landmark"
 msgstr ""
 
@@ -9710,7 +9746,7 @@ msgstr "等待船运的货物"
 msgid "Workers waiting to embark"
 msgstr "等待上船的劳动者"
 
-#: ../../src/wui/warehousewindow.cc:323
+#: ../../src/wui/warehousewindow.cc:324
 msgid "Expedition"
 msgstr "探险"
 
@@ -9748,10 +9784,10 @@ msgstr "%1%M"
 msgid "%1%G"
 msgstr "%1%G"
 
-#: ../../src/wui/watchwindow.cc:58
+#: ../../src/wui/watchwindow.cc:93
 msgid "Follow"
 msgstr "跟随"
 
-#: ../../src/wui/watchwindow.cc:63
+#: ../../src/wui/watchwindow.cc:98
 msgid "Center the main view on this"
 msgstr "主视图居中于此"

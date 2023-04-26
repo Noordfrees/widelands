@@ -6,13 +6,12 @@ wl.Descriptions():new_productionsite_type {
    name = "frisians_mead_brewery",
    -- TRANSLATORS: This is a building name used in lists of buildings
    descname = pgettext ("frisians_building", "Mead Brewery"),
+   animation_directory = dirname,
    icon = dirname .. "menu.png",
    size = "medium",
 
    spritesheets = {
       idle = {
-         directory = dirname,
-         basename = "idle",
          hotspot = {50, 82},
          frames = 10,
          columns = 5,
@@ -20,8 +19,6 @@ wl.Descriptions():new_productionsite_type {
          fps = 10
       },
       working = {
-         directory = dirname,
-         basename = "working",
          hotspot = {50, 82},
          frames = 10,
          columns = 5,
@@ -31,8 +28,6 @@ wl.Descriptions():new_productionsite_type {
    },
    animations = {
       unoccupied = {
-         directory = dirname,
-         basename = "unoccupied",
          hotspot = {50, 70}
       }
    },
@@ -55,6 +50,8 @@ wl.Descriptions():new_productionsite_type {
          -- TRANSLATORS: Completed/Skipped/Did not start working because ...
          descname = _("working"),
          actions = {
+            -- "return=skipped" causes 10 sec delay
+            -- time total: 65.667 + 60.667 + 65.667 + 10 = 202 sec
             "call=brew_mead",
             "call=brew_beer",
             "call=brew_mead_2",
@@ -66,9 +63,10 @@ wl.Descriptions():new_productionsite_type {
          -- TRANSLATORS: Completed/Skipped/Did not start brewing mead because ...
          descname = _("brewing mead"),
          actions = {
+            -- time: 27.067 + 35 + 3.6 = 65.667 sec
             "return=skipped unless economy needs mead or workers need experience",
             "consume=barley water honey",
-            "sleep=duration:30s",
+            "sleep=duration:27s067ms",
             "animate=working duration:35s",
             "produce=mead"
          }
@@ -77,9 +75,10 @@ wl.Descriptions():new_productionsite_type {
          -- TRANSLATORS: Completed/Skipped/Did not start brewing mead because ...
          descname = _("brewing mead"),
          actions = {
+            -- time: 27.067 + 35 + 3.6 = 65.667 sec
             "return=skipped unless economy needs mead or workers need experience",
             "consume=barley water honey",
-            "sleep=duration:30s",
+            "sleep=duration:27s067ms",
             "animate=working duration:35s",
             "produce=mead"
          }
@@ -88,9 +87,10 @@ wl.Descriptions():new_productionsite_type {
          -- TRANSLATORS: Completed/Skipped/Did not start brewing beer because ...
          descname = _("brewing beer"),
          actions = {
+            -- time: 27.067 + 30 + 3.6 = 60.667 sec
             "return=skipped unless economy needs beer",
             "consume=barley water",
-            "sleep=duration:30s",
+            "sleep=duration:27s067ms",
             "animate=working duration:30s",
             "produce=beer"
          }

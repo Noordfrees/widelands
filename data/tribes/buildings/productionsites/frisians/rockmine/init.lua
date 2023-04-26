@@ -6,6 +6,7 @@ wl.Descriptions():new_productionsite_type {
    name = "frisians_rockmine",
    -- TRANSLATORS: This is a building name used in lists of buildings
    descname = pgettext("frisians_building", "Rock Mine"),
+   animation_directory = dirname,
    icon = dirname .. "menu.png",
    size = "mine",
 
@@ -38,8 +39,6 @@ wl.Descriptions():new_productionsite_type {
 
    spritesheets = {
       idle = {
-         directory = dirname,
-         basename = "idle",
          hotspot = {27, 74},
          frames = 10,
          columns = 5,
@@ -47,8 +46,6 @@ wl.Descriptions():new_productionsite_type {
          fps = 10
       },
       working = {
-         directory = dirname,
-         basename = "working",
          hotspot = {27, 74},
          frames = 10,
          columns = 5,
@@ -56,8 +53,6 @@ wl.Descriptions():new_productionsite_type {
          fps = 10
       },
       empty = {
-         directory = dirname,
-         basename = "empty",
          hotspot = {27, 74},
          frames = 10,
          columns = 5,
@@ -67,8 +62,6 @@ wl.Descriptions():new_productionsite_type {
    },
    animations = {
       unoccupied = {
-         directory = dirname,
-         basename = "unoccupied",
          hotspot = {27, 56}
       }
    },
@@ -90,10 +83,12 @@ wl.Descriptions():new_productionsite_type {
          -- TRANSLATORS: Completed/Skipped/Did not start mining granite because ...
          descname = _("mining granite"),
          actions = {
+            -- "return=skipped" causes 10 sec delay
+            -- time total: 5 + 27.8 + 2 * (21 + 3.6) + 10 = 92 sec
             "sleep=duration:5s",
             "return=skipped unless economy needs granite",
             "consume=ration",
-            "sleep=duration:38s",
+            "sleep=duration:27s800ms",
             "call=mine_produce",
             "call=mine_produce",
             "return=skipped"

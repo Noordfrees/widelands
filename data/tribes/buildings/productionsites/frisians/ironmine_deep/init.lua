@@ -6,13 +6,12 @@ wl.Descriptions():new_productionsite_type {
    name = "frisians_ironmine_deep",
    -- TRANSLATORS: This is a building name used in lists of buildings
    descname = pgettext("frisians_building", "Deep Iron Mine"),
+   animation_directory = dirname,
    icon = dirname .. "menu.png",
    size = "mine",
 
    spritesheets = {
       idle = {
-         directory = dirname,
-         basename = "idle",
          hotspot = {28, 74},
          frames = 10,
          columns = 5,
@@ -20,8 +19,6 @@ wl.Descriptions():new_productionsite_type {
          fps = 10
       },
       working = {
-         directory = dirname,
-         basename = "working",
          hotspot = {28, 74},
          frames = 10,
          columns = 5,
@@ -29,8 +26,6 @@ wl.Descriptions():new_productionsite_type {
          fps = 10
       },
       empty = {
-         directory = dirname,
-         basename = "empty",
          hotspot = {28, 74},
          frames = 10,
          columns = 5,
@@ -40,8 +35,6 @@ wl.Descriptions():new_productionsite_type {
    },
    animations = {
       unoccupied = {
-         directory = dirname,
-         basename = "unoccupied",
          hotspot = {28, 57},
       }
    },
@@ -62,9 +55,11 @@ wl.Descriptions():new_productionsite_type {
          -- TRANSLATORS: Completed/Skipped/Did not start mining iron because ...
          descname = _("mining iron"),
          actions = {
+            -- "return=skipped" causes 10 sec delay
+            -- time total: 50.9 + 7 * (8.7 + 3.6) + 10 = 147 sec
             "return=skipped unless economy needs iron_ore",
             "consume=meal",
-            "sleep=duration:62s100ms",
+            "sleep=duration:50s900ms",
             "call=mine_produce",
             "call=mine_produce",
             "call=mine_produce",

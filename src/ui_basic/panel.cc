@@ -257,10 +257,9 @@ void Panel::do_redraw_now(const bool handle_input, const std::string& message) {
 		// until the logic frame has ended. During this time, we no longer
 		// handle input, and we gray out the user interface to indicate this.
 
-		rt.tile(Recti(0, 0, g_gr->get_xres(), g_gr->get_yres()),
-		        g_image_cache->get("loadscreens/ending.png"), Vector2i(0, 0));
+		rt.tile(rt.get_rect(), g_image_cache->get("loadscreens/ending.png"), Vector2i(0, 0));
 
-		draw_game_tip(rt, Recti(0, 0, g_gr->get_xres(), g_gr->get_yres()), message, 2);
+		draw_game_tip(rt, rt.get_rect(), message, 2);
 	}
 
 	if (g_mouse_cursor->is_visible()) {
@@ -608,14 +607,18 @@ int Panel::get_inner_h() const {
 /**
  * Make this panel the top-most panel in the parent's Z-order.
  */
-void Panel::move_to_top() {
+void Panel::move_to_top(const bool on_top_of_equal_z) {
 	if (parent_ == nullptr) {
 		return;
 	}
 	/* If all siblings above us are permanently on top, skip. */
 	bool all_on_top = true;
-	for (Panel* p = parent_->first_child_; p != this && all_on_top; p = p->next_) {
-		all_on_top &= p->get_flag(pf_always_on_top);
+	for (Panel* p = parent_->first_child_; p != this && p != nullptr && all_on_top; p = p->next_) {
+		if (on_top_of_equal_z) {
+			all_on_top &= (static_cast<uint8_t>(p->get_z()) > static_cast<uint8_t>(get_z()));
+		} else {
+			all_on_top &= (static_cast<uint8_t>(p->get_z()) >= static_cast<uint8_t>(get_z()));
+		}
 	}
 	if (all_on_top) {
 		return;
@@ -768,9 +771,7 @@ void Panel::do_think() {
 		return;
 	}
 
-	if (get_flag(pf_always_on_top)) {
-		move_to_top();
-	}
+	move_to_top(false);
 
 	if (thinks()) {
 		think();
@@ -1146,6 +1147,17 @@ void Panel::do_draw(RenderTarget& dst) {
 
 	if (!dst.enter_window(Recti(Vector2i(x_, y_), w_, h_), &outerrc, &outerofs)) {
 		return;
+	}
+
+	if (modal_.load() == this) {
+		// Darken out everything behind the modal window.
+		const Recti rect = dst.get_rect();
+		const Vector2i offset = dst.get_offset();
+		dst.set_window(Recti(Vector2i::zero(), g_gr->get_xres(), g_gr->get_yres()), Vector2i::zero());
+
+		dst.tile(dst.get_rect(), g_image_cache->get("loadscreens/ending.png"), Vector2i(0, 0));
+
+		dst.set_window(rect, offset);
 	}
 
 	draw_border(dst);

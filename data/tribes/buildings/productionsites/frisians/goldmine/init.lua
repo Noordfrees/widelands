@@ -6,6 +6,7 @@ wl.Descriptions():new_productionsite_type {
    name = "frisians_goldmine",
    -- TRANSLATORS: This is a building name used in lists of buildings
    descname = pgettext("frisians_building", "Gold Mine"),
+   animation_directory = dirname,
    icon = dirname .. "menu.png",
    size = "mine",
 
@@ -38,8 +39,6 @@ wl.Descriptions():new_productionsite_type {
 
    spritesheets = {
       idle = {
-         directory = dirname,
-         basename = "idle",
          hotspot = {27, 74},
          frames = 10,
          columns = 5,
@@ -47,8 +46,6 @@ wl.Descriptions():new_productionsite_type {
          fps = 10
       },
       working = {
-         directory = dirname,
-         basename = "working",
          hotspot = {27, 74},
          frames = 10,
          columns = 5,
@@ -56,8 +53,6 @@ wl.Descriptions():new_productionsite_type {
          fps = 10
       },
       empty = {
-         directory = dirname,
-         basename = "empty",
          hotspot = {27, 74},
          frames = 10,
          columns = 5,
@@ -67,8 +62,6 @@ wl.Descriptions():new_productionsite_type {
    },
    animations = {
       unoccupied = {
-         directory = dirname,
-         basename = "unoccupied",
          hotspot = {27, 56}
       }
    },
@@ -90,9 +83,10 @@ wl.Descriptions():new_productionsite_type {
          -- TRANSLATORS: Completed/Skipped/Did not start mining gold because ...
          descname = _("mining gold"),
          actions = {
+            -- time total: 45.4 + 20 + 3.6 = 69 sec
             "return=skipped unless economy needs gold_ore",
             "consume=ration",
-            "sleep=duration:45s",
+            "sleep=duration:45s400ms",
             "animate=working duration:20s",
             "mine=resource_gold radius:3 yield:50% when_empty:5% experience_on_fail:20%",
             "produce=gold_ore"
