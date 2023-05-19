@@ -129,11 +129,11 @@ std::unique_ptr<LuaTable> try_section_or_empty(LuaInterface& lua,
                                                std::string parent = "") {
 	if (table.has_key(section)) {
 		return table.get_table(section);
-	} else {
-		std::string name = parent.empty() ? section : format("%s.%s", parent, section);
-		fail_if_doing_default_style("section", name);
-		return lua.empty_table();
 	}
+
+	std::string name = parent.empty() ? section : format("%s.%s", parent, section);
+	fail_if_doing_default_style("section", name);
+	return lua.empty_table();
 }
 
 // Read RGB(A) color from LuaTable
@@ -510,6 +510,8 @@ StyleManager::StyleManager() {
 	add_styled_size(UI::StyledSize::kFsTextDefaultGap, *element_table, "fs_text_default_gap");
 	add_styled_size(UI::StyledSize::kFsTextSpaceBeforeInlineHeader, *element_table,
 	                "fs_text_space_before_inline_header");
+	add_styled_size(
+	   UI::StyledSize::kFsMainMenuDropdownHeight, *element_table, "fs_main_menu_dropdown_height");
 	add_styled_size(UI::StyledSize::kWuiTextDefaultGap, *element_table, "wui_text_default_gap");
 	add_styled_size(UI::StyledSize::kWuiTextSpaceBeforeInlineHeader, *element_table,
 	                "wui_text_space_before_inline_header");
