@@ -25,7 +25,6 @@
 #include "base/macros.h"
 #include "base/times.h"
 #include "logic/map_compassdir.h"
-#include "logic/map_objects/walkingdir.h"
 #include "logic/widelands.h"
 #include "logic/widelands_geometry.h"
 

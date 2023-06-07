@@ -23,8 +23,8 @@
 
 namespace Widelands {
 
-CompassDir get_compass_dir(
-   const Coords& from, const Coords& to, const int map_width, const int map_height) {
+CompassDir
+get_compass_dir(const Coords& from, const Coords& to, const int map_width, const int map_height) {
 	assert(to.x >= 0 && to.x < map_width);
 	assert(to.y >= 0 && to.y < map_height);
 	assert(from.x >= 0 && from.x < map_width);
@@ -65,14 +65,14 @@ CompassDir get_compass_dir(
 	if (abs_y >= 6 * abs_x) {
 		return rel.y > 0 ? CompassDir::kSouth : CompassDir::kNorth;
 	}
-   if (3 * abs_y <= 2 * abs_x) {
+	if (3 * abs_y <= 2 * abs_x) {
 		return rel.x > 0 ? CompassDir::kEast : CompassDir::kWest;
 	}
 
 	// Ordinal directions
 	if (rel.y > 0) {
 		return rel.x > 0 ? CompassDir::kSouthEast : CompassDir::kSouthWest;
-	} // else
+	}  // else
 	return rel.x > 0 ? CompassDir::kNorthEast : CompassDir::kNorthWest;
 }
 
