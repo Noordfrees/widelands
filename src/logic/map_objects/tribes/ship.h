@@ -126,6 +126,10 @@ struct Ship : Bob {
 		return destination_coords_;
 	}
 
+	[[nodiscard]] bool get_send_message_at_destination() const {
+		return send_message_at_destination_;
+	}
+
 	// Returns the last visited portdock of this ship or nullptr if there is none or
 	// the last visited was removed.
 	[[nodiscard]] PortDock* get_lastdock(EditorGameBase& egbase) const;
@@ -136,6 +140,7 @@ struct Ship : Bob {
 	void set_economy(const Game&, Economy* e, WareWorker);
 
 	void init_auto_task(Game&) override;
+	void set_position(EditorGameBase&, const Coords&) override;
 
 	bool init(EditorGameBase&) override;
 	void cleanup(EditorGameBase&) override;
@@ -342,6 +347,7 @@ private:
 	friend struct ShipFleet;
 	friend struct ShippingSchedule;
 
+	void recalc_expedition_swimmable(const EditorGameBase& egbase);
 	void wakeup_neighbours(Game&);
 
 	static const Task taskShip;
