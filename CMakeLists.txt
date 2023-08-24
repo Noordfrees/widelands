@@ -460,7 +460,7 @@ if(NOT OPTION_ASAN)
         # Not entirely sure about the performance of this though
         wl_add_flag(WL_GENERIC_CXX_FLAGS "/Zi")
         SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /Zi")
-      endif
+      endif()
       # MinGW builds invoke cv2pdb in the CI to create the symbols
       link_libraries(Dbghelp)
     endif()
