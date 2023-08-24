@@ -90,7 +90,7 @@ static void segfault_handler(const int sig) {
 
 	int frame_index = 0;
 	while (StackWalk64(machine_type, GetCurrentProcess(), GetCurrentThread(), &stack_frame, &context_record, nullptr, &SymFunctionTableAccess64, &SymGetModuleBase64, nullptr)) {
-		const DWORD64 frame_as_int = reinterpret_cast<DWORD64>(stack_frame.AddrPC.Offset);
+		const DWORD64 frame_as_int = stack_frame.AddrPC.Offset;
 		translated_backtrace << "#" << std::dec << ++frame_index << " [0x" << std::hex << frame_as_int << "] ";
 
 		DWORD64 displacement = 0;
@@ -118,7 +118,7 @@ static void segfault_handler(const int sig) {
 #endif
 
 	std::cout << std::endl
-	          << "##############################" << std::endl
+	          << "##############################" << std::endl;
 #ifdef _WIN32
 	std::cout << "FATAL ERROR encountered!";
 #else
