@@ -53,32 +53,63 @@
 static HANDLE g_process_handle;
 #endif
 
-// Taken from https://stackoverflow.com/a/77336 and https://stackoverflow.com/a/26398082
-static void segfault_handler(const int sig) {
+/* Taken from https://stackoverflow.com/a/77336, https://stackoverflow.com/a/26398082,
+ * and https://stackoverflow.com/a/28115589
+ */
 #ifdef _WIN32
-	constexpr int kMaxBacktraceSize = 62;
-	void* array[kMaxBacktraceSize];
-	size_t size = CaptureStackBackTrace(0, kMaxBacktraceSize, array, nullptr);
+LONG WINAPI TopLevelExceptionHandler(PEXCEPTION_POINTERS exception_info)
+#else
+static void segfault_handler(const int sig) {
+#endif
 
+#ifdef _WIN32
 	std::stringstream translated_backtrace;
-	translated_backtrace << size << " frames captured:" << std::endl;
-	for (size_t i = 0; i < size; ++i) {
-		const DWORD64 frame_as_int = reinterpret_cast<DWORD64>(array[i]);
-		translated_backtrace << "#" << std::dec << i << " [0x" << std::hex << frame_as_int << "] ";
 
-		char buffer[sizeof(SYMBOL_INFO) + MAX_SYM_NAME * sizeof(TCHAR)];
-		PSYMBOL_INFO p_symbol = reinterpret_cast<PSYMBOL_INFO>(buffer);
-		p_symbol->SizeOfStruct = sizeof(SYMBOL_INFO);
-		p_symbol->MaxNameLen = MAX_SYM_NAME;
+	CONTEXT context_record = *exception_info->ContextRecord;
+	STACKFRAME64 stack_frame;
+	memset(&stack_frame, 0, sizeof(stack_frame));
+#ifdef _WIN64
+	int machine_type = IMAGE_FILE_MACHINE_AMD64;
+	stack_frame.AddrPC.Offset = context_record.Rip;
+	stack_frame.AddrFrame.Offset = context_record.Rbp;
+	stack_frame.AddrStack.Offset = context_record.Rsp;
+#else
+	int machine_type = IMAGE_FILE_MACHINE_I386;
+	stack_frame.AddrPC.Offset = context_record.Eip;
+	stack_frame.AddrFrame.Offset = context_record.Ebp;
+	stack_frame.AddrStack.Offset = context_record.Esp;
+#endif
+	stack_frame.AddrPC.Mode = AddrModeFlat;
+	stack_frame.AddrFrame.Mode = AddrModeFlat;
+	stack_frame.AddrStack.Mode = AddrModeFlat;
 
-		if (SymFromAddr(g_process_handle, frame_as_int, nullptr, p_symbol)) {
-			translated_backtrace << p_symbol->Name << " [0x" << std::hex << p_symbol->Address << "]";
+	char buffer[sizeof(SYMBOL_INFO) + MAX_SYM_NAME * sizeof(TCHAR)];
+	PSYMBOL_INFO p_symbol = reinterpret_cast<PSYMBOL_INFO>(buffer);
+	p_symbol->SizeOfStruct = sizeof(SYMBOL_INFO);
+	p_symbol->MaxNameLen = MAX_SYM_NAME;
+
+	int frame_index = 0;
+	while (StackWalk64(machine_type, GetCurrentProcess(), GetCurrentThread(), &stack_frame, &context_record, nullptr, &SymFunctionTableAccess64, &SymGetModuleBase64, nullptr)) {
+		const DWORD64 frame_as_int = reinterpret_cast<DWORD64>(stack_frame.AddrPC.Offset);
+		translated_backtrace << "#" << std::dec << ++frame_index << " [0x" << std::hex << frame_as_int << "] ";
+
+		DWORD64 displacement = 0;
+		if (SymFromAddr(g_process_handle, frame_as_int, &displacement, p_symbol)) {
+			IMAGEHLP_MODULE64 module_info;
+			memset(&module_info, 0, sizeof(module_info));
+			module_info.SizeOfStruct = sizeof(module_info);
+
+			if (::SymGetModuleInfo64(g_process_handle, p_symbol->ModBase, &module_info)) {
+				translated_backtrace << module_info.ModuleName << " + 0x" << displacement;
+			} else {
+				translated_backtrace << "Error symbolizing module info (error code 0x" << GetLastError() << ")";
+			}
 		} else {
-			translated_backtrace << "Error symbolizing frame address (error code 0x" << GetLastError()
-			                     << ")";
+			translated_backtrace << "Error symbolizing frame address (error code 0x" << GetLastError() << ")";
 		}
 		translated_backtrace << std::endl;
 	}
+
 	const std::string bt_str = translated_backtrace.str();
 #else
 	constexpr int kMaxBacktraceSize = 256;
@@ -140,7 +171,11 @@ static void segfault_handler(const int sig) {
 		std::cout << "The crash report was also saved to " << filename << std::endl << std::endl;
 	}
 
+#ifdef _WIN32
+	return EXCEPTION_CONTINUE_SEARCH;
+#else
 	::exit(sig);
+#endif
 }
 #endif  // PRINT_SEGFAULT_BACKTRACE
 
@@ -158,19 +193,18 @@ int main(int argc, char* argv[]) {
 		std::cout << "ERROR: Could not initialize the symbolizer (error code 0x" << std::hex
 		          << GetLastError() << std::dec << ")" << std::endl;
 	}
-#endif
 
+	SetUnhandledExceptionFilter(TopLevelExceptionHandler);
+
+#else
 	/* Handle several types of fatal crashes with a useful backtrace on supporting systems.
 	 * We can't handle SIGABRT like this since we have to redirect that one elsewhere to
 	 * suppress non-critical errors from Eris.
 	 */
-	for (int s : {SIGSEGV,
-#ifdef SIGBUS
-	              SIGBUS,  // Not available on all systems
-#endif
-	              SIGFPE, SIGILL}) {
+	for (int s : {SIGSEGV, SIGBUS, SIGFPE, SIGILL}) {
 		signal(s, segfault_handler);
 	}
+#endif
 #endif  // PRINT_SEGFAULT_BACKTRACE
 
 	int result = 1;
