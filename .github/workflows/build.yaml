@@ -271,7 +271,7 @@ jobs:
           ${{ steps.prepare.outputs.vcpkg_key }}-${{ matrix.arch }}
     - name: Installing dependencies
       run: |
-        choco install innosetup
+        choco install innosetup wget unzip
         bash.exe -c 'wget https://github.com/rainers/cv2pdb/releases/download/v0.52/cv2pdb-0.52.zip && unzip cv2pdb-0.52.zip -d C:\cv2pdb'
         $env:Path = "C:\cv2pdb;$env:Path"
         # Cache should have been populated by vcpkg-packages job
@@ -332,7 +332,7 @@ jobs:
         pacman.exe --noconfirm -Syyuu --ignore ca-certificates
         bash.exe -c "./install-dependencies.sh msys${{ matrix.bits }} --noconfirm"
         # pacman.exe --noconfirm -U https://repo.msys2.org/mingw/$env:archname/mingw-w64-$env:archname-libtiff-4.3.0-3-any.pkg.tar.zst
-        choco install innosetup
+        choco install innosetup wget unzip
         bash.exe -c 'wget https://github.com/rainers/cv2pdb/releases/download/v0.52/cv2pdb-0.52.zip && unzip cv2pdb-0.52.zip -d C:\cv2pdb'
         $env:Path = "C:\cv2pdb;$env:Path"
     - name: Compiler

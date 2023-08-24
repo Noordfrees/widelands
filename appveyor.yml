@@ -14,8 +14,9 @@ install:
   # As of 2019-12-06 we have to install 'chocolatey-core.extension' beforehand.
   # Otherwise installing 'InnoSetup' will fail.
   - choco install -y chocolatey-core.extension
-  - choco install -y InnoSetup
-  - cmd: "set PATH=%MINGWPATH%;C:\\msys64\\usr\\bin;C:\\Program Files (x86)\\Inno Setup 5;%PATH%"
+  - choco install -y InnoSetup wget unzip
+  - cmd: "bash --login -c 'wget https://github.com/rainers/cv2pdb/releases/download/v0.52/cv2pdb-0.52.zip && unzip cv2pdb-0.52.zip -d C:/cv2pdb'"
+  - cmd: "set PATH=%MINGWPATH%;C:\\msys64\\usr\\bin;C:\\Program Files (x86)\\Inno Setup 5;C:\\cv2pdb;%PATH%"
   - cmd: "set CC=%MINGWPATH%\\gcc.exe"
   - cmd: "set CXX=%MINGWPATH%\\g++.exe"
   # deleting broken repo from mirrorlist (needs to be repeated after first update if needed)
@@ -50,7 +51,7 @@ build_script:
   - cmd: "cmake -G \"Ninja\" -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DOPTION_BUILD_WINSTATIC=ON -DOPTION_BUILD_WEBSITE_TOOLS=OFF -DOPTION_ASAN=OFF -DOPTION_BUILD_CODECHECK=OFF -DCMAKE_JOB_POOLS=\"linking=1\" -DCMAKE_JOB_POOL_LINK=linking %APPVEYOR_BUILD_FOLDER%"
   - cmd: "cmake --build ."
 on_success:
-  - cmd: strip -sv %APPVEYOR_BUILD_FOLDER%\build\src\widelands.exe
+  - cmd: cv2pdb %APPVEYOR_BUILD_FOLDER%\build\src\widelands.exe
   - cmd: ISCC /q /o%APPVEYOR_BUILD_FOLDER% /f%WIDELANDS_SETUP_NAME% c:\projects\widelands\utils\win32\innosetup\Widelands.iss
   - appveyor PushArtifact %APPVEYOR_BUILD_FOLDER%\%WIDELANDS_SETUP_NAME%.exe
 

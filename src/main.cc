@@ -57,7 +57,7 @@ static HANDLE g_process_handle;
  * and https://stackoverflow.com/a/28115589
  */
 #ifdef _WIN32
-LONG WINAPI TopLevelExceptionHandler(PEXCEPTION_POINTERS exception_info)
+LONG WINAPI TopLevelExceptionHandler(PEXCEPTION_POINTERS exception_info) {
 #else
 static void segfault_handler(const int sig) {
 #endif
