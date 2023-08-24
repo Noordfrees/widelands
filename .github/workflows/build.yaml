@@ -273,7 +273,6 @@ jobs:
       run: |
         choco install innosetup wget unzip
         bash.exe -c 'wget https://github.com/rainers/cv2pdb/releases/download/v0.52/cv2pdb-0.52.zip && unzip cv2pdb-0.52.zip -d C:/cv2pdb'
-        $env:Path = "C:\cv2pdb;$env:Path"
         # Cache should have been populated by vcpkg-packages job
         ./install-dependencies.sh vcpkg --triplet=${{ env.VCPKG_TARGET_TRIPLET }}
       shell: bash
@@ -287,6 +286,7 @@ jobs:
       env:
         VCPKG_ROOT: C:\vcpkg
       run: |
+        $env:Path = "C:/cv2pdb;$env:Path"
         mkdir $env:GITHUB_WORKSPACE\build
         cd $env:GITHUB_WORKSPACE\build
         cmake.exe -G "NMake Makefiles" .. -DVCPKG_TARGET_TRIPLET=${{ env.VCPKG_TARGET_TRIPLET }} -DCMAKE_TOOLCHAIN_FILE="${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake" -DCMAKE_BUILD_TYPE=${{ matrix.config }} -DOPTION_BUILD_WEBSITE_TOOLS=OFF -DOPTION_BUILD_TRANSLATIONS=ON -DOPTION_BUILD_TESTS=ON -DOPTION_ASAN=OFF -DOPTION_BUILD_CODECHECK=OFF -DOPTION_BUILD_WINSTATIC=ON -DOPTION_USE_GLBINDING=ON -DOPTION_FORCE_EMBEDDED_MINIZIP=ON
@@ -334,17 +334,16 @@ jobs:
         # pacman.exe --noconfirm -U https://repo.msys2.org/mingw/$env:archname/mingw-w64-$env:archname-libtiff-4.3.0-3-any.pkg.tar.zst
         choco install innosetup wget unzip
         bash.exe -c 'wget https://github.com/rainers/cv2pdb/releases/download/v0.52/cv2pdb-0.52.zip && unzip cv2pdb-0.52.zip -d C:/cv2pdb'
-        $env:Path = "C:\cv2pdb;$env:Path"
     - name: Compiler
       run: |
-        $env:Path = "C:/msys64/mingw${{ matrix.bits }}/include;C:/msys64/mingw${{ matrix.bits }}/lib;C:/msys64/mingw${{ matrix.bits }}/bin;C:/msys64/usr/bin;$env:Path"
+        $env:Path = "C:/msys64/mingw${{ matrix.bits }}/include;C:/msys64/mingw${{ matrix.bits }}/lib;C:/msys64/mingw${{ matrix.bits }}/bin;C:/msys64/usr/bin;C:/cv2pdb;$env:Path"
         $env:CC = "C:/msys64/mingw${{ matrix.bits }}/bin/gcc.exe"
         $env:CXX = "C:/msys64/mingw${{ matrix.bits }}/bin/g++.exe"
         mkdir $env:GITHUB_WORKSPACE\build
         cd $env:GITHUB_WORKSPACE\build
         cmake.exe -G Ninja .. -DCMAKE_BUILD_TYPE=${{ matrix.config }} -DOPTION_BUILD_WEBSITE_TOOLS=OFF -DOPTION_BUILD_TRANSLATIONS=ON -DOPTION_BUILD_TESTS=ON -DOPTION_ASAN=OFF -DUSE_XDG=OFF -DOPTION_BUILD_CODECHECK=OFF -DUSE_FLTO_IF_AVAILABLE=OFF -DCMAKE_JOB_POOLS="linking=1" -DCMAKE_JOB_POOL_LINK=linking -DOPTION_BUILD_WINSTATIC=ON -DOPTION_FORCE_EMBEDDED_MINIZIP=ON
         cmake.exe --build .
-        cv2pdb "build\src\widelands.exe"
+        cv2pdb.exe "build\src\widelands.exe"
     - name: InnoSetup
       run: |
         cd $env:GITHUB_WORKSPACE
