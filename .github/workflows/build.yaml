@@ -271,8 +271,7 @@ jobs:
           ${{ steps.prepare.outputs.vcpkg_key }}-${{ matrix.arch }}
     - name: Installing dependencies
       run: |
-        choco install innosetup wget unzip
-        bash.exe -c 'wget https://github.com/rainers/cv2pdb/releases/download/v0.52/cv2pdb-0.52.zip && unzip cv2pdb-0.52.zip -d C:/cv2pdb'
+        choco install innosetup
         # Cache should have been populated by vcpkg-packages job
         ./install-dependencies.sh vcpkg --triplet=${{ env.VCPKG_TARGET_TRIPLET }}
       shell: bash
@@ -286,12 +285,10 @@ jobs:
       env:
         VCPKG_ROOT: C:\vcpkg
       run: |
-        $env:Path = "C:/cv2pdb;$env:Path"
         mkdir $env:GITHUB_WORKSPACE\build
         cd $env:GITHUB_WORKSPACE\build
         cmake.exe -G "NMake Makefiles" .. -DVCPKG_TARGET_TRIPLET=${{ env.VCPKG_TARGET_TRIPLET }} -DCMAKE_TOOLCHAIN_FILE="${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake" -DCMAKE_BUILD_TYPE=${{ matrix.config }} -DOPTION_BUILD_WEBSITE_TOOLS=OFF -DOPTION_BUILD_TRANSLATIONS=ON -DOPTION_BUILD_TESTS=ON -DOPTION_ASAN=OFF -DOPTION_BUILD_CODECHECK=OFF -DOPTION_BUILD_WINSTATIC=ON -DOPTION_USE_GLBINDING=ON -DOPTION_FORCE_EMBEDDED_MINIZIP=ON
         nmake
-        cv2pdb ./src/widelands.exe
     - name: InnoSetup
       run: |
         cd $env:GITHUB_WORKSPACE

@@ -99,8 +99,9 @@ static void segfault_handler(const int sig) {
 			memset(&module_info, 0, sizeof(module_info));
 			module_info.SizeOfStruct = sizeof(module_info);
 
+			translated_backtrace << p_symbol->Name << " @ ";
 			if (::SymGetModuleInfo64(g_process_handle, p_symbol->ModBase, &module_info)) {
-				translated_backtrace << module_info.ModuleName << " + 0x" << displacement;
+				translated_backtrace << module_info.ModuleName << " + 0x" << displacement << " in " << module_info.ImageName;
 			} else {
 				translated_backtrace << "Error symbolizing module info (error code 0x" << GetLastError() << ")";
 			}
