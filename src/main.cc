@@ -119,9 +119,10 @@ static void segfault_handler(const int sig) {
 
 	std::cout << std::endl
 	          << "##############################" << std::endl
-	          << "FATAL ERROR: Received signal " << sig;
-#ifndef _WIN32
-	std::cout << " (" << strsignal(sig) << ")";
+#ifdef _WIN32
+	std::cout << "FATAL ERROR encountered!";
+#else
+	std::cout << "FATAL ERROR: Received signal " << sig << " (" << strsignal(sig) << ")";
 #endif
 	std::cout << std::endl << "Backtrace:" << std::endl;
 
@@ -154,8 +155,8 @@ static void segfault_handler(const int sig) {
 	} else {
 #ifdef _WIN32
 		fprintf /* NOLINT codecheck */ (
-		   file, "Crash report for Widelands %s at %s, signal %d\n\n**** BEGIN BACKTRACE ****\n",
-		   build_ver_details().c_str(), timestr.c_str(), sig);
+		   file, "Crash report for Widelands %s at %s\n\n**** BEGIN BACKTRACE ****\n",
+		   build_ver_details().c_str(), timestr.c_str());
 		fputs(bt_str.c_str(), file);
 #else
 		fprintf /* NOLINT codecheck */ (
